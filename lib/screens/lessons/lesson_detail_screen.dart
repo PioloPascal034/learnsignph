@@ -5,6 +5,7 @@ import '../../models/sign_model.dart';
 import '../../services/firestore_service.dart';
 import '../../utils/theme.dart';
 import '../../widgets/video_player_widget.dart';
+import '../grammar/grammar_practice_screen.dart';
 
 class LessonDetailScreen extends StatefulWidget {
   final String lessonId;
@@ -98,7 +99,25 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
               style: Theme.of(context).textTheme.titleMedium),
           const SizedBox(height: 8),
           ..._signs.map((sign) => _SignTile(sign: sign)),
-          const SizedBox(height: 24),
+            const SizedBox(height: 24),
+          SizedBox(
+            width: double.infinity,
+            child: OutlinedButton.icon(
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (_) => const GrammarPracticeScreen(
+                      exerciseId: 'grammar_hospital_help',
+                      mode: 'lesson',
+                    ),
+                  ),
+                );
+              },
+              icon: const Icon(Icons.extension_outlined),
+              label: const Text('Practice Grammar'),
+            ),
+          ),
+          const SizedBox(height: 12),
           SizedBox(
             width: double.infinity,
             child: ElevatedButton.icon(
