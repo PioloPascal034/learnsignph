@@ -49,7 +49,7 @@ class _SignVideoPlayerState extends State<SignVideoPlayer> {
           materialProgressColors: ChewieProgressColors(
             playedColor: AppColors.primary,
             handleColor: AppColors.primary,
-            bufferedColor: AppColors.primaryLight.withOpacity(0.4),
+            bufferedColor: AppColors.primaryLight.withValues(alpha: 0.4),
           ),
         );
       });
