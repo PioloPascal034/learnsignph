@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "326483304658",
+    "project_id": "learn-sign-ph",
+    "storage_bucket": "learn-sign-ph.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:326483304658:android:56cdf1961c64e0f2250d0b",
+        "android_client_info": {
+          "package_name": "com.example.learnsignph"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD8SO7aWnZQ25O-Vp-rqi3CJGikNhdADB4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
