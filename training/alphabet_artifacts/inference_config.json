@@ -1,0 +1,41 @@
+{
+  "model": "alphabet_mlp.tflite",
+  "input_shape": [
+    1,
+    63
+  ],
+  "landmark_order": "MediaPipe Hand Landmarker 0..20, xyz",
+  "normalization": "wrist-relative; divide by wrist-to-middle-MCP distance; fallback to maximum radius",
+  "handedness": "Canonicalize Left by negating normalized x; Right unchanged",
+  "static_labels": [
+    "A",
+    "B",
+    "C",
+    "D",
+    "E",
+    "F",
+    "G",
+    "H",
+    "I",
+    "K",
+    "L",
+    "M",
+    "N",
+    "O",
+    "P",
+    "Q",
+    "R",
+    "S",
+    "T",
+    "U",
+    "V",
+    "W",
+    "X",
+    "Y"
+  ],
+  "dynamic_labels": [
+    "J",
+    "Z"
+  ],
+  "unknown_threshold": 0.65
+}

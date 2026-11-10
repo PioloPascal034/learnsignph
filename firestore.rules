@@ -1,0 +1,50 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function isSignedIn() {
+      return request.auth != null;
+    }
+
+    function isContentAdmin() {
+      return isSignedIn()
+        && request.auth.token.email == 'marcronielbisac@gmail.com';
+    }
+
+    match /users/{userId} {
+      allow read: if isSignedIn() && request.auth.uid == userId;
+      allow create: if isSignedIn()
+        && request.auth.uid == userId
+        && request.resource.data.uid == userId;
+      allow update: if isSignedIn()
+        && request.auth.uid == userId
+        && request.resource.data.uid == userId;
+      allow delete: if false;
+
+      match /lessonProgress/{lessonId} {
+        allow read, write: if isSignedIn() && request.auth.uid == userId;
+      }
+
+      match /grammarProgress/{exerciseId} {
+        allow read, write: if isSignedIn() && request.auth.uid == userId;
+      }
+    }
+
+    match /lessons/{lessonId} {
+      allow read: if true;
+      allow create, update: if isContentAdmin();
+      allow delete: if false;
+    }
+
+    match /signs/{signId} {
+      allow read: if true;
+      allow create, update: if isContentAdmin();
+      allow delete: if false;
+    }
+
+    match /grammarExercises/{exerciseId} {
+      allow read: if isSignedIn();
+      allow create, update: if isContentAdmin();
+      allow delete: if false;
+    }
+  }
+}

@@ -11,13 +11,15 @@
 .svn/
 .swiftpm/
 migrate_working_dir/
+AGENTS.md
 
 # IntelliJ related
 *.iml
 *.ipr
 *.iws
 .idea/
-
+.cursor
+claude-skills
 # The .vscode folder contains launch configuration and tasks you configure in
 # VS Code which you may wish to be included in version control, so this line
 # is commented out by default.
@@ -28,10 +30,21 @@ migrate_working_dir/
 **/ios/Flutter/.last_build_id
 .dart_tool/
 .flutter-plugins-dependencies
+.flutter-plugins
 .pub-cache/
 .pub/
 /build/
 /coverage/
+
+
+# Firebase emulator and debug output
+.firebase/
+firebase-debug.log
+firestore-debug.log
+ui-debug.log
+
+# Local credentials and test accounts
+testAccount
 
 # Symbolication related
 app.*.symbols

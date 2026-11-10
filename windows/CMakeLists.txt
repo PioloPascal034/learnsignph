@@ -2,6 +2,18 @@
 cmake_minimum_required(VERSION 3.14)
 project(learnsignph LANGUAGES CXX)
 
+# Firebase's bundled C++ SDK still declares CMake 3.1. CMake 4 rejects that
+# legacy minimum unless the project explicitly opts into the compatibility
+# policy floor. This keeps the app's CMake requirements unchanged and avoids
+# editing the generated SDK under build/.
+set(CMAKE_POLICY_VERSION_MINIMUM 3.5)
+
+# Keep Flutter's install bundle inside the project build tree. Visual Studio's
+# default CMake prefix is C:/Program Files, which makes the generated install
+# step require elevation and prevents `flutter build windows` from completing.
+set(CMAKE_INSTALL_PREFIX "${CMAKE_BINARY_DIR}/runner/$<CONFIG>" CACHE PATH
+  "Flutter Windows bundle output directory" FORCE)
+
 # The name of the executable created for the application. Change this to change
 # the on-disk name of your application.
 set(BINARY_NAME "learnsignph")

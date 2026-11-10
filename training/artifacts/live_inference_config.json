@@ -1,0 +1,22 @@
+{
+  "model": "transactional_fsl_gru.tflite",
+  "input_tensor_shape": [1, 75, 126],
+  "output_tensor_shape": [1, 26],
+  "frame_count": 75,
+  "frame_sampling": "Collect a 3-second window at 25 FPS, or resample the available live detections to exactly 75 frames.",
+  "hand_slots": [
+    "left subject hand: 21 landmarks x (x,y,z)",
+    "right subject hand: 21 landmarks x (x,y,z)"
+  ],
+  "landmark_order": "MediaPipe Hand Landmarker indices 0..20 in the official order; each point is x,y,z.",
+  "coordinate_source": "Flutter Android native Hand Landmarker output before UI mirroring.",
+  "normalization": {
+    "per_frame": "For each detected hand, subtract landmark 0 wrist from all 21 points.",
+    "scale": "Divide the centered hand by the Euclidean norm of landmark 9 (middle-finger MCP) relative to the wrist; fall back to the maximum centered landmark radius if needed.",
+    "missing_hand": "Use 63 zero values for the missing hand and preserve the 75-frame sequence length.",
+    "dtype": "float32"
+  },
+  "handedness": "Use native MediaPipe subject handedness to assign left/right slots. Do not infer slots from screen position. UI-only front-camera mirroring must not be applied to model coordinates.",
+  "labels_file": "label_map.json",
+  "split_warning": "The source archive has no signer/session/source-recording IDs. Metrics are not signer-independent and cannot guarantee augmented-source separation beyond exact-content grouping."
+}

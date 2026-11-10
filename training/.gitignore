@@ -1,0 +1,6 @@
+.venv/
+data/
+alphabet_data/
+alphabet_processed/
+artifacts/*.keras
+artifacts/*.tflite

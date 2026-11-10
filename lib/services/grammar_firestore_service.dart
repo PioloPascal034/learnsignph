@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import '../models/grammar_exercise_model.dart';
 import '../models/grammar_progress_model.dart';
 import '../models/sign_model.dart';
+import 'firestore_service.dart';
 
 /// Grammar-specific Firestore calls. Kept in its own file (rather than
 /// bolted onto FirestoreService) since it's a distinct feature area -
@@ -18,9 +19,33 @@ class GrammarFirestoreService {
     return GrammarExerciseModel.fromMap(doc.id, doc.data()!);
   }
 
+  Future<String?> getExerciseIdForLesson(String lessonId) async {
+    final snapshot = await _db
+        .collection('grammarExercises')
+        .where('lessonId', isEqualTo: lessonId)
+        .limit(1)
+        .get();
+    return snapshot.docs.isEmpty ? null : snapshot.docs.first.id;
+  }
+
+  Stream<List<GrammarExerciseModel>> streamExercises() {
+    return _db.collection('grammarExercises').snapshots().map(
+          (snapshot) => validExercises(snapshot.docs
+              .map((doc) => GrammarExerciseModel.fromMap(doc.id, doc.data()))),
+        );
+  }
+
+  static List<GrammarExerciseModel> validExercises(
+      Iterable<GrammarExerciseModel> exercises) {
+    return exercises
+        .where((exercise) => exercise.hasValidSentenceOrder)
+        .toList();
+  }
+
   /// Fetches every sign referenced by an exercise's tiles, keyed by signId,
   /// so the UI can look up word/gifUrl for each tile in one round trip.
-  Future<Map<String, SignModel>> getSignsForExercise(GrammarExerciseModel exercise) async {
+  Future<Map<String, SignModel>> getSignsForExercise(
+      GrammarExerciseModel exercise) async {
     final signIds = exercise.tiles.map((t) => t.signId).toSet().toList();
     if (signIds.isEmpty) return {};
     final snapshot = await _db
@@ -28,7 +53,8 @@ class GrammarFirestoreService {
         .where(FieldPath.documentId, whereIn: signIds)
         .get();
     return {
-      for (final doc in snapshot.docs) doc.id: SignModel.fromMap(doc.id, doc.data()),
+      for (final doc in snapshot.docs)
+        doc.id: SignModel.fromMap(doc.id, doc.data()),
     };
   }
 
@@ -47,18 +73,43 @@ class GrammarFirestoreService {
         .collection('grammarProgress')
         .doc(exerciseId);
 
-    final existing = await ref.get();
-    final prevAttempts = existing.exists ? (existing.data()?['attempts'] ?? 0) as int : 0;
-    final prevStatus = existing.exists ? (existing.data()?['status'] ?? 'inProgress') : 'inProgress';
+    final userRef = _db.collection('users').doc(userId);
+    await _db.runTransaction((transaction) async {
+      final existing = await transaction.get(ref);
+      final user = await transaction.get(userRef);
+      final data = existing.data();
+      final prevAttempts = ((data?['attempts'] ?? 0) as num).toInt();
+      final prevStatus = data?['status'] as String? ?? 'inProgress';
+      final prevScore = ((data?['score'] ?? 0) as num).toDouble();
+      final wasAlreadyCompleted = prevStatus == 'completed';
 
-    final model = GrammarProgressModel(
-      exerciseId: exerciseId,
-      mode: mode,
-      status: wasCorrect ? 'completed' : (prevStatus == 'completed' ? 'completed' : 'inProgress'),
-      score: wasCorrect ? 100 : 0,
-      attempts: prevAttempts + 1,
-    );
+      transaction.set(
+        ref,
+        GrammarProgressModel(
+          exerciseId: exerciseId,
+          mode: mode,
+          status:
+              wasCorrect || wasAlreadyCompleted ? 'completed' : 'inProgress',
+          score: wasCorrect ? 100.0 : prevScore,
+          attempts: prevAttempts + 1,
+        ).toMap(),
+        SetOptions(merge: true),
+      );
 
-    await ref.set(model.toMap(), SetOptions(merge: true));
+      if (wasCorrect && !wasAlreadyCompleted) {
+        final reward = mode == 'test' ? 60 : 40;
+        final currentPoints = ((user.data()?['points'] ?? 0) as num).toInt();
+        final newPoints = currentPoints + reward;
+        transaction.set(
+          userRef,
+          {
+            'points': newPoints,
+            'level': FirestoreService.calculateLevelFromPoints(newPoints),
+            'updatedAt': DateTime.now().toIso8601String(),
+          },
+          SetOptions(merge: true),
+        );
+      }
+    });
   }
 }

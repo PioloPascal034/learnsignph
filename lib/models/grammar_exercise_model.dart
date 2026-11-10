@@ -11,6 +11,9 @@ class GrammarExerciseModel {
   final String promptText;
   final String difficulty;
   final List<GrammarTileModel> tiles;
+  final String explanation;
+  final String contentValidationStatus;
+  final List<String> sourceReferences;
 
   GrammarExerciseModel({
     required this.id,
@@ -19,7 +22,29 @@ class GrammarExerciseModel {
     required this.promptText,
     required this.difficulty,
     required this.tiles,
+    this.explanation = '',
+    this.contentValidationStatus = '',
+    this.sourceReferences = const [],
   });
+
+  bool get hasValidSentenceOrder {
+    if (promptText.trim().isEmpty || tiles.isEmpty) return false;
+
+    final signIds = tiles.map((tile) => tile.signId).toSet();
+    final positions = tiles.map((tile) => tile.correctPosition).toList()
+      ..sort();
+    return signIds.length == tiles.length &&
+        positions
+            .asMap()
+            .entries
+            .every((entry) => entry.value == entry.key + 1);
+  }
+
+  List<String> get correctSignOrder {
+    final orderedTiles = [...tiles]
+      ..sort((a, b) => a.correctPosition.compareTo(b.correctPosition));
+    return orderedTiles.map((tile) => tile.signId).toList();
+  }
 
   factory GrammarExerciseModel.fromMap(String id, Map<String, dynamic> map) {
     final rawTiles = (map['tiles'] as List<dynamic>? ?? []);
@@ -32,6 +57,11 @@ class GrammarExerciseModel {
       tiles: rawTiles
           .map((t) => GrammarTileModel.fromMap(Map<String, dynamic>.from(t)))
           .toList(),
+      explanation: (map['explanation'] ?? '').toString(),
+      contentValidationStatus: (map['contentValidationStatus'] ?? '').toString(),
+      sourceReferences: (map['sourceReferences'] as List<dynamic>? ?? const [])
+          .map((item) => item.toString())
+          .toList(),
     );
   }
 
@@ -42,6 +72,9 @@ class GrammarExerciseModel {
       'promptText': promptText,
       'difficulty': difficulty,
       'tiles': tiles.map((t) => t.toMap()).toList(),
+      'explanation': explanation,
+      'contentValidationStatus': contentValidationStatus,
+      'sourceReferences': sourceReferences,
     };
   }
 }
