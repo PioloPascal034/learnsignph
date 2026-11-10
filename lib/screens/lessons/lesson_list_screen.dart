@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import '../../models/lesson_model.dart';
 import '../../services/firestore_service.dart';
 import '../../utils/theme.dart';
+import '../../widgets/content_image.dart';
 import 'lesson_detail_screen.dart';
 
 class LessonListScreen extends StatefulWidget {
@@ -302,12 +303,12 @@ class _LessonCardState extends State<_LessonCard> {
           child: widget.lesson.imageUrl.trim().isNotEmpty
               ? ClipRRect(
                   borderRadius: BorderRadius.circular(10),
-                  child: Image.network(
-                    widget.lesson.imageUrl,
+                  child: ContentImage(
+                    source: widget.lesson.imageUrl,
                     width: 52,
                     height: 52,
                     fit: BoxFit.cover,
-                    errorBuilder: (_, __, ___) => Icon(
+                    fallback: Icon(
                       _isCompleted ? Icons.check_circle : Icons.sign_language,
                       color:
                           _isCompleted ? AppColors.success : AppColors.primary,

@@ -120,18 +120,45 @@ class GrammarHubScreen extends StatelessWidget {
               message: 'No grammar activities are available yet.',
             );
           }
-          return ListView.separated(
+          final grouped = <String, List<GrammarExerciseModel>>{};
+          for (final exercise in exercises) {
+            grouped.putIfAbsent(exercise.category, () => []).add(exercise);
+          }
+          return ListView(
             padding: const EdgeInsets.all(16),
-            itemCount: exercises.length,
-            separatorBuilder: (_, __) => const SizedBox(height: 12),
-            itemBuilder: (context, index) => _GrammarActivityCard(
-              exercise: exercises[index],
-            ),
+            children: [
+              for (final entry in grouped.entries) ...[
+                Padding(
+                  padding: const EdgeInsets.only(top: 8, bottom: 10),
+                  child: Text(
+                    _grammarTopicTitle(entry.key),
+                    style: const TextStyle(
+                      color: AppColors.textDark,
+                      fontSize: 18,
+                      fontWeight: FontWeight.w800,
+                    ),
+                  ),
+                ),
+                for (final exercise in entry.value) ...[
+                  _GrammarActivityCard(exercise: exercise),
+                  const SizedBox(height: 12),
+                ],
+              ],
+            ],
           );
         },
       ),
     );
   }
+}
+
+String _grammarTopicTitle(String category) {
+  return category
+      .split('_')
+      .map((word) => word.isEmpty
+          ? word
+          : '${word[0].toUpperCase()}${word.substring(1)}')
+      .join(' ');
 }
 
 class _GrammarActivityCard extends StatelessWidget {

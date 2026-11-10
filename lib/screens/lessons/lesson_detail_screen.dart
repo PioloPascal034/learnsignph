@@ -7,6 +7,7 @@ import '../../models/sign_model.dart';
 import '../../services/firestore_service.dart';
 import '../../services/grammar_firestore_service.dart';
 import '../../utils/theme.dart';
+import '../../widgets/content_image.dart';
 import '../grammar/grammar_practice_screen.dart';
 import '../../widgets/sign_gif_tile.dart';
 import '../../widgets/video_player_widget.dart';
@@ -22,10 +23,19 @@ class LessonDetailScreen extends StatefulWidget {
 }
 
 class _LessonQuizQuestion {
-  final SignModel sign;
+  final SignModel? sign;
+  final String prompt;
   final List<String> options;
+  final String correctAnswer;
+  final String feedback;
 
-  const _LessonQuizQuestion({required this.sign, required this.options});
+  const _LessonQuizQuestion({
+    this.sign,
+    required this.prompt,
+    required this.options,
+    required this.correctAnswer,
+    this.feedback = '',
+  });
 }
 
 class _LessonDetailScreenState extends State<LessonDetailScreen> {
@@ -116,23 +126,39 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
       final lessonSigns =
           signs.where((sign) => sign.word.trim().isNotEmpty).toList();
       final questions = <_LessonQuizQuestion>[];
-      final sampleSigns = lessonSigns.length > 4
-          ? (lessonSigns.toList()..shuffle()).take(4)
-          : lessonSigns;
-      for (final sign in sampleSigns) {
-        final distractors = lessonSigns
-            .where((item) =>
-                item.id != sign.id &&
-                item.word.trim().isNotEmpty &&
-                item.word != sign.word)
-            .map((item) => item.word.trim())
-            .toSet()
-            .toList();
-        distractors.shuffle();
-        final options = <String>[sign.word.trim()];
-        options.addAll(distractors.take(3));
-        options.shuffle();
-        questions.add(_LessonQuizQuestion(sign: sign, options: options));
+      if (lesson.quizQuestions.isNotEmpty) {
+        questions.addAll(lesson.quizQuestions.map((question) {
+          return _LessonQuizQuestion(
+            prompt: question.prompt,
+            options: question.options,
+            correctAnswer: question.correctAnswer,
+            feedback: question.feedback,
+          );
+        }));
+      } else {
+        final sampleSigns = lessonSigns.length > 4
+            ? (lessonSigns.toList()..shuffle()).take(4)
+            : lessonSigns;
+        for (final sign in sampleSigns) {
+          final distractors = lessonSigns
+              .where((item) =>
+                  item.id != sign.id &&
+                  item.word.trim().isNotEmpty &&
+                  item.word != sign.word)
+              .map((item) => item.word.trim())
+              .toSet()
+              .toList();
+          distractors.shuffle();
+          final options = <String>[sign.word.trim()];
+          options.addAll(distractors.take(3));
+          options.shuffle();
+          questions.add(_LessonQuizQuestion(
+            sign: sign,
+            prompt: 'What does this sign mean?',
+            options: options,
+            correctAnswer: sign.word.trim(),
+          ));
+        }
       }
 
       if (!mounted) return;
@@ -235,7 +261,7 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
     int correctCount = 0;
     for (int i = 0; i < _quizQuestions.length; i++) {
       final selected = _selectedAnswers[i];
-      if (selected == _quizQuestions[i].sign.word.trim()) {
+      if (selected == _quizQuestions[i].correctAnswer) {
         correctCount++;
       }
     }
@@ -341,12 +367,12 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
           if (lesson.imageUrl.trim().isNotEmpty)
             ClipRRect(
               borderRadius: BorderRadius.circular(14),
-              child: Image.network(
-                lesson.imageUrl,
+              child: ContentImage(
+                source: lesson.imageUrl,
                 height: 180,
                 width: double.infinity,
                 fit: BoxFit.cover,
-                errorBuilder: (_, __, ___) => Container(
+                fallback: Container(
                   height: 180,
                   color: AppColors.surface,
                   child: const Center(
@@ -528,19 +554,21 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
                         ),
                       ),
                       const SizedBox(height: 10),
-                      SizedBox(
-                        height: 206,
-                        child: Center(
-                          child: _buildQuizSignMedia(
-                            _quizQuestions[index].sign,
-                            lesson.videoUrl,
+                      if (_quizQuestions[index].sign != null) ...[
+                        SizedBox(
+                          height: 206,
+                          child: Center(
+                            child: _buildQuizSignMedia(
+                              _quizQuestions[index].sign!,
+                              lesson.videoUrl,
+                            ),
                           ),
                         ),
-                      ),
-                      const SizedBox(height: 12),
-                      const Text(
-                        'What does this sign mean?',
-                        style: TextStyle(
+                        const SizedBox(height: 12),
+                      ],
+                      Text(
+                        _quizQuestions[index].prompt,
+                        style: const TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w700,
                           color: AppColors.textDark,
@@ -552,7 +580,7 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
                         runSpacing: 8,
                         children: _quizQuestions[index].options.map((option) {
                           final correctAnswer =
-                              _quizQuestions[index].sign.word.trim();
+                              _quizQuestions[index].correctAnswer;
                           final selected = _selectedAnswers[index] == option;
                           final isCorrect =
                               _quizSubmitted && option == correctAnswer;
@@ -589,6 +617,17 @@ class _LessonDetailScreenState extends State<LessonDetailScreen> {
                           );
                         }).toList(),
                       ),
+                      if (_quizSubmitted &&
+                          _quizQuestions[index].feedback.isNotEmpty) ...[
+                        const SizedBox(height: 10),
+                        Text(
+                          _quizQuestions[index].feedback,
+                          style: const TextStyle(
+                            color: AppColors.textMuted,
+                            fontStyle: FontStyle.italic,
+                          ),
+                        ),
+                      ],
                     ],
                   ),
                 ),
@@ -698,13 +737,12 @@ class _SignTile extends StatelessWidget {
               )
             : ClipRRect(
                 borderRadius: BorderRadius.circular(8),
-                child: Image.network(
-                  sign.imageUrl,
+                child: ContentImage(
+                  source: sign.imageUrl,
                   width: 48,
                   height: 48,
                   fit: BoxFit.cover,
-                  errorBuilder: (_, __, ___) =>
-                      const Icon(Icons.broken_image_outlined),
+                  fallback: const Icon(Icons.broken_image_outlined),
                 ),
               ),
         title: Text(sign.word,

@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../../services/firestore_service.dart';
-import '../../utils/theme.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -87,11 +86,18 @@ class _RegisterScreenState extends State<RegisterScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                const Icon(Icons.person_add,
-                    size: 72, color: AppColors.primary),
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(24),
+                  child: Image.asset(
+                    'assets/images/filipino_sign_language_learning_icon.png',
+                    width: 112,
+                    height: 112,
+                    fit: BoxFit.contain,
+                  ),
+                ),
                 const SizedBox(height: 16),
                 Text(
-                  'Join LearnSignPH',
+                  'Join LearnSign PH',
                   textAlign: TextAlign.center,
                   style: Theme.of(context).textTheme.titleLarge,
                 ),

@@ -1,0 +1,78 @@
+{
+  "status": "development_review",
+  "note": "Contextual educational imagery only. None of these images is an FSL sign demonstration.",
+  "assets": [
+    {
+      "intendedIds": ["phase6_lesson_01_intro"],
+      "assetPath": "assets/images/content/lesson_intro.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Students_in_classroom.jpg",
+      "downloadUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Students_in_classroom.jpg?width=1200",
+      "creator": "Esthee2010",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Esthee2010 / Wikimedia Commons"
+    },
+    {
+      "intendedIds": ["phase6_lesson_02_alphabet"],
+      "assetPath": "assets/images/fsl_alphabet_dictionary.png",
+      "sourceUrl": "https://fingeralphabet.org/almost-done/fsl-charts-almost-done/",
+      "downloadUrl": null,
+      "creator": "Project FingerAlphabet",
+      "license": "CC BY-NC-ND (per source page)",
+      "attribution": "Project FingerAlphabet; local asset already present"
+    },
+    {
+      "intendedIds": ["phase6_lesson_03_numbers"],
+      "assetPath": "assets/images/content/lesson_numbers.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Numbers.jpg",
+      "downloadUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Numbers.jpg?width=1200",
+      "creator": "Ianmacm",
+      "license": "Public domain",
+      "attribution": "Ianmacm / Wikimedia Commons"
+    },
+    {
+      "intendedIds": ["phase6_lesson_04_greetings", "phase6_grammar_non_manual_signals"],
+      "assetPath": "assets/images/content/lesson_greetings.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:GREETING_THE_GUEST.jpg",
+      "downloadUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/GREETING_THE_GUEST.jpg?width=1200",
+      "creator": "Mamichaelraj",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Mamichaelraj / Wikimedia Commons"
+    },
+    {
+      "intendedIds": ["phase6_lesson_05_family"],
+      "assetPath": "assets/images/content/lesson_family.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Familyphoto.jpg",
+      "downloadUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Familyphoto.jpg?width=1200",
+      "creator": "Sfimin",
+      "license": "CC BY-SA 4.0",
+      "attribution": "Sfimin / Wikimedia Commons"
+    },
+    {
+      "intendedIds": ["phase6_lesson_06_everyday", "phase6_grammar_time_references"],
+      "assetPath": "assets/images/content/lesson_everyday.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Food.jpg",
+      "downloadUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Food.jpg?width=1200",
+      "creator": "Skiier02",
+      "license": "Public domain (PD-self)",
+      "attribution": "Skiier02 / Wikimedia Commons"
+    },
+    {
+      "intendedIds": ["phase6_lesson_07_school"],
+      "assetPath": "assets/images/content/lesson_school.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:Typical_Classroom.jpg",
+      "downloadUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/Typical_Classroom.jpg?width=1200",
+      "creator": "Feorein",
+      "license": "CC0 1.0",
+      "attribution": "Feorein / Wikimedia Commons"
+    },
+    {
+      "intendedIds": ["phase6_lesson_08_conversations", "phase6_grammar_sentence_structure", "phase6_grammar_questions"],
+      "assetPath": "assets/images/content/lesson_conversations.jpg",
+      "sourceUrl": "https://commons.wikimedia.org/wiki/File:People_engaging_in_conversation.jpg",
+      "downloadUrl": "https://commons.wikimedia.org/wiki/Special:FilePath/People_engaging_in_conversation.jpg?width=1200",
+      "creator": "Alectrevelyan006",
+      "license": "CC BY-SA 3.0",
+      "attribution": "Alectrevelyan006 / Wikimedia Commons"
+    }
+  ]
+}

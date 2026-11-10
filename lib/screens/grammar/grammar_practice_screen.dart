@@ -7,6 +7,7 @@ import '../../models/sign_model.dart';
 import '../../services/grammar_firestore_service.dart';
 import '../../utils/theme.dart';
 import '../../widgets/sign_gif_tile.dart';
+import '../../widgets/content_image.dart';
 
 /// Drag-and-drop grammar exercise screen.
 ///
@@ -347,6 +348,25 @@ class _GrammarPracticeScreenState extends State<GrammarPracticeScreen> {
                                 height: 1.3,
                               ),
                             ),
+                            if (_exercise!.imageUrl.trim().isNotEmpty) ...[
+                              const SizedBox(height: 14),
+                              ClipRRect(
+                                borderRadius: BorderRadius.circular(12),
+                                child: ContentImage(
+                                  source: _exercise!.imageUrl,
+                                  width: double.infinity,
+                                  height: 150,
+                                  fit: BoxFit.cover,
+                                  fallback: Container(
+                                    height: 150,
+                                    color: AppColors.surface,
+                                    alignment: Alignment.center,
+                                    child:
+                                        const Text('Illustration unavailable'),
+                                  ),
+                                ),
+                              ),
+                            ],
                             if (_exercise!.explanation.isNotEmpty) ...[
                               const SizedBox(height: 10),
                               Text(

@@ -10,6 +10,7 @@ class GrammarExerciseModel {
   final String category;
   final String promptText;
   final String difficulty;
+  final String imageUrl;
   final List<GrammarTileModel> tiles;
   final String explanation;
   final String contentValidationStatus;
@@ -21,6 +22,7 @@ class GrammarExerciseModel {
     required this.category,
     required this.promptText,
     required this.difficulty,
+    this.imageUrl = '',
     required this.tiles,
     this.explanation = '',
     this.contentValidationStatus = '',
@@ -54,11 +56,13 @@ class GrammarExerciseModel {
       category: map['category'] ?? '',
       promptText: map['promptText'] ?? '',
       difficulty: map['difficulty'] ?? 'beginner',
+      imageUrl: (map['imageUrl'] ?? '').toString(),
       tiles: rawTiles
           .map((t) => GrammarTileModel.fromMap(Map<String, dynamic>.from(t)))
           .toList(),
       explanation: (map['explanation'] ?? '').toString(),
-      contentValidationStatus: (map['contentValidationStatus'] ?? '').toString(),
+      contentValidationStatus:
+          (map['contentValidationStatus'] ?? '').toString(),
       sourceReferences: (map['sourceReferences'] as List<dynamic>? ?? const [])
           .map((item) => item.toString())
           .toList(),
@@ -71,6 +75,7 @@ class GrammarExerciseModel {
       'category': category,
       'promptText': promptText,
       'difficulty': difficulty,
+      'imageUrl': imageUrl,
       'tiles': tiles.map((t) => t.toMap()).toList(),
       'explanation': explanation,
       'contentValidationStatus': contentValidationStatus,

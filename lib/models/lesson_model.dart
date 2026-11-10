@@ -1,5 +1,43 @@
 import 'lesson_activity_model.dart';
 
+class LessonQuizQuestionModel {
+  final String prompt;
+  final List<String> options;
+  final String correctAnswer;
+  final String feedback;
+
+  const LessonQuizQuestionModel({
+    required this.prompt,
+    required this.options,
+    required this.correctAnswer,
+    this.feedback = '',
+  });
+
+  factory LessonQuizQuestionModel.fromMap(Map<String, dynamic> map) {
+    return LessonQuizQuestionModel(
+      prompt: (map['prompt'] ?? '').toString(),
+      options: (map['options'] as List<dynamic>? ?? const [])
+          .map((item) => item.toString())
+          .where((item) => item.trim().isNotEmpty)
+          .toList(),
+      correctAnswer: (map['correctAnswer'] ?? '').toString(),
+      feedback: (map['feedback'] ?? '').toString(),
+    );
+  }
+
+  Map<String, dynamic> toMap() => {
+        'prompt': prompt,
+        'options': options,
+        'correctAnswer': correctAnswer,
+        'feedback': feedback,
+      };
+
+  bool get isValid =>
+      prompt.trim().isNotEmpty &&
+      options.length >= 2 &&
+      options.contains(correctAnswer);
+}
+
 /// Represents a single lesson document from the `lessons` collection.
 /// `signIds` replaces the ERD's LessonSigns join table - Firestore has no
 /// joins, so the related sign IDs are embedded directly as an array field.
@@ -14,6 +52,7 @@ class LessonModel {
   final List<String> signIds;
   final List<LessonActivityModel> activities;
   final List<String> learningObjectives;
+  final List<LessonQuizQuestionModel> quizQuestions;
   final List<String> sourceReferences;
   final String contentValidationStatus;
   final String mediaStatus;
@@ -28,6 +67,7 @@ class LessonModel {
     required this.signIds,
     this.activities = const [],
     this.learningObjectives = const [],
+    this.quizQuestions = const [],
     this.sourceReferences = const [],
     this.contentValidationStatus = '',
     this.mediaStatus = '',
@@ -44,6 +84,7 @@ class LessonModel {
       signIds: List<String>.from(map['signIds'] ?? []),
       activities: _parseActivities(map['activities']),
       learningObjectives: _stringList(map['learningObjectives']),
+      quizQuestions: _parseQuizQuestions(map['quizQuestions']),
       sourceReferences: _stringList(map['sourceReferences']),
       contentValidationStatus: (map['contentValidationStatus'] ?? '').toString(),
       mediaStatus: (map['mediaStatus'] ?? '').toString(),
@@ -64,6 +105,9 @@ class LessonModel {
     }
     if (learningObjectives.isNotEmpty) {
       data['learningObjectives'] = learningObjectives;
+    }
+    if (quizQuestions.isNotEmpty) {
+      data['quizQuestions'] = quizQuestions.map((question) => question.toMap()).toList();
     }
     if (sourceReferences.isNotEmpty) data['sourceReferences'] = sourceReferences;
     if (contentValidationStatus.isNotEmpty) {
@@ -92,6 +136,17 @@ class LessonModel {
       }
     }
     return activities;
+  }
+
+  static List<LessonQuizQuestionModel> _parseQuizQuestions(dynamic raw) {
+    if (raw is! List) return const [];
+    return raw
+        .whereType<Map>()
+        .map((item) => LessonQuizQuestionModel.fromMap(
+              Map<String, dynamic>.from(item),
+            ))
+        .where((question) => question.isValid)
+        .toList();
   }
 
   static Map<String, dynamic> _activityToMap(LessonActivityModel activity) {

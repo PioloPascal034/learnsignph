@@ -28,7 +28,7 @@ class LearnSignPHApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'LearnSignPH',
+      title: 'LearnSign PH',
       debugShowCheckedModeBanner: false,
       theme: AppTheme.lightTheme,
       home: const AuthGate(),
@@ -65,7 +65,21 @@ class AuthGate extends StatelessWidget {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Scaffold(
             body: Center(
-                child: CircularProgressIndicator(color: AppColors.primary)),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Image(
+                    image: AssetImage(
+                      'assets/images/filipino_sign_language_learning_icon.png',
+                    ),
+                    width: 128,
+                    height: 128,
+                  ),
+                  SizedBox(height: 20),
+                  CircularProgressIndicator(color: AppColors.primary),
+                ],
+              ),
+            ),
           );
         }
         if (snapshot.hasData) {
