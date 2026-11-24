@@ -11,6 +11,12 @@ class SignModel {
   final String gifUrl;
   final String category;
   final String difficulty;
+  final String sourceUrl;
+  final String license;
+  final String attribution;
+  final String validationStatus;
+  final String supportedRecognitionMode;
+  final List<Map<String, dynamic>> mediaRefs;
 
   SignModel({
     required this.id,
@@ -20,6 +26,12 @@ class SignModel {
     required this.gifUrl,
     required this.category,
     required this.difficulty,
+    this.sourceUrl = '',
+    this.license = '',
+    this.attribution = '',
+    this.validationStatus = '',
+    this.supportedRecognitionMode = '',
+    this.mediaRefs = const [],
   });
 
   factory SignModel.fromMap(String id, Map<String, dynamic> map) {
@@ -31,6 +43,16 @@ class SignModel {
       gifUrl: map['gifUrl'] ?? '',
       category: map['category'] ?? '',
       difficulty: map['difficulty'] ?? 'beginner',
+      sourceUrl: (map['sourceUrl'] ?? '').toString(),
+      license: (map['license'] ?? '').toString(),
+      attribution: (map['attribution'] ?? '').toString(),
+      validationStatus: (map['validationStatus'] ?? '').toString(),
+      supportedRecognitionMode:
+          (map['supportedRecognitionMode'] ?? '').toString(),
+      mediaRefs: (map['mediaRefs'] as List<dynamic>? ?? const [])
+          .whereType<Map>()
+          .map((item) => Map<String, dynamic>.from(item))
+          .toList(),
     );
   }
 
@@ -42,6 +64,12 @@ class SignModel {
       'gifUrl': gifUrl,
       'category': category,
       'difficulty': difficulty,
+      'sourceUrl': sourceUrl,
+      'license': license,
+      'attribution': attribution,
+      'validationStatus': validationStatus,
+      'supportedRecognitionMode': supportedRecognitionMode,
+      'mediaRefs': mediaRefs,
     };
   }
 }

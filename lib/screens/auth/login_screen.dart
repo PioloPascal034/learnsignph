@@ -26,6 +26,8 @@ class _LoginScreenState extends State<LoginScreen> {
         password: _passwordController.text,
       );
     } on FirebaseAuthException catch (e) {
+      if (!mounted) return;
+      debugPrint('[Auth] sign-in failed code=${e.code}');
       setState(
           () => _errorMessage = e.message ?? 'Login failed. Please try again.');
     } finally {

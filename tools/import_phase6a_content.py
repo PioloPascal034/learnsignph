@@ -258,9 +258,17 @@ def main() -> None:
         help="preview is read-only; publish creates or updates approved content",
     )
     parser.add_argument("--dry-run", action="store_true", help="do not write changes")
+    parser.add_argument(
+        "--clear-lesson-quizzes",
+        action="store_true",
+        help="write an empty legacy quizQuestions field on lesson documents",
+    )
     args = parser.parse_args()
 
-    payload = json.loads(args.content.read_text(encoding="utf-8"))
+    payload = json.loads(args.content.read_text(encoding="utf-8-sig"))
+    if args.clear_lesson_quizzes:
+        for lesson in payload["lessons"]:
+            lesson["quizQuestions"] = []
     validate(payload, args.operation)
 
     if args.target == "production":

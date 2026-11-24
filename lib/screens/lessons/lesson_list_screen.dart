@@ -21,17 +21,32 @@ class _LessonListScreenState extends State<LessonListScreen> {
     'All',
     'Alphabet',
     'Numbers',
-    'Basic Signs',
     'Greetings',
-    'Daily Life',
-    'Family',
-    'Education',
-    'Emergency',
-    'Travel',
-    'Community',
-    'Health',
+    'Everyday Words',
+    'Food & Drinks',
+    'Colors & Time',
   ];
   String _selectedCategory = 'All';
+  List<LessonModel> _cachedLessons = const [];
+  late Stream<List<LessonModel>> _lessonsStream;
+
+  @override
+  void initState() {
+    super.initState();
+    _updateLessonStream();
+  }
+
+  void _updateLessonStream() {
+    _cachedLessons = const [];
+    _lessonsStream = _firestoreService.streamLessons(
+      category: _selectedCategory == 'All'
+          ? null
+          : _selectedCategory
+              .toLowerCase()
+              .replaceAll(' & ', ' ')
+              .replaceAll(' ', '_'),
+    );
+  }
 
   @override
   void dispose() {
@@ -135,7 +150,10 @@ class _LessonListScreenState extends State<LessonListScreen> {
               color: isSelected ? Colors.white : AppColors.textDark,
               fontWeight: FontWeight.w700,
             ),
-            onSelected: (_) => setState(() => _selectedCategory = category),
+            onSelected: (_) => setState(() {
+              _selectedCategory = category;
+              _updateLessonStream();
+            }),
           );
         },
       ),
@@ -143,25 +161,22 @@ class _LessonListScreenState extends State<LessonListScreen> {
   }
 
   Widget _buildLessonList() {
-    final categoryFilter = _selectedCategory == 'All'
-        ? null
-        : _selectedCategory
-            .toLowerCase()
-            .replaceAll(' & ', ' ')
-            .replaceAll(' ', '_');
-
     return StreamBuilder<List<LessonModel>>(
-      stream: _firestoreService.streamLessons(category: categoryFilter),
+      stream: _lessonsStream,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(
               child: CircularProgressIndicator(color: AppColors.primary));
         }
-        if (snapshot.hasError) {
-          return Center(child: Text('Something went wrong: ${snapshot.error}'));
+        if (snapshot.hasError && _cachedLessons.isEmpty) {
+          return _lessonErrorView(snapshot.error!);
         }
 
-        var lessons = snapshot.data ?? [];
+        if (snapshot.hasData) {
+          _cachedLessons = snapshot.data!;
+        }
+        var lessons = snapshot.data ?? _cachedLessons;
+        lessons = lessons.where((lesson) => lesson.isActive).toList();
         final query = _searchController.text.trim().toLowerCase();
         if (query.isNotEmpty) {
           lessons = lessons.where((lesson) {
@@ -172,25 +187,76 @@ class _LessonListScreenState extends State<LessonListScreen> {
         }
 
         if (lessons.isEmpty) {
-          return const Center(
+          return Center(
             child: Padding(
-              padding: EdgeInsets.all(24),
+              padding: const EdgeInsets.all(24),
               child: Text(
-                'No lessons match your search.',
+                _selectedCategory == 'All' && query.isEmpty
+                    ? 'No lessons are available in the configured Firebase project yet.'
+                    : 'No lessons match your search.',
                 textAlign: TextAlign.center,
-                style: TextStyle(color: AppColors.textMuted),
+                style: const TextStyle(color: AppColors.textMuted),
               ),
             ),
           );
         }
 
-        return ListView.builder(
-          padding: const EdgeInsets.fromLTRB(16, 8, 16, 20),
-          itemCount: lessons.length,
-          itemBuilder: (context, index) => _LessonCard(lesson: lessons[index]),
+        return Column(
+          children: [
+            if (snapshot.hasError)
+              Padding(
+                padding: const EdgeInsets.fromLTRB(16, 8, 16, 0),
+                child: Text(
+                  'Showing cached lessons. ${_lessonErrorText(snapshot.error!)}',
+                  style: const TextStyle(
+                    color: AppColors.textMuted,
+                    fontSize: 12,
+                  ),
+                ),
+              ),
+            Expanded(
+              child: ListView.builder(
+                padding: const EdgeInsets.fromLTRB(16, 8, 16, 20),
+                itemCount: lessons.length,
+                itemBuilder: (context, index) =>
+                    _LessonCard(lesson: lessons[index]),
+              ),
+            ),
+          ],
         );
       },
     );
+  }
+
+  Widget _lessonErrorView(Object error) {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(24),
+        child: Text(
+          _lessonErrorText(error),
+          textAlign: TextAlign.center,
+          style: const TextStyle(color: AppColors.textMuted),
+        ),
+      ),
+    );
+  }
+
+  String _lessonErrorText(Object error) {
+    if (error is FirebaseException) {
+      switch (error.code) {
+        case 'permission-denied':
+          return 'Firestore denied access to lessons for this account. Check the signed-in session and Firestore rules.';
+        case 'unauthenticated':
+          return 'Your authentication session is unavailable. Reopen the app or sign in again.';
+        case 'unavailable':
+          return 'Firestore is temporarily unavailable. Previously cached lessons remain usable when available.';
+        case 'failed-precondition':
+          return 'Firestore could not complete the lesson query because the configured database or index is unavailable.';
+        default:
+          return 'Firestore could not load lessons (${error.code}).';
+      }
+    }
+    return 'Lessons could not be loaded: $error';
   }
 }
 
@@ -238,56 +304,14 @@ class _StreakPill extends StatelessWidget {
   }
 }
 
-class _LessonCard extends StatefulWidget {
+class _LessonCard extends StatelessWidget {
   final LessonModel lesson;
   const _LessonCard({required this.lesson});
 
   @override
-  State<_LessonCard> createState() => _LessonCardState();
-}
-
-class _LessonCardState extends State<_LessonCard> {
-  final FirestoreService _firestoreService = FirestoreService();
-  bool _isCompleted = false;
-  bool _isLoading = true;
-  bool _progressLoadFailed = false;
-
-  @override
-  void initState() {
-    super.initState();
-    _loadProgress();
-  }
-
-  Future<void> _loadProgress() async {
-    final userId = FirebaseAuth.instance.currentUser?.uid;
-    if (userId == null) {
-      if (mounted) {
-        setState(() => _isLoading = false);
-      }
-      return;
-    }
-
-    try {
-      final progress =
-          await _firestoreService.getLessonProgress(userId, widget.lesson.id);
-      if (!mounted) return;
-      setState(() {
-        _isCompleted = progress?.status == 'completed';
-        _isLoading = false;
-      });
-    } catch (_) {
-      if (!mounted) return;
-      setState(() {
-        _progressLoadFailed = true;
-        _isLoading = false;
-      });
-    }
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Card(
-      color: _isCompleted ? const Color(0xFFEAF6EE) : null,
+      color: null,
       child: ListTile(
         contentPadding: const EdgeInsets.all(12),
         tileColor: Colors.white,
@@ -295,99 +319,56 @@ class _LessonCardState extends State<_LessonCard> {
           width: 52,
           height: 52,
           decoration: BoxDecoration(
-            color: _isCompleted
-                ? AppColors.success.withValues(alpha: 0.12)
-                : AppColors.primary.withValues(alpha: 0.1),
+            color: AppColors.primary.withValues(alpha: 0.1),
             borderRadius: BorderRadius.circular(10),
           ),
-          child: widget.lesson.imageUrl.trim().isNotEmpty
+          child: lesson.imageUrl.trim().isNotEmpty
               ? ClipRRect(
                   borderRadius: BorderRadius.circular(10),
                   child: ContentImage(
-                    source: widget.lesson.imageUrl,
+                    source: lesson.imageUrl,
                     width: 52,
                     height: 52,
-                    fit: BoxFit.cover,
-                    fallback: Icon(
-                      _isCompleted ? Icons.check_circle : Icons.sign_language,
-                      color:
-                          _isCompleted ? AppColors.success : AppColors.primary,
+                    fit: BoxFit.contain,
+                    fallback: const Icon(
+                      Icons.sign_language,
+                      color: AppColors.primary,
                     ),
                   ),
                 )
-              : Icon(
-                  _isCompleted ? Icons.check_circle : Icons.sign_language,
-                  color: _isCompleted ? AppColors.success : AppColors.primary,
+              : const Icon(
+                  Icons.sign_language,
+                  color: AppColors.primary,
                 ),
         ),
         title: Row(
           children: [
             Expanded(
               child: Text(
-                widget.lesson.title,
+                lesson.title,
                 style: const TextStyle(fontWeight: FontWeight.w600),
               ),
             ),
-            if (!_isLoading && _isCompleted)
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                decoration: BoxDecoration(
-                  color: AppColors.success.withValues(alpha: 0.12),
-                  borderRadius: BorderRadius.circular(999),
-                ),
-                child: const Text(
-                  'Done',
-                  style: TextStyle(
-                    color: AppColors.success,
-                    fontWeight: FontWeight.w700,
-                    fontSize: 11,
-                  ),
-                ),
-              ),
           ],
         ),
         subtitle: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              '${widget.lesson.signIds.length} signs \u2022 ${widget.lesson.description}',
+              '${lesson.signIds.length} signs \u2022 ${lesson.description}',
               maxLines: 2,
               overflow: TextOverflow.ellipsis,
             ),
-            if (_progressLoadFailed)
-              const Padding(
-                padding: EdgeInsets.only(top: 6),
-                child: Text(
-                  'Progress unavailable',
-                  style: TextStyle(
-                    color: AppColors.textMuted,
-                    fontWeight: FontWeight.w600,
-                    fontSize: 11,
-                  ),
-                ),
-              )
-            else if (!_isLoading && !_isCompleted)
-              const Padding(
-                padding: EdgeInsets.only(top: 6),
-                child: Text(
-                  'Answer the quiz 100% to complete this lesson',
-                  style: TextStyle(
-                    color: Colors.red,
-                    fontWeight: FontWeight.w700,
-                    fontSize: 11,
-                  ),
-                ),
-              ),
           ],
         ),
-        trailing: Icon(
-          _isCompleted ? Icons.check : Icons.chevron_right,
-          color: _isCompleted ? AppColors.success : AppColors.textMuted,
+        trailing: const Icon(
+          Icons.chevron_right,
+          color: AppColors.textMuted,
         ),
         onTap: () {
           Navigator.of(context).push(
             MaterialPageRoute(
-                builder: (_) => LessonDetailScreen(lessonId: widget.lesson.id)),
+                builder: (_) => LessonDetailScreen(lessonId: lesson.id)),
           );
         },
       ),

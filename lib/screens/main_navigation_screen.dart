@@ -2,9 +2,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../models/grammar_exercise_model.dart';
+import '../models/lesson_model.dart';
 import '../services/firestore_service.dart';
 import '../services/grammar_firestore_service.dart';
+import '../services/lesson_activity_engine.dart';
 import '../utils/theme.dart';
+import '../widgets/lesson_activity_runner.dart';
 import 'grammar/grammar_practice_screen.dart';
 import 'lessons/lesson_list_screen.dart';
 import 'live_practice_screen.dart';
@@ -27,7 +30,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
           key: const ValueKey('live_practice'),
           isActive: _currentIndex == 2,
         ),
-        const GrammarHubScreen(),
+        const ActivitiesHubScreen(),
         const ProfileScreen(),
       ];
 
@@ -76,7 +79,7 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
             NavigationDestination(
               icon: Icon(Icons.quiz_outlined),
               selectedIcon: Icon(Icons.quiz),
-              label: 'Grammar',
+              label: 'Activities',
             ),
             NavigationDestination(
               icon: Icon(Icons.person_outline),
@@ -90,6 +93,170 @@ class _MainNavigationScreenState extends State<MainNavigationScreen> {
   }
 }
 
+class ActivitiesHubScreen extends StatelessWidget {
+  const ActivitiesHubScreen({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: AppColors.background,
+      appBar: AppBar(
+        title: const Text('Activities'),
+        backgroundColor: AppColors.primary,
+        foregroundColor: Colors.white,
+      ),
+      body: ListView(
+        padding: const EdgeInsets.all(16),
+        children: [
+          _MasteryCard(
+            title: 'Grammar Mastery',
+            description: 'Practice FSL-specific grammar topics and examples.',
+            icon: Icons.translate_outlined,
+            onTap: () => Navigator.of(context).push(
+              MaterialPageRoute(builder: (_) => const GrammarHubScreen()),
+            ),
+          ),
+          const SizedBox(height: 12),
+          _MasteryCard(
+            title: 'Letter Mastery',
+            description: 'Practice alphabet and fingerspelling activities.',
+            icon: Icons.abc,
+            onTap: () => Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (_) => const _LessonMasteryScreen(
+                  title: 'Letter Mastery',
+                  lessonId: 'fsl105_lesson_alphabet',
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(height: 12),
+          _MasteryCard(
+            title: 'Numbers Mastery',
+            description:
+                'Practice number activities when verified content is available.',
+            icon: Icons.pin_outlined,
+            onTap: () => Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (_) => const _LessonMasteryScreen(
+                  title: 'Numbers Mastery',
+                  lessonId: 'fsl105_lesson_numbers',
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _MasteryCard extends StatelessWidget {
+  final String title;
+  final String description;
+  final IconData icon;
+  final VoidCallback onTap;
+
+  const _MasteryCard({
+    required this.title,
+    required this.description,
+    required this.icon,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      elevation: 0,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(18),
+        side: const BorderSide(color: AppColors.border),
+      ),
+      child: ListTile(
+        contentPadding: const EdgeInsets.all(18),
+        leading: CircleAvatar(
+          radius: 26,
+          backgroundColor: AppColors.primary.withValues(alpha: 0.12),
+          child: Icon(icon, color: AppColors.primary),
+        ),
+        title: Text(title,
+            style: const TextStyle(
+                fontWeight: FontWeight.w800, color: AppColors.textDark)),
+        subtitle: Padding(
+          padding: const EdgeInsets.only(top: 6),
+          child: Text(description),
+        ),
+        trailing: const Icon(Icons.arrow_forward_ios_rounded,
+            size: 16, color: AppColors.textMuted),
+        onTap: onTap,
+      ),
+    );
+  }
+}
+
+class _LessonMasteryScreen extends StatelessWidget {
+  final String title;
+  final String lessonId;
+
+  const _LessonMasteryScreen({required this.title, required this.lessonId});
+
+  @override
+  Widget build(BuildContext context) {
+    final service = FirestoreService();
+    return Scaffold(
+      backgroundColor: AppColors.background,
+      appBar: AppBar(
+        title: Text(title),
+        backgroundColor: AppColors.primary,
+        foregroundColor: Colors.white,
+      ),
+      body: FutureBuilder<LessonModel?>(
+        future: service.getLesson(lessonId),
+        builder: (context, snapshot) {
+          if (!snapshot.hasData) {
+            if (snapshot.hasError) {
+              return const Center(child: Text('This activity is unavailable.'));
+            }
+            return const Center(
+                child: CircularProgressIndicator(color: AppColors.primary));
+          }
+          final lesson = snapshot.data!;
+          final activities =
+              LessonActivityEngine.validActivities(lesson.activities);
+          if (activities.isEmpty) {
+            return const Center(
+              child: Padding(
+                padding: EdgeInsets.all(24),
+                child: Text(
+                  'Verified activities are not available for this mastery category yet.',
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            );
+          }
+          final userId = FirebaseAuth.instance.currentUser?.uid;
+          return SingleChildScrollView(
+            padding: const EdgeInsets.all(16),
+            child: LessonActivityRunner(
+              activities: activities,
+              onAttempt: userId == null
+                  ? null
+                  : (activity, score, passed) =>
+                      service.recordLessonActivityResult(
+                        userId: userId,
+                        lessonId: lessonId,
+                        activityId: activity.id,
+                        score: score,
+                        passed: passed,
+                      ),
+            ),
+          );
+        },
+      ),
+    );
+  }
+}
+
 class GrammarHubScreen extends StatelessWidget {
   const GrammarHubScreen({super.key});
 
@@ -98,7 +265,7 @@ class GrammarHubScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
-        title: const Text('Grammar Activities'),
+        title: const Text('Grammar Mastery'),
         backgroundColor: AppColors.primary,
         foregroundColor: Colors.white,
       ),
@@ -155,9 +322,8 @@ class GrammarHubScreen extends StatelessWidget {
 String _grammarTopicTitle(String category) {
   return category
       .split('_')
-      .map((word) => word.isEmpty
-          ? word
-          : '${word[0].toUpperCase()}${word.substring(1)}')
+      .map((word) =>
+          word.isEmpty ? word : '${word[0].toUpperCase()}${word.substring(1)}')
       .join(' ');
 }
 
@@ -182,7 +348,7 @@ class _GrammarActivityCard extends StatelessWidget {
           child: const Icon(Icons.quiz_outlined, color: AppColors.primary),
         ),
         title: Text(
-          exercise.promptText,
+          exercise.learnerPrompt,
           style: const TextStyle(
               fontWeight: FontWeight.w800, color: AppColors.textDark),
         ),

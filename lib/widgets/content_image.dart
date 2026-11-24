@@ -15,7 +15,7 @@ class ContentImage extends StatelessWidget {
     required this.source,
     this.width,
     this.height,
-    this.fit = BoxFit.cover,
+    this.fit = BoxFit.contain,
     this.fallback,
   });
 

@@ -1,0 +1,3058 @@
+{
+  "metadata": {
+    "contentStatus": "development_source_label_review_pending",
+    "source": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+    "license": "CC BY 4.0",
+    "creator": "Isaiah Jassen Tupal / De La Salle University",
+    "mediaManifest": "content/fsl105_media_manifest.json"
+  },
+  "signs": [
+    {
+      "id": "fsl105_good_morning",
+      "word": "GOOD MORNING",
+      "videoUrl": "asset:assets/media/fsl105/fsl105_good_morning.MOV",
+      "imageUrl": "",
+      "gifUrl": "",
+      "category": "greeting",
+      "difficulty": "beginner",
+      "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+      "license": "CC BY 4.0",
+      "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+      "validationStatus": "source_label_review_pending",
+      "supportedRecognitionMode": "words",
+      "mediaRefs": [
+        {
+          "mediaId": "fsl105_good_morning_video_01",
+          "signId": "fsl105_good_morning",
+          "mediaType": "video",
+          "assetPath": "assets/media/fsl105/fsl105_good_morning.MOV",
+          "sourceArchivePath": "clips/0/18.MOV",
+          "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+          "creator": "Isaiah Jassen Tupal / De La Salle University",
+          "license": "CC BY 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+          "validationStatus": "source_label_review_pending"
+        }
+      ]
+    },
+    {
+      "id": "fsl105_good_afternoon",
+      "word": "GOOD AFTERNOON",
+      "videoUrl": "asset:assets/media/fsl105/fsl105_good_afternoon.MOV",
+      "imageUrl": "",
+      "gifUrl": "",
+      "category": "greeting",
+      "difficulty": "beginner",
+      "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+      "license": "CC BY 4.0",
+      "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+      "validationStatus": "source_label_review_pending",
+      "supportedRecognitionMode": "words",
+      "mediaRefs": [
+        {
+          "mediaId": "fsl105_good_afternoon_video_01",
+          "signId": "fsl105_good_afternoon",
+          "mediaType": "video",
+          "assetPath": "assets/media/fsl105/fsl105_good_afternoon.MOV",
+          "sourceArchivePath": "clips/1/0.MOV",
+          "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+          "creator": "Isaiah Jassen Tupal / De La Salle University",
+          "license": "CC BY 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+          "validationStatus": "source_label_review_pending"
+        }
+      ]
+    },
+    {
+      "id": "fsl105_good_evening",
+      "word": "GOOD EVENING",
+      "videoUrl": "asset:assets/media/fsl105/fsl105_good_evening.MOV",
+      "imageUrl": "",
+      "gifUrl": "",
+      "category": "greeting",
+      "difficulty": "beginner",
+      "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+      "license": "CC BY 4.0",
+      "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+      "validationStatus": "source_label_review_pending",
+      "supportedRecognitionMode": "words",
+      "mediaRefs": [
+        {
+          "mediaId": "fsl105_good_evening_video_01",
+          "signId": "fsl105_good_evening",
+          "mediaType": "video",
+          "assetPath": "assets/media/fsl105/fsl105_good_evening.MOV",
+          "sourceArchivePath": "clips/2/2.MOV",
+          "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+          "creator": "Isaiah Jassen Tupal / De La Salle University",
+          "license": "CC BY 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+          "validationStatus": "source_label_review_pending"
+        }
+      ]
+    },
+    {
+      "id": "fsl105_hello",
+      "word": "HELLO",
+      "videoUrl": "asset:assets/media/fsl105/fsl105_hello.MOV",
+      "imageUrl": "",
+      "gifUrl": "",
+      "category": "greeting",
+      "difficulty": "beginner",
+      "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+      "license": "CC BY 4.0",
+      "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+      "validationStatus": "source_label_review_pending",
+      "supportedRecognitionMode": "words",
+      "mediaRefs": [
+        {
+          "mediaId": "fsl105_hello_video_01",
+          "signId": "fsl105_hello",
+          "mediaType": "video",
+          "assetPath": "assets/media/fsl105/fsl105_hello.MOV",
+          "sourceArchivePath": "clips/3/8.MOV",
+          "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+          "creator": "Isaiah Jassen Tupal / De La Salle University",
+          "license": "CC BY 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+          "validationStatus": "source_label_review_pending"
+        }
+      ]
+    },
+    {
+      "id": "fsl105_how_are_you",
+      "word": "HOW ARE YOU",
+      "videoUrl": "asset:assets/media/fsl105/fsl105_how_are_you.MOV",
+      "imageUrl": "",
+      "gifUrl": "",
+      "category": "greeting",
+      "difficulty": "beginner",
+      "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+      "license": "CC BY 4.0",
+      "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+      "validationStatus": "source_label_review_pending",
+      "supportedRecognitionMode": "words",
+      "mediaRefs": [
+        {
+          "mediaId": "fsl105_how_are_you_video_01",
+          "signId": "fsl105_how_are_you",
+          "mediaType": "video",
+          "assetPath": "assets/media/fsl105/fsl105_how_are_you.MOV",
+          "sourceArchivePath": "clips/4/2.MOV",
+          "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+          "creator": "Isaiah Jassen Tupal / De La Salle University",
+          "license": "CC BY 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+          "validationStatus": "source_label_review_pending"
+        }
+      ]
+    },
+    {
+      "id": "fsl105_im_fine",
+      "word": "IM FINE",
+      "videoUrl": "asset:assets/media/fsl105/fsl105_im_fine.MOV",
+      "imageUrl": "",
+      "gifUrl": "",
+      "category": "greeting",
+      "difficulty": "beginner",
+      "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+      "license": "CC BY 4.0",
+      "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+      "validationStatus": "source_label_review_pending",
+      "supportedRecognitionMode": "words",
+      "mediaRefs": [
+        {
+          "mediaId": "fsl105_im_fine_video_01",
+          "signId": "fsl105_im_fine",
+          "mediaType": "video",
+          "assetPath": "assets/media/fsl105/fsl105_im_fine.MOV",
+          "sourceArchivePath": "clips/5/10.MOV",
+          "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+          "creator": "Isaiah Jassen Tupal / De La Salle University",
+          "license": "CC BY 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+          "validationStatus": "source_label_review_pending"
+        }
+      ]
+    },
+    {
+      "id": "fsl105_nice_to_meet_you",
+      "word": "NICE TO MEET YOU",
+      "videoUrl": "asset:assets/media/fsl105/fsl105_nice_to_meet_you.MOV",
+      "imageUrl": "",
+      "gifUrl": "",
+      "category": "greeting",
+      "difficulty": "beginner",
+      "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+      "license": "CC BY 4.0",
+      "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+      "validationStatus": "source_label_review_pending",
+      "supportedRecognitionMode": "words",
+      "mediaRefs": [
+        {
+          "mediaId": "fsl105_nice_to_meet_you_video_01",
+          "signId": "fsl105_nice_to_meet_you",
+          "mediaType": "video",
+          "assetPath": "assets/media/fsl105/fsl105_nice_to_meet_you.MOV",
+          "sourceArchivePath": "clips/6/21.MOV",
+          "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+          "creator": "Isaiah Jassen Tupal / De La Salle University",
+          "license": "CC BY 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+          "validationStatus": "source_label_review_pending"
+        }
+      ]
+    },
+    {
+      "id": "fsl105_thank_you",
+      "word": "THANK YOU",
+      "videoUrl": "asset:assets/media/fsl105/fsl105_thank_you.MOV",
+      "imageUrl": "",
+      "gifUrl": "",
+      "category": "greeting",
+      "difficulty": "beginner",
+      "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+      "license": "CC BY 4.0",
+      "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+      "validationStatus": "source_label_review_pending",
+      "supportedRecognitionMode": "words",
+      "mediaRefs": [
+        {
+          "mediaId": "fsl105_thank_you_video_01",
+          "signId": "fsl105_thank_you",
+          "mediaType": "video",
+          "assetPath": "assets/media/fsl105/fsl105_thank_you.MOV",
+          "sourceArchivePath": "clips/7/12.MOV",
+          "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+          "creator": "Isaiah Jassen Tupal / De La Salle University",
+          "license": "CC BY 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+          "validationStatus": "source_label_review_pending"
+        }
+      ]
+    },
+    {
+      "id": "fsl105_youre_welcome",
+      "word": "YOURE WELCOME",
+      "videoUrl": "asset:assets/media/fsl105/fsl105_youre_welcome.MOV",
+      "imageUrl": "",
+      "gifUrl": "",
+      "category": "greeting",
+      "difficulty": "beginner",
+      "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+      "license": "CC BY 4.0",
+      "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+      "validationStatus": "source_label_review_pending",
+      "supportedRecognitionMode": "words",
+      "mediaRefs": [
+        {
+          "mediaId": "fsl105_youre_welcome_video_01",
+          "signId": "fsl105_youre_welcome",
+          "mediaType": "video",
+          "assetPath": "assets/media/fsl105/fsl105_youre_welcome.MOV",
+          "sourceArchivePath": "clips/8/17.MOV",
+          "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+          "creator": "Isaiah Jassen Tupal / De La Salle University",
+          "license": "CC BY 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+          "validationStatus": "source_label_review_pending"
+        }
+      ]
+    },
+    {
+      "id": "fsl105_see_you_tomorrow",
+      "word": "SEE YOU TOMORROW",
+      "videoUrl": "asset:assets/media/fsl105/fsl105_see_you_tomorrow.MOV",
+      "imageUrl": "",
+      "gifUrl": "",
+      "category": "greeting",
+      "difficulty": "beginner",
+      "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+      "license": "CC BY 4.0",
+      "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+      "validationStatus": "source_label_review_pending",
+      "supportedRecognitionMode": "words",
+      "mediaRefs": [
+        {
+          "mediaId": "fsl105_see_you_tomorrow_video_01",
+          "signId": "fsl105_see_you_tomorrow",
+          "mediaType": "video",
+          "assetPath": "assets/media/fsl105/fsl105_see_you_tomorrow.MOV",
+          "sourceArchivePath": "clips/9/3.MOV",
+          "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+          "creator": "Isaiah Jassen Tupal / De La Salle University",
+          "license": "CC BY 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+          "validationStatus": "source_label_review_pending"
+        }
+      ]
+    },
+    {
+      "id": "fsl105_understand",
+      "word": "UNDERSTAND",
+      "videoUrl": "asset:assets/media/fsl105/fsl105_understand.MOV",
+      "imageUrl": "",
+      "gifUrl": "",
+      "category": "survival",
+      "difficulty": "beginner",
+      "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+      "license": "CC BY 4.0",
+      "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+      "validationStatus": "source_label_review_pending",
+      "supportedRecognitionMode": "words",
+      "mediaRefs": [
+        {
+          "mediaId": "fsl105_understand_video_01",
+          "signId": "fsl105_understand",
+          "mediaType": "video",
+          "assetPath": "assets/media/fsl105/fsl105_understand.MOV",
+          "sourceArchivePath": "clips/10/0.MOV",
+          "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+          "creator": "Isaiah Jassen Tupal / De La Salle University",
+          "license": "CC BY 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+          "validationStatus": "source_label_review_pending"
+        }
+      ]
+    },
+    {
+      "id": "fsl105_don_t_understand",
+      "word": "DON’T UNDERSTAND",
+      "videoUrl": "asset:assets/media/fsl105/fsl105_don_t_understand.MOV",
+      "imageUrl": "",
+      "gifUrl": "",
+      "category": "survival",
+      "difficulty": "beginner",
+      "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+      "license": "CC BY 4.0",
+      "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+      "validationStatus": "source_label_review_pending",
+      "supportedRecognitionMode": "words",
+      "mediaRefs": [
+        {
+          "mediaId": "fsl105_don_t_understand_video_01",
+          "signId": "fsl105_don_t_understand",
+          "mediaType": "video",
+          "assetPath": "assets/media/fsl105/fsl105_don_t_understand.MOV",
+          "sourceArchivePath": "clips/11/4.MOV",
+          "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+          "creator": "Isaiah Jassen Tupal / De La Salle University",
+          "license": "CC BY 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+          "validationStatus": "source_label_review_pending"
+        }
+      ]
+    },
+    {
+      "id": "fsl105_know",
+      "word": "KNOW",
+      "videoUrl": "asset:assets/media/fsl105/fsl105_know.MOV",
+      "imageUrl": "",
+      "gifUrl": "",
+      "category": "survival",
+      "difficulty": "beginner",
+      "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+      "license": "CC BY 4.0",
+      "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+      "validationStatus": "source_label_review_pending",
+      "supportedRecognitionMode": "words",
+      "mediaRefs": [
+        {
+          "mediaId": "fsl105_know_video_01",
+          "signId": "fsl105_know",
+          "mediaType": "video",
+          "assetPath": "assets/media/fsl105/fsl105_know.MOV",
+          "sourceArchivePath": "clips/12/17.MOV",
+          "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+          "creator": "Isaiah Jassen Tupal / De La Salle University",
+          "license": "CC BY 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+          "validationStatus": "source_label_review_pending"
+        }
+      ]
+    },
+    {
+      "id": "fsl105_don_t_know",
+      "word": "DON’T KNOW",
+      "videoUrl": "asset:assets/media/fsl105/fsl105_don_t_know.MOV",
+      "imageUrl": "",
+      "gifUrl": "",
+      "category": "survival",
+      "difficulty": "beginner",
+      "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+      "license": "CC BY 4.0",
+      "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+      "validationStatus": "source_label_review_pending",
+      "supportedRecognitionMode": "words",
+      "mediaRefs": [
+        {
+          "mediaId": "fsl105_don_t_know_video_01",
+          "signId": "fsl105_don_t_know",
+          "mediaType": "video",
+          "assetPath": "assets/media/fsl105/fsl105_don_t_know.MOV",
+          "sourceArchivePath": "clips/13/2.MOV",
+          "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+          "creator": "Isaiah Jassen Tupal / De La Salle University",
+          "license": "CC BY 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+          "validationStatus": "source_label_review_pending"
+        }
+      ]
+    },
+    {
+      "id": "fsl105_no",
+      "word": "NO",
+      "videoUrl": "asset:assets/media/fsl105/fsl105_no.MOV",
+      "imageUrl": "",
+      "gifUrl": "",
+      "category": "survival",
+      "difficulty": "beginner",
+      "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+      "license": "CC BY 4.0",
+      "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+      "validationStatus": "source_label_review_pending",
+      "supportedRecognitionMode": "words",
+      "mediaRefs": [
+        {
+          "mediaId": "fsl105_no_video_01",
+          "signId": "fsl105_no",
+          "mediaType": "video",
+          "assetPath": "assets/media/fsl105/fsl105_no.MOV",
+          "sourceArchivePath": "clips/14/15.MOV",
+          "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+          "creator": "Isaiah Jassen Tupal / De La Salle University",
+          "license": "CC BY 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+          "validationStatus": "source_label_review_pending"
+        }
+      ]
+    },
+    {
+      "id": "fsl105_yes",
+      "word": "YES",
+      "videoUrl": "asset:assets/media/fsl105/fsl105_yes.MOV",
+      "imageUrl": "",
+      "gifUrl": "",
+      "category": "survival",
+      "difficulty": "beginner",
+      "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+      "license": "CC BY 4.0",
+      "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+      "validationStatus": "source_label_review_pending",
+      "supportedRecognitionMode": "words",
+      "mediaRefs": [
+        {
+          "mediaId": "fsl105_yes_video_01",
+          "signId": "fsl105_yes",
+          "mediaType": "video",
+          "assetPath": "assets/media/fsl105/fsl105_yes.MOV",
+          "sourceArchivePath": "clips/15/8.MOV",
+          "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+          "creator": "Isaiah Jassen Tupal / De La Salle University",
+          "license": "CC BY 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+          "validationStatus": "source_label_review_pending"
+        }
+      ]
+    },
+    {
+      "id": "fsl105_wrong",
+      "word": "WRONG",
+      "videoUrl": "asset:assets/media/fsl105/fsl105_wrong.MOV",
+      "imageUrl": "",
+      "gifUrl": "",
+      "category": "survival",
+      "difficulty": "beginner",
+      "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+      "license": "CC BY 4.0",
+      "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+      "validationStatus": "source_label_review_pending",
+      "supportedRecognitionMode": "words",
+      "mediaRefs": [
+        {
+          "mediaId": "fsl105_wrong_video_01",
+          "signId": "fsl105_wrong",
+          "mediaType": "video",
+          "assetPath": "assets/media/fsl105/fsl105_wrong.MOV",
+          "sourceArchivePath": "clips/16/10.MOV",
+          "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+          "creator": "Isaiah Jassen Tupal / De La Salle University",
+          "license": "CC BY 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+          "validationStatus": "source_label_review_pending"
+        }
+      ]
+    },
+    {
+      "id": "fsl105_correct",
+      "word": "CORRECT",
+      "videoUrl": "asset:assets/media/fsl105/fsl105_correct.MOV",
+      "imageUrl": "",
+      "gifUrl": "",
+      "category": "survival",
+      "difficulty": "beginner",
+      "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+      "license": "CC BY 4.0",
+      "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+      "validationStatus": "source_label_review_pending",
+      "supportedRecognitionMode": "words",
+      "mediaRefs": [
+        {
+          "mediaId": "fsl105_correct_video_01",
+          "signId": "fsl105_correct",
+          "mediaType": "video",
+          "assetPath": "assets/media/fsl105/fsl105_correct.MOV",
+          "sourceArchivePath": "clips/17/6.MOV",
+          "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+          "creator": "Isaiah Jassen Tupal / De La Salle University",
+          "license": "CC BY 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+          "validationStatus": "source_label_review_pending"
+        }
+      ]
+    },
+    {
+      "id": "fsl105_slow",
+      "word": "SLOW",
+      "videoUrl": "asset:assets/media/fsl105/fsl105_slow.MOV",
+      "imageUrl": "",
+      "gifUrl": "",
+      "category": "survival",
+      "difficulty": "beginner",
+      "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+      "license": "CC BY 4.0",
+      "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+      "validationStatus": "source_label_review_pending",
+      "supportedRecognitionMode": "words",
+      "mediaRefs": [
+        {
+          "mediaId": "fsl105_slow_video_01",
+          "signId": "fsl105_slow",
+          "mediaType": "video",
+          "assetPath": "assets/media/fsl105/fsl105_slow.MOV",
+          "sourceArchivePath": "clips/18/20.MOV",
+          "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+          "creator": "Isaiah Jassen Tupal / De La Salle University",
+          "license": "CC BY 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+          "validationStatus": "source_label_review_pending"
+        }
+      ]
+    },
+    {
+      "id": "fsl105_fast",
+      "word": "FAST",
+      "videoUrl": "asset:assets/media/fsl105/fsl105_fast.MOV",
+      "imageUrl": "",
+      "gifUrl": "",
+      "category": "survival",
+      "difficulty": "beginner",
+      "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+      "license": "CC BY 4.0",
+      "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+      "validationStatus": "source_label_review_pending",
+      "supportedRecognitionMode": "words",
+      "mediaRefs": [
+        {
+          "mediaId": "fsl105_fast_video_01",
+          "signId": "fsl105_fast",
+          "mediaType": "video",
+          "assetPath": "assets/media/fsl105/fsl105_fast.MOV",
+          "sourceArchivePath": "clips/19/15.MOV",
+          "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+          "creator": "Isaiah Jassen Tupal / De La Salle University",
+          "license": "CC BY 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+          "validationStatus": "source_label_review_pending"
+        }
+      ]
+    },
+    {
+      "id": "fsl105_one",
+      "word": "ONE",
+      "videoUrl": "asset:assets/media/fsl105/fsl105_one.MOV",
+      "imageUrl": "",
+      "gifUrl": "",
+      "category": "number",
+      "difficulty": "beginner",
+      "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+      "license": "CC BY 4.0",
+      "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+      "validationStatus": "source_label_review_pending",
+      "supportedRecognitionMode": "numbers_pending_model",
+      "mediaRefs": [
+        {
+          "mediaId": "fsl105_one_video_01",
+          "signId": "fsl105_one",
+          "mediaType": "video",
+          "assetPath": "assets/media/fsl105/fsl105_one.MOV",
+          "sourceArchivePath": "clips/20/3.MOV",
+          "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+          "creator": "Isaiah Jassen Tupal / De La Salle University",
+          "license": "CC BY 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+          "validationStatus": "source_label_review_pending"
+        }
+      ]
+    },
+    {
+      "id": "fsl105_two",
+      "word": "TWO",
+      "videoUrl": "asset:assets/media/fsl105/fsl105_two.MOV",
+      "imageUrl": "",
+      "gifUrl": "",
+      "category": "number",
+      "difficulty": "beginner",
+      "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+      "license": "CC BY 4.0",
+      "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+      "validationStatus": "source_label_review_pending",
+      "supportedRecognitionMode": "numbers_pending_model",
+      "mediaRefs": [
+        {
+          "mediaId": "fsl105_two_video_01",
+          "signId": "fsl105_two",
+          "mediaType": "video",
+          "assetPath": "assets/media/fsl105/fsl105_two.MOV",
+          "sourceArchivePath": "clips/21/9.MOV",
+          "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+          "creator": "Isaiah Jassen Tupal / De La Salle University",
+          "license": "CC BY 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+          "validationStatus": "source_label_review_pending"
+        }
+      ]
+    },
+    {
+      "id": "fsl105_three",
+      "word": "THREE",
+      "videoUrl": "asset:assets/media/fsl105/fsl105_three.MOV",
+      "imageUrl": "",
+      "gifUrl": "",
+      "category": "number",
+      "difficulty": "beginner",
+      "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+      "license": "CC BY 4.0",
+      "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+      "validationStatus": "source_label_review_pending",
+      "supportedRecognitionMode": "numbers_pending_model",
+      "mediaRefs": [
+        {
+          "mediaId": "fsl105_three_video_01",
+          "signId": "fsl105_three",
+          "mediaType": "video",
+          "assetPath": "assets/media/fsl105/fsl105_three.MOV",
+          "sourceArchivePath": "clips/22/5.MOV",
+          "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+          "creator": "Isaiah Jassen Tupal / De La Salle University",
+          "license": "CC BY 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+          "validationStatus": "source_label_review_pending"
+        }
+      ]
+    },
+    {
+      "id": "fsl105_four",
+      "word": "FOUR",
+      "videoUrl": "asset:assets/media/fsl105/fsl105_four.MOV",
+      "imageUrl": "",
+      "gifUrl": "",
+      "category": "number",
+      "difficulty": "beginner",
+      "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+      "license": "CC BY 4.0",
+      "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+      "validationStatus": "source_label_review_pending",
+      "supportedRecognitionMode": "numbers_pending_model",
+      "mediaRefs": [
+        {
+          "mediaId": "fsl105_four_video_01",
+          "signId": "fsl105_four",
+          "mediaType": "video",
+          "assetPath": "assets/media/fsl105/fsl105_four.MOV",
+          "sourceArchivePath": "clips/23/11.MOV",
+          "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+          "creator": "Isaiah Jassen Tupal / De La Salle University",
+          "license": "CC BY 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+          "validationStatus": "source_label_review_pending"
+        }
+      ]
+    },
+    {
+      "id": "fsl105_five",
+      "word": "FIVE",
+      "videoUrl": "asset:assets/media/fsl105/fsl105_five.MOV",
+      "imageUrl": "",
+      "gifUrl": "",
+      "category": "number",
+      "difficulty": "beginner",
+      "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+      "license": "CC BY 4.0",
+      "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+      "validationStatus": "source_label_review_pending",
+      "supportedRecognitionMode": "numbers_pending_model",
+      "mediaRefs": [
+        {
+          "mediaId": "fsl105_five_video_01",
+          "signId": "fsl105_five",
+          "mediaType": "video",
+          "assetPath": "assets/media/fsl105/fsl105_five.MOV",
+          "sourceArchivePath": "clips/24/12.MOV",
+          "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+          "creator": "Isaiah Jassen Tupal / De La Salle University",
+          "license": "CC BY 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+          "validationStatus": "source_label_review_pending"
+        }
+      ]
+    },
+    {
+      "id": "fsl105_six",
+      "word": "SIX",
+      "videoUrl": "asset:assets/media/fsl105/fsl105_six.MOV",
+      "imageUrl": "",
+      "gifUrl": "",
+      "category": "number",
+      "difficulty": "beginner",
+      "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+      "license": "CC BY 4.0",
+      "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+      "validationStatus": "source_label_review_pending",
+      "supportedRecognitionMode": "numbers_pending_model",
+      "mediaRefs": [
+        {
+          "mediaId": "fsl105_six_video_01",
+          "signId": "fsl105_six",
+          "mediaType": "video",
+          "assetPath": "assets/media/fsl105/fsl105_six.MOV",
+          "sourceArchivePath": "clips/25/0.MOV",
+          "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+          "creator": "Isaiah Jassen Tupal / De La Salle University",
+          "license": "CC BY 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+          "validationStatus": "source_label_review_pending"
+        }
+      ]
+    },
+    {
+      "id": "fsl105_seven",
+      "word": "SEVEN",
+      "videoUrl": "asset:assets/media/fsl105/fsl105_seven.MOV",
+      "imageUrl": "",
+      "gifUrl": "",
+      "category": "number",
+      "difficulty": "beginner",
+      "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+      "license": "CC BY 4.0",
+      "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+      "validationStatus": "source_label_review_pending",
+      "supportedRecognitionMode": "numbers_pending_model",
+      "mediaRefs": [
+        {
+          "mediaId": "fsl105_seven_video_01",
+          "signId": "fsl105_seven",
+          "mediaType": "video",
+          "assetPath": "assets/media/fsl105/fsl105_seven.MOV",
+          "sourceArchivePath": "clips/26/9.MOV",
+          "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+          "creator": "Isaiah Jassen Tupal / De La Salle University",
+          "license": "CC BY 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+          "validationStatus": "source_label_review_pending"
+        }
+      ]
+    },
+    {
+      "id": "fsl105_eight",
+      "word": "EIGHT",
+      "videoUrl": "asset:assets/media/fsl105/fsl105_eight.MOV",
+      "imageUrl": "",
+      "gifUrl": "",
+      "category": "number",
+      "difficulty": "beginner",
+      "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+      "license": "CC BY 4.0",
+      "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+      "validationStatus": "source_label_review_pending",
+      "supportedRecognitionMode": "numbers_pending_model",
+      "mediaRefs": [
+        {
+          "mediaId": "fsl105_eight_video_01",
+          "signId": "fsl105_eight",
+          "mediaType": "video",
+          "assetPath": "assets/media/fsl105/fsl105_eight.MOV",
+          "sourceArchivePath": "clips/27/4.MOV",
+          "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+          "creator": "Isaiah Jassen Tupal / De La Salle University",
+          "license": "CC BY 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+          "validationStatus": "source_label_review_pending"
+        }
+      ]
+    },
+    {
+      "id": "fsl105_nine",
+      "word": "NINE",
+      "videoUrl": "asset:assets/media/fsl105/fsl105_nine.MOV",
+      "imageUrl": "",
+      "gifUrl": "",
+      "category": "number",
+      "difficulty": "beginner",
+      "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+      "license": "CC BY 4.0",
+      "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+      "validationStatus": "source_label_review_pending",
+      "supportedRecognitionMode": "numbers_pending_model",
+      "mediaRefs": [
+        {
+          "mediaId": "fsl105_nine_video_01",
+          "signId": "fsl105_nine",
+          "mediaType": "video",
+          "assetPath": "assets/media/fsl105/fsl105_nine.MOV",
+          "sourceArchivePath": "clips/28/10.MOV",
+          "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+          "creator": "Isaiah Jassen Tupal / De La Salle University",
+          "license": "CC BY 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+          "validationStatus": "source_label_review_pending"
+        }
+      ]
+    },
+    {
+      "id": "fsl105_ten",
+      "word": "TEN",
+      "videoUrl": "asset:assets/media/fsl105/fsl105_ten.MOV",
+      "imageUrl": "",
+      "gifUrl": "",
+      "category": "number",
+      "difficulty": "beginner",
+      "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+      "license": "CC BY 4.0",
+      "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+      "validationStatus": "source_label_review_pending",
+      "supportedRecognitionMode": "numbers_pending_model",
+      "mediaRefs": [
+        {
+          "mediaId": "fsl105_ten_video_01",
+          "signId": "fsl105_ten",
+          "mediaType": "video",
+          "assetPath": "assets/media/fsl105/fsl105_ten.MOV",
+          "sourceArchivePath": "clips/29/19.MOV",
+          "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+          "creator": "Isaiah Jassen Tupal / De La Salle University",
+          "license": "CC BY 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+          "validationStatus": "source_label_review_pending"
+        }
+      ]
+    },
+    {
+      "id": "fsl105_january",
+      "word": "JANUARY",
+      "videoUrl": "asset:assets/media/fsl105/fsl105_january.MOV",
+      "imageUrl": "",
+      "gifUrl": "",
+      "category": "calendar",
+      "difficulty": "beginner",
+      "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+      "license": "CC BY 4.0",
+      "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+      "validationStatus": "source_label_review_pending",
+      "supportedRecognitionMode": "words",
+      "mediaRefs": [
+        {
+          "mediaId": "fsl105_january_video_01",
+          "signId": "fsl105_january",
+          "mediaType": "video",
+          "assetPath": "assets/media/fsl105/fsl105_january.MOV",
+          "sourceArchivePath": "clips/30/10.MOV",
+          "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+          "creator": "Isaiah Jassen Tupal / De La Salle University",
+          "license": "CC BY 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+          "validationStatus": "source_label_review_pending"
+        }
+      ]
+    },
+    {
+      "id": "fsl105_february",
+      "word": "FEBRUARY",
+      "videoUrl": "asset:assets/media/fsl105/fsl105_february.MOV",
+      "imageUrl": "",
+      "gifUrl": "",
+      "category": "calendar",
+      "difficulty": "beginner",
+      "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+      "license": "CC BY 4.0",
+      "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+      "validationStatus": "source_label_review_pending",
+      "supportedRecognitionMode": "words",
+      "mediaRefs": [
+        {
+          "mediaId": "fsl105_february_video_01",
+          "signId": "fsl105_february",
+          "mediaType": "video",
+          "assetPath": "assets/media/fsl105/fsl105_february.MOV",
+          "sourceArchivePath": "clips/31/5.MOV",
+          "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+          "creator": "Isaiah Jassen Tupal / De La Salle University",
+          "license": "CC BY 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+          "validationStatus": "source_label_review_pending"
+        }
+      ]
+    },
+    {
+      "id": "fsl105_march",
+      "word": "MARCH",
+      "videoUrl": "asset:assets/media/fsl105/fsl105_march.MOV",
+      "imageUrl": "",
+      "gifUrl": "",
+      "category": "calendar",
+      "difficulty": "beginner",
+      "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+      "license": "CC BY 4.0",
+      "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+      "validationStatus": "source_label_review_pending",
+      "supportedRecognitionMode": "words",
+      "mediaRefs": [
+        {
+          "mediaId": "fsl105_march_video_01",
+          "signId": "fsl105_march",
+          "mediaType": "video",
+          "assetPath": "assets/media/fsl105/fsl105_march.MOV",
+          "sourceArchivePath": "clips/32/5.MOV",
+          "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+          "creator": "Isaiah Jassen Tupal / De La Salle University",
+          "license": "CC BY 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+          "validationStatus": "source_label_review_pending"
+        }
+      ]
+    },
+    {
+      "id": "fsl105_april",
+      "word": "APRIL",
+      "videoUrl": "asset:assets/media/fsl105/fsl105_april.MOV",
+      "imageUrl": "",
+      "gifUrl": "",
+      "category": "calendar",
+      "difficulty": "beginner",
+      "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+      "license": "CC BY 4.0",
+      "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+      "validationStatus": "source_label_review_pending",
+      "supportedRecognitionMode": "words",
+      "mediaRefs": [
+        {
+          "mediaId": "fsl105_april_video_01",
+          "signId": "fsl105_april",
+          "mediaType": "video",
+          "assetPath": "assets/media/fsl105/fsl105_april.MOV",
+          "sourceArchivePath": "clips/33/7.MOV",
+          "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+          "creator": "Isaiah Jassen Tupal / De La Salle University",
+          "license": "CC BY 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+          "validationStatus": "source_label_review_pending"
+        }
+      ]
+    },
+    {
+      "id": "fsl105_may",
+      "word": "MAY",
+      "videoUrl": "asset:assets/media/fsl105/fsl105_may.MOV",
+      "imageUrl": "",
+      "gifUrl": "",
+      "category": "calendar",
+      "difficulty": "beginner",
+      "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+      "license": "CC BY 4.0",
+      "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+      "validationStatus": "source_label_review_pending",
+      "supportedRecognitionMode": "words",
+      "mediaRefs": [
+        {
+          "mediaId": "fsl105_may_video_01",
+          "signId": "fsl105_may",
+          "mediaType": "video",
+          "assetPath": "assets/media/fsl105/fsl105_may.MOV",
+          "sourceArchivePath": "clips/34/8.MOV",
+          "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+          "creator": "Isaiah Jassen Tupal / De La Salle University",
+          "license": "CC BY 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+          "validationStatus": "source_label_review_pending"
+        }
+      ]
+    },
+    {
+      "id": "fsl105_june",
+      "word": "JUNE",
+      "videoUrl": "asset:assets/media/fsl105/fsl105_june.MOV",
+      "imageUrl": "",
+      "gifUrl": "",
+      "category": "calendar",
+      "difficulty": "beginner",
+      "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+      "license": "CC BY 4.0",
+      "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+      "validationStatus": "source_label_review_pending",
+      "supportedRecognitionMode": "words",
+      "mediaRefs": [
+        {
+          "mediaId": "fsl105_june_video_01",
+          "signId": "fsl105_june",
+          "mediaType": "video",
+          "assetPath": "assets/media/fsl105/fsl105_june.MOV",
+          "sourceArchivePath": "clips/35/19.MOV",
+          "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+          "creator": "Isaiah Jassen Tupal / De La Salle University",
+          "license": "CC BY 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+          "validationStatus": "source_label_review_pending"
+        }
+      ]
+    },
+    {
+      "id": "fsl105_july",
+      "word": "JULY",
+      "videoUrl": "asset:assets/media/fsl105/fsl105_july.MOV",
+      "imageUrl": "",
+      "gifUrl": "",
+      "category": "calendar",
+      "difficulty": "beginner",
+      "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+      "license": "CC BY 4.0",
+      "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+      "validationStatus": "source_label_review_pending",
+      "supportedRecognitionMode": "words",
+      "mediaRefs": [
+        {
+          "mediaId": "fsl105_july_video_01",
+          "signId": "fsl105_july",
+          "mediaType": "video",
+          "assetPath": "assets/media/fsl105/fsl105_july.MOV",
+          "sourceArchivePath": "clips/36/20.MOV",
+          "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+          "creator": "Isaiah Jassen Tupal / De La Salle University",
+          "license": "CC BY 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+          "validationStatus": "source_label_review_pending"
+        }
+      ]
+    },
+    {
+      "id": "fsl105_august",
+      "word": "AUGUST",
+      "videoUrl": "asset:assets/media/fsl105/fsl105_august.MOV",
+      "imageUrl": "",
+      "gifUrl": "",
+      "category": "calendar",
+      "difficulty": "beginner",
+      "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+      "license": "CC BY 4.0",
+      "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+      "validationStatus": "source_label_review_pending",
+      "supportedRecognitionMode": "words",
+      "mediaRefs": [
+        {
+          "mediaId": "fsl105_august_video_01",
+          "signId": "fsl105_august",
+          "mediaType": "video",
+          "assetPath": "assets/media/fsl105/fsl105_august.MOV",
+          "sourceArchivePath": "clips/37/6.MOV",
+          "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+          "creator": "Isaiah Jassen Tupal / De La Salle University",
+          "license": "CC BY 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+          "validationStatus": "source_label_review_pending"
+        }
+      ]
+    },
+    {
+      "id": "fsl105_september",
+      "word": "SEPTEMBER",
+      "videoUrl": "asset:assets/media/fsl105/fsl105_september.MOV",
+      "imageUrl": "",
+      "gifUrl": "",
+      "category": "calendar",
+      "difficulty": "beginner",
+      "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+      "license": "CC BY 4.0",
+      "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+      "validationStatus": "source_label_review_pending",
+      "supportedRecognitionMode": "words",
+      "mediaRefs": [
+        {
+          "mediaId": "fsl105_september_video_01",
+          "signId": "fsl105_september",
+          "mediaType": "video",
+          "assetPath": "assets/media/fsl105/fsl105_september.MOV",
+          "sourceArchivePath": "clips/38/15.MOV",
+          "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+          "creator": "Isaiah Jassen Tupal / De La Salle University",
+          "license": "CC BY 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+          "validationStatus": "source_label_review_pending"
+        }
+      ]
+    },
+    {
+      "id": "fsl105_october",
+      "word": "OCTOBER",
+      "videoUrl": "asset:assets/media/fsl105/fsl105_october.MOV",
+      "imageUrl": "",
+      "gifUrl": "",
+      "category": "calendar",
+      "difficulty": "beginner",
+      "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+      "license": "CC BY 4.0",
+      "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+      "validationStatus": "source_label_review_pending",
+      "supportedRecognitionMode": "words",
+      "mediaRefs": [
+        {
+          "mediaId": "fsl105_october_video_01",
+          "signId": "fsl105_october",
+          "mediaType": "video",
+          "assetPath": "assets/media/fsl105/fsl105_october.MOV",
+          "sourceArchivePath": "clips/39/9.MOV",
+          "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+          "creator": "Isaiah Jassen Tupal / De La Salle University",
+          "license": "CC BY 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+          "validationStatus": "source_label_review_pending"
+        }
+      ]
+    },
+    {
+      "id": "fsl105_november",
+      "word": "NOVEMBER",
+      "videoUrl": "asset:assets/media/fsl105/fsl105_november.MOV",
+      "imageUrl": "",
+      "gifUrl": "",
+      "category": "calendar",
+      "difficulty": "beginner",
+      "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+      "license": "CC BY 4.0",
+      "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+      "validationStatus": "source_label_review_pending",
+      "supportedRecognitionMode": "words",
+      "mediaRefs": [
+        {
+          "mediaId": "fsl105_november_video_01",
+          "signId": "fsl105_november",
+          "mediaType": "video",
+          "assetPath": "assets/media/fsl105/fsl105_november.MOV",
+          "sourceArchivePath": "clips/40/14.MOV",
+          "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+          "creator": "Isaiah Jassen Tupal / De La Salle University",
+          "license": "CC BY 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+          "validationStatus": "source_label_review_pending"
+        }
+      ]
+    },
+    {
+      "id": "fsl105_december",
+      "word": "DECEMBER",
+      "videoUrl": "asset:assets/media/fsl105/fsl105_december.MOV",
+      "imageUrl": "",
+      "gifUrl": "",
+      "category": "calendar",
+      "difficulty": "beginner",
+      "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+      "license": "CC BY 4.0",
+      "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+      "validationStatus": "source_label_review_pending",
+      "supportedRecognitionMode": "words",
+      "mediaRefs": [
+        {
+          "mediaId": "fsl105_december_video_01",
+          "signId": "fsl105_december",
+          "mediaType": "video",
+          "assetPath": "assets/media/fsl105/fsl105_december.MOV",
+          "sourceArchivePath": "clips/41/12.MOV",
+          "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+          "creator": "Isaiah Jassen Tupal / De La Salle University",
+          "license": "CC BY 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+          "validationStatus": "source_label_review_pending"
+        }
+      ]
+    },
+    {
+      "id": "fsl105_monday",
+      "word": "MONDAY",
+      "videoUrl": "asset:assets/media/fsl105/fsl105_monday.MOV",
+      "imageUrl": "",
+      "gifUrl": "",
+      "category": "days",
+      "difficulty": "beginner",
+      "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+      "license": "CC BY 4.0",
+      "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+      "validationStatus": "source_label_review_pending",
+      "supportedRecognitionMode": "words",
+      "mediaRefs": [
+        {
+          "mediaId": "fsl105_monday_video_01",
+          "signId": "fsl105_monday",
+          "mediaType": "video",
+          "assetPath": "assets/media/fsl105/fsl105_monday.MOV",
+          "sourceArchivePath": "clips/42/16.MOV",
+          "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+          "creator": "Isaiah Jassen Tupal / De La Salle University",
+          "license": "CC BY 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+          "validationStatus": "source_label_review_pending"
+        }
+      ]
+    },
+    {
+      "id": "fsl105_tuesday",
+      "word": "TUESDAY",
+      "videoUrl": "asset:assets/media/fsl105/fsl105_tuesday.MOV",
+      "imageUrl": "",
+      "gifUrl": "",
+      "category": "days",
+      "difficulty": "beginner",
+      "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+      "license": "CC BY 4.0",
+      "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+      "validationStatus": "source_label_review_pending",
+      "supportedRecognitionMode": "words",
+      "mediaRefs": [
+        {
+          "mediaId": "fsl105_tuesday_video_01",
+          "signId": "fsl105_tuesday",
+          "mediaType": "video",
+          "assetPath": "assets/media/fsl105/fsl105_tuesday.MOV",
+          "sourceArchivePath": "clips/43/3.MOV",
+          "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+          "creator": "Isaiah Jassen Tupal / De La Salle University",
+          "license": "CC BY 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+          "validationStatus": "source_label_review_pending"
+        }
+      ]
+    },
+    {
+      "id": "fsl105_wednesday",
+      "word": "WEDNESDAY",
+      "videoUrl": "asset:assets/media/fsl105/fsl105_wednesday.MOV",
+      "imageUrl": "",
+      "gifUrl": "",
+      "category": "days",
+      "difficulty": "beginner",
+      "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+      "license": "CC BY 4.0",
+      "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+      "validationStatus": "source_label_review_pending",
+      "supportedRecognitionMode": "words",
+      "mediaRefs": [
+        {
+          "mediaId": "fsl105_wednesday_video_01",
+          "signId": "fsl105_wednesday",
+          "mediaType": "video",
+          "assetPath": "assets/media/fsl105/fsl105_wednesday.MOV",
+          "sourceArchivePath": "clips/44/6.MOV",
+          "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+          "creator": "Isaiah Jassen Tupal / De La Salle University",
+          "license": "CC BY 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+          "validationStatus": "source_label_review_pending"
+        }
+      ]
+    },
+    {
+      "id": "fsl105_thursday",
+      "word": "THURSDAY",
+      "videoUrl": "asset:assets/media/fsl105/fsl105_thursday.MOV",
+      "imageUrl": "",
+      "gifUrl": "",
+      "category": "days",
+      "difficulty": "beginner",
+      "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+      "license": "CC BY 4.0",
+      "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+      "validationStatus": "source_label_review_pending",
+      "supportedRecognitionMode": "words",
+      "mediaRefs": [
+        {
+          "mediaId": "fsl105_thursday_video_01",
+          "signId": "fsl105_thursday",
+          "mediaType": "video",
+          "assetPath": "assets/media/fsl105/fsl105_thursday.MOV",
+          "sourceArchivePath": "clips/45/5.MOV",
+          "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+          "creator": "Isaiah Jassen Tupal / De La Salle University",
+          "license": "CC BY 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+          "validationStatus": "source_label_review_pending"
+        }
+      ]
+    },
+    {
+      "id": "fsl105_friday",
+      "word": "FRIDAY",
+      "videoUrl": "asset:assets/media/fsl105/fsl105_friday.MOV",
+      "imageUrl": "",
+      "gifUrl": "",
+      "category": "days",
+      "difficulty": "beginner",
+      "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+      "license": "CC BY 4.0",
+      "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+      "validationStatus": "source_label_review_pending",
+      "supportedRecognitionMode": "words",
+      "mediaRefs": [
+        {
+          "mediaId": "fsl105_friday_video_01",
+          "signId": "fsl105_friday",
+          "mediaType": "video",
+          "assetPath": "assets/media/fsl105/fsl105_friday.MOV",
+          "sourceArchivePath": "clips/46/15.MOV",
+          "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+          "creator": "Isaiah Jassen Tupal / De La Salle University",
+          "license": "CC BY 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+          "validationStatus": "source_label_review_pending"
+        }
+      ]
+    },
+    {
+      "id": "fsl105_saturday",
+      "word": "SATURDAY",
+      "videoUrl": "asset:assets/media/fsl105/fsl105_saturday.MOV",
+      "imageUrl": "",
+      "gifUrl": "",
+      "category": "days",
+      "difficulty": "beginner",
+      "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+      "license": "CC BY 4.0",
+      "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+      "validationStatus": "source_label_review_pending",
+      "supportedRecognitionMode": "words",
+      "mediaRefs": [
+        {
+          "mediaId": "fsl105_saturday_video_01",
+          "signId": "fsl105_saturday",
+          "mediaType": "video",
+          "assetPath": "assets/media/fsl105/fsl105_saturday.MOV",
+          "sourceArchivePath": "clips/47/2.MOV",
+          "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+          "creator": "Isaiah Jassen Tupal / De La Salle University",
+          "license": "CC BY 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+          "validationStatus": "source_label_review_pending"
+        }
+      ]
+    },
+    {
+      "id": "fsl105_sunday",
+      "word": "SUNDAY",
+      "videoUrl": "asset:assets/media/fsl105/fsl105_sunday.MOV",
+      "imageUrl": "",
+      "gifUrl": "",
+      "category": "days",
+      "difficulty": "beginner",
+      "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+      "license": "CC BY 4.0",
+      "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+      "validationStatus": "source_label_review_pending",
+      "supportedRecognitionMode": "words",
+      "mediaRefs": [
+        {
+          "mediaId": "fsl105_sunday_video_01",
+          "signId": "fsl105_sunday",
+          "mediaType": "video",
+          "assetPath": "assets/media/fsl105/fsl105_sunday.MOV",
+          "sourceArchivePath": "clips/48/11.MOV",
+          "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+          "creator": "Isaiah Jassen Tupal / De La Salle University",
+          "license": "CC BY 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+          "validationStatus": "source_label_review_pending"
+        }
+      ]
+    },
+    {
+      "id": "fsl105_today",
+      "word": "TODAY",
+      "videoUrl": "asset:assets/media/fsl105/fsl105_today.MOV",
+      "imageUrl": "",
+      "gifUrl": "",
+      "category": "days",
+      "difficulty": "beginner",
+      "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+      "license": "CC BY 4.0",
+      "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+      "validationStatus": "source_label_review_pending",
+      "supportedRecognitionMode": "words",
+      "mediaRefs": [
+        {
+          "mediaId": "fsl105_today_video_01",
+          "signId": "fsl105_today",
+          "mediaType": "video",
+          "assetPath": "assets/media/fsl105/fsl105_today.MOV",
+          "sourceArchivePath": "clips/49/4.MOV",
+          "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+          "creator": "Isaiah Jassen Tupal / De La Salle University",
+          "license": "CC BY 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+          "validationStatus": "source_label_review_pending"
+        }
+      ]
+    },
+    {
+      "id": "fsl105_tomorrow",
+      "word": "TOMORROW",
+      "videoUrl": "asset:assets/media/fsl105/fsl105_tomorrow.MOV",
+      "imageUrl": "",
+      "gifUrl": "",
+      "category": "days",
+      "difficulty": "beginner",
+      "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+      "license": "CC BY 4.0",
+      "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+      "validationStatus": "source_label_review_pending",
+      "supportedRecognitionMode": "words",
+      "mediaRefs": [
+        {
+          "mediaId": "fsl105_tomorrow_video_01",
+          "signId": "fsl105_tomorrow",
+          "mediaType": "video",
+          "assetPath": "assets/media/fsl105/fsl105_tomorrow.MOV",
+          "sourceArchivePath": "clips/50/10.MOV",
+          "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+          "creator": "Isaiah Jassen Tupal / De La Salle University",
+          "license": "CC BY 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+          "validationStatus": "source_label_review_pending"
+        }
+      ]
+    },
+    {
+      "id": "fsl105_yesterday",
+      "word": "YESTERDAY",
+      "videoUrl": "asset:assets/media/fsl105/fsl105_yesterday.MOV",
+      "imageUrl": "",
+      "gifUrl": "",
+      "category": "days",
+      "difficulty": "beginner",
+      "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+      "license": "CC BY 4.0",
+      "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+      "validationStatus": "source_label_review_pending",
+      "supportedRecognitionMode": "words",
+      "mediaRefs": [
+        {
+          "mediaId": "fsl105_yesterday_video_01",
+          "signId": "fsl105_yesterday",
+          "mediaType": "video",
+          "assetPath": "assets/media/fsl105/fsl105_yesterday.MOV",
+          "sourceArchivePath": "clips/51/0.MOV",
+          "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+          "creator": "Isaiah Jassen Tupal / De La Salle University",
+          "license": "CC BY 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+          "validationStatus": "source_label_review_pending"
+        }
+      ]
+    },
+    {
+      "id": "fsl105_father",
+      "word": "FATHER",
+      "videoUrl": "asset:assets/media/fsl105/fsl105_father.MOV",
+      "imageUrl": "",
+      "gifUrl": "",
+      "category": "family",
+      "difficulty": "beginner",
+      "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+      "license": "CC BY 4.0",
+      "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+      "validationStatus": "source_label_review_pending",
+      "supportedRecognitionMode": "words",
+      "mediaRefs": [
+        {
+          "mediaId": "fsl105_father_video_01",
+          "signId": "fsl105_father",
+          "mediaType": "video",
+          "assetPath": "assets/media/fsl105/fsl105_father.MOV",
+          "sourceArchivePath": "clips/52/10.MOV",
+          "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+          "creator": "Isaiah Jassen Tupal / De La Salle University",
+          "license": "CC BY 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+          "validationStatus": "source_label_review_pending"
+        }
+      ]
+    },
+    {
+      "id": "fsl105_mother",
+      "word": "MOTHER",
+      "videoUrl": "asset:assets/media/fsl105/fsl105_mother.MOV",
+      "imageUrl": "",
+      "gifUrl": "",
+      "category": "family",
+      "difficulty": "beginner",
+      "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+      "license": "CC BY 4.0",
+      "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+      "validationStatus": "source_label_review_pending",
+      "supportedRecognitionMode": "words",
+      "mediaRefs": [
+        {
+          "mediaId": "fsl105_mother_video_01",
+          "signId": "fsl105_mother",
+          "mediaType": "video",
+          "assetPath": "assets/media/fsl105/fsl105_mother.MOV",
+          "sourceArchivePath": "clips/53/19.MOV",
+          "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+          "creator": "Isaiah Jassen Tupal / De La Salle University",
+          "license": "CC BY 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+          "validationStatus": "source_label_review_pending"
+        }
+      ]
+    },
+    {
+      "id": "fsl105_son",
+      "word": "SON",
+      "videoUrl": "asset:assets/media/fsl105/fsl105_son.MOV",
+      "imageUrl": "",
+      "gifUrl": "",
+      "category": "family",
+      "difficulty": "beginner",
+      "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+      "license": "CC BY 4.0",
+      "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+      "validationStatus": "source_label_review_pending",
+      "supportedRecognitionMode": "words",
+      "mediaRefs": [
+        {
+          "mediaId": "fsl105_son_video_01",
+          "signId": "fsl105_son",
+          "mediaType": "video",
+          "assetPath": "assets/media/fsl105/fsl105_son.MOV",
+          "sourceArchivePath": "clips/54/6.MOV",
+          "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+          "creator": "Isaiah Jassen Tupal / De La Salle University",
+          "license": "CC BY 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+          "validationStatus": "source_label_review_pending"
+        }
+      ]
+    },
+    {
+      "id": "fsl105_daughter",
+      "word": "DAUGHTER",
+      "videoUrl": "asset:assets/media/fsl105/fsl105_daughter.MOV",
+      "imageUrl": "",
+      "gifUrl": "",
+      "category": "family",
+      "difficulty": "beginner",
+      "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+      "license": "CC BY 4.0",
+      "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+      "validationStatus": "source_label_review_pending",
+      "supportedRecognitionMode": "words",
+      "mediaRefs": [
+        {
+          "mediaId": "fsl105_daughter_video_01",
+          "signId": "fsl105_daughter",
+          "mediaType": "video",
+          "assetPath": "assets/media/fsl105/fsl105_daughter.MOV",
+          "sourceArchivePath": "clips/55/9.MOV",
+          "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+          "creator": "Isaiah Jassen Tupal / De La Salle University",
+          "license": "CC BY 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+          "validationStatus": "source_label_review_pending"
+        }
+      ]
+    },
+    {
+      "id": "fsl105_grandfather",
+      "word": "GRANDFATHER",
+      "videoUrl": "asset:assets/media/fsl105/fsl105_grandfather.MOV",
+      "imageUrl": "",
+      "gifUrl": "",
+      "category": "family",
+      "difficulty": "beginner",
+      "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+      "license": "CC BY 4.0",
+      "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+      "validationStatus": "source_label_review_pending",
+      "supportedRecognitionMode": "words",
+      "mediaRefs": [
+        {
+          "mediaId": "fsl105_grandfather_video_01",
+          "signId": "fsl105_grandfather",
+          "mediaType": "video",
+          "assetPath": "assets/media/fsl105/fsl105_grandfather.MOV",
+          "sourceArchivePath": "clips/56/13.MOV",
+          "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+          "creator": "Isaiah Jassen Tupal / De La Salle University",
+          "license": "CC BY 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+          "validationStatus": "source_label_review_pending"
+        }
+      ]
+    },
+    {
+      "id": "fsl105_grandmother",
+      "word": "GRANDMOTHER",
+      "videoUrl": "asset:assets/media/fsl105/fsl105_grandmother.MOV",
+      "imageUrl": "",
+      "gifUrl": "",
+      "category": "family",
+      "difficulty": "beginner",
+      "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+      "license": "CC BY 4.0",
+      "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+      "validationStatus": "source_label_review_pending",
+      "supportedRecognitionMode": "words",
+      "mediaRefs": [
+        {
+          "mediaId": "fsl105_grandmother_video_01",
+          "signId": "fsl105_grandmother",
+          "mediaType": "video",
+          "assetPath": "assets/media/fsl105/fsl105_grandmother.MOV",
+          "sourceArchivePath": "clips/57/18.MOV",
+          "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+          "creator": "Isaiah Jassen Tupal / De La Salle University",
+          "license": "CC BY 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+          "validationStatus": "source_label_review_pending"
+        }
+      ]
+    },
+    {
+      "id": "fsl105_uncle",
+      "word": "UNCLE",
+      "videoUrl": "asset:assets/media/fsl105/fsl105_uncle.MOV",
+      "imageUrl": "",
+      "gifUrl": "",
+      "category": "family",
+      "difficulty": "beginner",
+      "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+      "license": "CC BY 4.0",
+      "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+      "validationStatus": "source_label_review_pending",
+      "supportedRecognitionMode": "words",
+      "mediaRefs": [
+        {
+          "mediaId": "fsl105_uncle_video_01",
+          "signId": "fsl105_uncle",
+          "mediaType": "video",
+          "assetPath": "assets/media/fsl105/fsl105_uncle.MOV",
+          "sourceArchivePath": "clips/58/11.MOV",
+          "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+          "creator": "Isaiah Jassen Tupal / De La Salle University",
+          "license": "CC BY 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+          "validationStatus": "source_label_review_pending"
+        }
+      ]
+    },
+    {
+      "id": "fsl105_auntie",
+      "word": "AUNTIE",
+      "videoUrl": "asset:assets/media/fsl105/fsl105_auntie.MOV",
+      "imageUrl": "",
+      "gifUrl": "",
+      "category": "family",
+      "difficulty": "beginner",
+      "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+      "license": "CC BY 4.0",
+      "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+      "validationStatus": "source_label_review_pending",
+      "supportedRecognitionMode": "words",
+      "mediaRefs": [
+        {
+          "mediaId": "fsl105_auntie_video_01",
+          "signId": "fsl105_auntie",
+          "mediaType": "video",
+          "assetPath": "assets/media/fsl105/fsl105_auntie.MOV",
+          "sourceArchivePath": "clips/59/18.MOV",
+          "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+          "creator": "Isaiah Jassen Tupal / De La Salle University",
+          "license": "CC BY 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+          "validationStatus": "source_label_review_pending"
+        }
+      ]
+    },
+    {
+      "id": "fsl105_cousin",
+      "word": "COUSIN",
+      "videoUrl": "asset:assets/media/fsl105/fsl105_cousin.MOV",
+      "imageUrl": "",
+      "gifUrl": "",
+      "category": "family",
+      "difficulty": "beginner",
+      "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+      "license": "CC BY 4.0",
+      "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+      "validationStatus": "source_label_review_pending",
+      "supportedRecognitionMode": "words",
+      "mediaRefs": [
+        {
+          "mediaId": "fsl105_cousin_video_01",
+          "signId": "fsl105_cousin",
+          "mediaType": "video",
+          "assetPath": "assets/media/fsl105/fsl105_cousin.MOV",
+          "sourceArchivePath": "clips/60/10.MOV",
+          "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+          "creator": "Isaiah Jassen Tupal / De La Salle University",
+          "license": "CC BY 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+          "validationStatus": "source_label_review_pending"
+        }
+      ]
+    },
+    {
+      "id": "fsl105_parents",
+      "word": "PARENTS",
+      "videoUrl": "asset:assets/media/fsl105/fsl105_parents.MOV",
+      "imageUrl": "",
+      "gifUrl": "",
+      "category": "family",
+      "difficulty": "beginner",
+      "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+      "license": "CC BY 4.0",
+      "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+      "validationStatus": "source_label_review_pending",
+      "supportedRecognitionMode": "words",
+      "mediaRefs": [
+        {
+          "mediaId": "fsl105_parents_video_01",
+          "signId": "fsl105_parents",
+          "mediaType": "video",
+          "assetPath": "assets/media/fsl105/fsl105_parents.MOV",
+          "sourceArchivePath": "clips/61/8.MOV",
+          "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+          "creator": "Isaiah Jassen Tupal / De La Salle University",
+          "license": "CC BY 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+          "validationStatus": "source_label_review_pending"
+        }
+      ]
+    },
+    {
+      "id": "fsl105_boy",
+      "word": "BOY",
+      "videoUrl": "asset:assets/media/fsl105/fsl105_boy.MOV",
+      "imageUrl": "",
+      "gifUrl": "",
+      "category": "relationships",
+      "difficulty": "beginner",
+      "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+      "license": "CC BY 4.0",
+      "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+      "validationStatus": "source_label_review_pending",
+      "supportedRecognitionMode": "words",
+      "mediaRefs": [
+        {
+          "mediaId": "fsl105_boy_video_01",
+          "signId": "fsl105_boy",
+          "mediaType": "video",
+          "assetPath": "assets/media/fsl105/fsl105_boy.MOV",
+          "sourceArchivePath": "clips/62/1.MOV",
+          "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+          "creator": "Isaiah Jassen Tupal / De La Salle University",
+          "license": "CC BY 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+          "validationStatus": "source_label_review_pending"
+        }
+      ]
+    },
+    {
+      "id": "fsl105_girl",
+      "word": "GIRL",
+      "videoUrl": "asset:assets/media/fsl105/fsl105_girl.MOV",
+      "imageUrl": "",
+      "gifUrl": "",
+      "category": "relationships",
+      "difficulty": "beginner",
+      "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+      "license": "CC BY 4.0",
+      "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+      "validationStatus": "source_label_review_pending",
+      "supportedRecognitionMode": "words",
+      "mediaRefs": [
+        {
+          "mediaId": "fsl105_girl_video_01",
+          "signId": "fsl105_girl",
+          "mediaType": "video",
+          "assetPath": "assets/media/fsl105/fsl105_girl.MOV",
+          "sourceArchivePath": "clips/63/10.MOV",
+          "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+          "creator": "Isaiah Jassen Tupal / De La Salle University",
+          "license": "CC BY 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+          "validationStatus": "source_label_review_pending"
+        }
+      ]
+    },
+    {
+      "id": "fsl105_man",
+      "word": "MAN",
+      "videoUrl": "asset:assets/media/fsl105/fsl105_man.MOV",
+      "imageUrl": "",
+      "gifUrl": "",
+      "category": "relationships",
+      "difficulty": "beginner",
+      "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+      "license": "CC BY 4.0",
+      "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+      "validationStatus": "source_label_review_pending",
+      "supportedRecognitionMode": "words",
+      "mediaRefs": [
+        {
+          "mediaId": "fsl105_man_video_01",
+          "signId": "fsl105_man",
+          "mediaType": "video",
+          "assetPath": "assets/media/fsl105/fsl105_man.MOV",
+          "sourceArchivePath": "clips/64/9.MOV",
+          "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+          "creator": "Isaiah Jassen Tupal / De La Salle University",
+          "license": "CC BY 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+          "validationStatus": "source_label_review_pending"
+        }
+      ]
+    },
+    {
+      "id": "fsl105_woman",
+      "word": "WOMAN",
+      "videoUrl": "asset:assets/media/fsl105/fsl105_woman.MOV",
+      "imageUrl": "",
+      "gifUrl": "",
+      "category": "relationships",
+      "difficulty": "beginner",
+      "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+      "license": "CC BY 4.0",
+      "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+      "validationStatus": "source_label_review_pending",
+      "supportedRecognitionMode": "words",
+      "mediaRefs": [
+        {
+          "mediaId": "fsl105_woman_video_01",
+          "signId": "fsl105_woman",
+          "mediaType": "video",
+          "assetPath": "assets/media/fsl105/fsl105_woman.MOV",
+          "sourceArchivePath": "clips/65/3.MOV",
+          "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+          "creator": "Isaiah Jassen Tupal / De La Salle University",
+          "license": "CC BY 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+          "validationStatus": "source_label_review_pending"
+        }
+      ]
+    },
+    {
+      "id": "fsl105_deaf",
+      "word": "DEAF",
+      "videoUrl": "asset:assets/media/fsl105/fsl105_deaf.MOV",
+      "imageUrl": "",
+      "gifUrl": "",
+      "category": "relationships",
+      "difficulty": "beginner",
+      "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+      "license": "CC BY 4.0",
+      "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+      "validationStatus": "source_label_review_pending",
+      "supportedRecognitionMode": "words",
+      "mediaRefs": [
+        {
+          "mediaId": "fsl105_deaf_video_01",
+          "signId": "fsl105_deaf",
+          "mediaType": "video",
+          "assetPath": "assets/media/fsl105/fsl105_deaf.MOV",
+          "sourceArchivePath": "clips/66/16.MOV",
+          "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+          "creator": "Isaiah Jassen Tupal / De La Salle University",
+          "license": "CC BY 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+          "validationStatus": "source_label_review_pending"
+        }
+      ]
+    },
+    {
+      "id": "fsl105_hard_of_hearing",
+      "word": "HARD OF HEARING",
+      "videoUrl": "asset:assets/media/fsl105/fsl105_hard_of_hearing.MOV",
+      "imageUrl": "",
+      "gifUrl": "",
+      "category": "relationships",
+      "difficulty": "beginner",
+      "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+      "license": "CC BY 4.0",
+      "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+      "validationStatus": "source_label_review_pending",
+      "supportedRecognitionMode": "words",
+      "mediaRefs": [
+        {
+          "mediaId": "fsl105_hard_of_hearing_video_01",
+          "signId": "fsl105_hard_of_hearing",
+          "mediaType": "video",
+          "assetPath": "assets/media/fsl105/fsl105_hard_of_hearing.MOV",
+          "sourceArchivePath": "clips/67/2.MOV",
+          "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+          "creator": "Isaiah Jassen Tupal / De La Salle University",
+          "license": "CC BY 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+          "validationStatus": "source_label_review_pending"
+        }
+      ]
+    },
+    {
+      "id": "fsl105_weelchair_person",
+      "word": "WEELCHAIR PERSON",
+      "videoUrl": "asset:assets/media/fsl105/fsl105_weelchair_person.MOV",
+      "imageUrl": "",
+      "gifUrl": "",
+      "category": "relationships",
+      "difficulty": "beginner",
+      "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+      "license": "CC BY 4.0",
+      "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+      "validationStatus": "source_label_review_pending",
+      "supportedRecognitionMode": "words",
+      "mediaRefs": [
+        {
+          "mediaId": "fsl105_weelchair_person_video_01",
+          "signId": "fsl105_weelchair_person",
+          "mediaType": "video",
+          "assetPath": "assets/media/fsl105/fsl105_weelchair_person.MOV",
+          "sourceArchivePath": "clips/68/11.MOV",
+          "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+          "creator": "Isaiah Jassen Tupal / De La Salle University",
+          "license": "CC BY 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+          "validationStatus": "source_label_review_pending"
+        }
+      ]
+    },
+    {
+      "id": "fsl105_blind",
+      "word": "BLIND",
+      "videoUrl": "asset:assets/media/fsl105/fsl105_blind.MOV",
+      "imageUrl": "",
+      "gifUrl": "",
+      "category": "relationships",
+      "difficulty": "beginner",
+      "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+      "license": "CC BY 4.0",
+      "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+      "validationStatus": "source_label_review_pending",
+      "supportedRecognitionMode": "words",
+      "mediaRefs": [
+        {
+          "mediaId": "fsl105_blind_video_01",
+          "signId": "fsl105_blind",
+          "mediaType": "video",
+          "assetPath": "assets/media/fsl105/fsl105_blind.MOV",
+          "sourceArchivePath": "clips/69/11.MOV",
+          "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+          "creator": "Isaiah Jassen Tupal / De La Salle University",
+          "license": "CC BY 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+          "validationStatus": "source_label_review_pending"
+        }
+      ]
+    },
+    {
+      "id": "fsl105_deaf_blind",
+      "word": "DEAF BLIND",
+      "videoUrl": "asset:assets/media/fsl105/fsl105_deaf_blind.MOV",
+      "imageUrl": "",
+      "gifUrl": "",
+      "category": "relationships",
+      "difficulty": "beginner",
+      "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+      "license": "CC BY 4.0",
+      "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+      "validationStatus": "source_label_review_pending",
+      "supportedRecognitionMode": "words",
+      "mediaRefs": [
+        {
+          "mediaId": "fsl105_deaf_blind_video_01",
+          "signId": "fsl105_deaf_blind",
+          "mediaType": "video",
+          "assetPath": "assets/media/fsl105/fsl105_deaf_blind.MOV",
+          "sourceArchivePath": "clips/70/14.MOV",
+          "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+          "creator": "Isaiah Jassen Tupal / De La Salle University",
+          "license": "CC BY 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+          "validationStatus": "source_label_review_pending"
+        }
+      ]
+    },
+    {
+      "id": "fsl105_married",
+      "word": "MARRIED",
+      "videoUrl": "asset:assets/media/fsl105/fsl105_married.MOV",
+      "imageUrl": "",
+      "gifUrl": "",
+      "category": "relationships",
+      "difficulty": "beginner",
+      "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+      "license": "CC BY 4.0",
+      "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+      "validationStatus": "source_label_review_pending",
+      "supportedRecognitionMode": "words",
+      "mediaRefs": [
+        {
+          "mediaId": "fsl105_married_video_01",
+          "signId": "fsl105_married",
+          "mediaType": "video",
+          "assetPath": "assets/media/fsl105/fsl105_married.MOV",
+          "sourceArchivePath": "clips/71/17.MOV",
+          "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+          "creator": "Isaiah Jassen Tupal / De La Salle University",
+          "license": "CC BY 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+          "validationStatus": "source_label_review_pending"
+        }
+      ]
+    },
+    {
+      "id": "fsl105_blue",
+      "word": "BLUE",
+      "videoUrl": "asset:assets/media/fsl105/fsl105_blue.MOV",
+      "imageUrl": "",
+      "gifUrl": "",
+      "category": "color",
+      "difficulty": "beginner",
+      "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+      "license": "CC BY 4.0",
+      "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+      "validationStatus": "source_label_review_pending",
+      "supportedRecognitionMode": "words",
+      "mediaRefs": [
+        {
+          "mediaId": "fsl105_blue_video_01",
+          "signId": "fsl105_blue",
+          "mediaType": "video",
+          "assetPath": "assets/media/fsl105/fsl105_blue.MOV",
+          "sourceArchivePath": "clips/72/18.MOV",
+          "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+          "creator": "Isaiah Jassen Tupal / De La Salle University",
+          "license": "CC BY 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+          "validationStatus": "source_label_review_pending"
+        }
+      ]
+    },
+    {
+      "id": "fsl105_green",
+      "word": "GREEN",
+      "videoUrl": "asset:assets/media/fsl105/fsl105_green.MOV",
+      "imageUrl": "",
+      "gifUrl": "",
+      "category": "color",
+      "difficulty": "beginner",
+      "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+      "license": "CC BY 4.0",
+      "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+      "validationStatus": "source_label_review_pending",
+      "supportedRecognitionMode": "words",
+      "mediaRefs": [
+        {
+          "mediaId": "fsl105_green_video_01",
+          "signId": "fsl105_green",
+          "mediaType": "video",
+          "assetPath": "assets/media/fsl105/fsl105_green.MOV",
+          "sourceArchivePath": "clips/73/2.MOV",
+          "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+          "creator": "Isaiah Jassen Tupal / De La Salle University",
+          "license": "CC BY 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+          "validationStatus": "source_label_review_pending"
+        }
+      ]
+    },
+    {
+      "id": "fsl105_red",
+      "word": "RED",
+      "videoUrl": "asset:assets/media/fsl105/fsl105_red.MOV",
+      "imageUrl": "",
+      "gifUrl": "",
+      "category": "color",
+      "difficulty": "beginner",
+      "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+      "license": "CC BY 4.0",
+      "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+      "validationStatus": "source_label_review_pending",
+      "supportedRecognitionMode": "words",
+      "mediaRefs": [
+        {
+          "mediaId": "fsl105_red_video_01",
+          "signId": "fsl105_red",
+          "mediaType": "video",
+          "assetPath": "assets/media/fsl105/fsl105_red.MOV",
+          "sourceArchivePath": "clips/74/6.MOV",
+          "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+          "creator": "Isaiah Jassen Tupal / De La Salle University",
+          "license": "CC BY 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+          "validationStatus": "source_label_review_pending"
+        }
+      ]
+    },
+    {
+      "id": "fsl105_brown",
+      "word": "BROWN",
+      "videoUrl": "asset:assets/media/fsl105/fsl105_brown.MOV",
+      "imageUrl": "",
+      "gifUrl": "",
+      "category": "color",
+      "difficulty": "beginner",
+      "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+      "license": "CC BY 4.0",
+      "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+      "validationStatus": "source_label_review_pending",
+      "supportedRecognitionMode": "words",
+      "mediaRefs": [
+        {
+          "mediaId": "fsl105_brown_video_01",
+          "signId": "fsl105_brown",
+          "mediaType": "video",
+          "assetPath": "assets/media/fsl105/fsl105_brown.MOV",
+          "sourceArchivePath": "clips/75/5.MOV",
+          "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+          "creator": "Isaiah Jassen Tupal / De La Salle University",
+          "license": "CC BY 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+          "validationStatus": "source_label_review_pending"
+        }
+      ]
+    },
+    {
+      "id": "fsl105_black",
+      "word": "BLACK",
+      "videoUrl": "asset:assets/media/fsl105/fsl105_black.MOV",
+      "imageUrl": "",
+      "gifUrl": "",
+      "category": "color",
+      "difficulty": "beginner",
+      "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+      "license": "CC BY 4.0",
+      "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+      "validationStatus": "source_label_review_pending",
+      "supportedRecognitionMode": "words",
+      "mediaRefs": [
+        {
+          "mediaId": "fsl105_black_video_01",
+          "signId": "fsl105_black",
+          "mediaType": "video",
+          "assetPath": "assets/media/fsl105/fsl105_black.MOV",
+          "sourceArchivePath": "clips/76/11.MOV",
+          "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+          "creator": "Isaiah Jassen Tupal / De La Salle University",
+          "license": "CC BY 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+          "validationStatus": "source_label_review_pending"
+        }
+      ]
+    },
+    {
+      "id": "fsl105_white",
+      "word": "WHITE",
+      "videoUrl": "asset:assets/media/fsl105/fsl105_white.MOV",
+      "imageUrl": "",
+      "gifUrl": "",
+      "category": "color",
+      "difficulty": "beginner",
+      "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+      "license": "CC BY 4.0",
+      "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+      "validationStatus": "source_label_review_pending",
+      "supportedRecognitionMode": "words",
+      "mediaRefs": [
+        {
+          "mediaId": "fsl105_white_video_01",
+          "signId": "fsl105_white",
+          "mediaType": "video",
+          "assetPath": "assets/media/fsl105/fsl105_white.MOV",
+          "sourceArchivePath": "clips/77/0.MOV",
+          "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+          "creator": "Isaiah Jassen Tupal / De La Salle University",
+          "license": "CC BY 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+          "validationStatus": "source_label_review_pending"
+        }
+      ]
+    },
+    {
+      "id": "fsl105_yellow",
+      "word": "YELLOW",
+      "videoUrl": "asset:assets/media/fsl105/fsl105_yellow.MOV",
+      "imageUrl": "",
+      "gifUrl": "",
+      "category": "color",
+      "difficulty": "beginner",
+      "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+      "license": "CC BY 4.0",
+      "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+      "validationStatus": "source_label_review_pending",
+      "supportedRecognitionMode": "words",
+      "mediaRefs": [
+        {
+          "mediaId": "fsl105_yellow_video_01",
+          "signId": "fsl105_yellow",
+          "mediaType": "video",
+          "assetPath": "assets/media/fsl105/fsl105_yellow.MOV",
+          "sourceArchivePath": "clips/78/10.MOV",
+          "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+          "creator": "Isaiah Jassen Tupal / De La Salle University",
+          "license": "CC BY 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+          "validationStatus": "source_label_review_pending"
+        }
+      ]
+    },
+    {
+      "id": "fsl105_orange",
+      "word": "ORANGE",
+      "videoUrl": "asset:assets/media/fsl105/fsl105_orange.MOV",
+      "imageUrl": "",
+      "gifUrl": "",
+      "category": "color",
+      "difficulty": "beginner",
+      "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+      "license": "CC BY 4.0",
+      "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+      "validationStatus": "source_label_review_pending",
+      "supportedRecognitionMode": "words",
+      "mediaRefs": [
+        {
+          "mediaId": "fsl105_orange_video_01",
+          "signId": "fsl105_orange",
+          "mediaType": "video",
+          "assetPath": "assets/media/fsl105/fsl105_orange.MOV",
+          "sourceArchivePath": "clips/79/15.MOV",
+          "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+          "creator": "Isaiah Jassen Tupal / De La Salle University",
+          "license": "CC BY 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+          "validationStatus": "source_label_review_pending"
+        }
+      ]
+    },
+    {
+      "id": "fsl105_gray",
+      "word": "GRAY",
+      "videoUrl": "asset:assets/media/fsl105/fsl105_gray.MOV",
+      "imageUrl": "",
+      "gifUrl": "",
+      "category": "color",
+      "difficulty": "beginner",
+      "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+      "license": "CC BY 4.0",
+      "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+      "validationStatus": "source_label_review_pending",
+      "supportedRecognitionMode": "words",
+      "mediaRefs": [
+        {
+          "mediaId": "fsl105_gray_video_01",
+          "signId": "fsl105_gray",
+          "mediaType": "video",
+          "assetPath": "assets/media/fsl105/fsl105_gray.MOV",
+          "sourceArchivePath": "clips/80/2.MOV",
+          "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+          "creator": "Isaiah Jassen Tupal / De La Salle University",
+          "license": "CC BY 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+          "validationStatus": "source_label_review_pending"
+        }
+      ]
+    },
+    {
+      "id": "fsl105_pink",
+      "word": "PINK",
+      "videoUrl": "asset:assets/media/fsl105/fsl105_pink.MOV",
+      "imageUrl": "",
+      "gifUrl": "",
+      "category": "color",
+      "difficulty": "beginner",
+      "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+      "license": "CC BY 4.0",
+      "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+      "validationStatus": "source_label_review_pending",
+      "supportedRecognitionMode": "words",
+      "mediaRefs": [
+        {
+          "mediaId": "fsl105_pink_video_01",
+          "signId": "fsl105_pink",
+          "mediaType": "video",
+          "assetPath": "assets/media/fsl105/fsl105_pink.MOV",
+          "sourceArchivePath": "clips/81/7.MOV",
+          "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+          "creator": "Isaiah Jassen Tupal / De La Salle University",
+          "license": "CC BY 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+          "validationStatus": "source_label_review_pending"
+        }
+      ]
+    },
+    {
+      "id": "fsl105_violet",
+      "word": "VIOLET",
+      "videoUrl": "asset:assets/media/fsl105/fsl105_violet.MOV",
+      "imageUrl": "",
+      "gifUrl": "",
+      "category": "color",
+      "difficulty": "beginner",
+      "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+      "license": "CC BY 4.0",
+      "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+      "validationStatus": "source_label_review_pending",
+      "supportedRecognitionMode": "words",
+      "mediaRefs": [
+        {
+          "mediaId": "fsl105_violet_video_01",
+          "signId": "fsl105_violet",
+          "mediaType": "video",
+          "assetPath": "assets/media/fsl105/fsl105_violet.MOV",
+          "sourceArchivePath": "clips/82/14.MOV",
+          "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+          "creator": "Isaiah Jassen Tupal / De La Salle University",
+          "license": "CC BY 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+          "validationStatus": "source_label_review_pending"
+        }
+      ]
+    },
+    {
+      "id": "fsl105_light",
+      "word": "LIGHT",
+      "videoUrl": "asset:assets/media/fsl105/fsl105_light.MOV",
+      "imageUrl": "",
+      "gifUrl": "",
+      "category": "color",
+      "difficulty": "beginner",
+      "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+      "license": "CC BY 4.0",
+      "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+      "validationStatus": "source_label_review_pending",
+      "supportedRecognitionMode": "words",
+      "mediaRefs": [
+        {
+          "mediaId": "fsl105_light_video_01",
+          "signId": "fsl105_light",
+          "mediaType": "video",
+          "assetPath": "assets/media/fsl105/fsl105_light.MOV",
+          "sourceArchivePath": "clips/83/14.MOV",
+          "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+          "creator": "Isaiah Jassen Tupal / De La Salle University",
+          "license": "CC BY 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+          "validationStatus": "source_label_review_pending"
+        }
+      ]
+    },
+    {
+      "id": "fsl105_dark",
+      "word": "DARK",
+      "videoUrl": "asset:assets/media/fsl105/fsl105_dark.MOV",
+      "imageUrl": "",
+      "gifUrl": "",
+      "category": "color",
+      "difficulty": "beginner",
+      "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+      "license": "CC BY 4.0",
+      "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+      "validationStatus": "source_label_review_pending",
+      "supportedRecognitionMode": "words",
+      "mediaRefs": [
+        {
+          "mediaId": "fsl105_dark_video_01",
+          "signId": "fsl105_dark",
+          "mediaType": "video",
+          "assetPath": "assets/media/fsl105/fsl105_dark.MOV",
+          "sourceArchivePath": "clips/84/17.MOV",
+          "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+          "creator": "Isaiah Jassen Tupal / De La Salle University",
+          "license": "CC BY 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+          "validationStatus": "source_label_review_pending"
+        }
+      ]
+    },
+    {
+      "id": "fsl105_bread",
+      "word": "BREAD",
+      "videoUrl": "asset:assets/media/fsl105/fsl105_bread.MOV",
+      "imageUrl": "",
+      "gifUrl": "",
+      "category": "food",
+      "difficulty": "beginner",
+      "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+      "license": "CC BY 4.0",
+      "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+      "validationStatus": "source_label_review_pending",
+      "supportedRecognitionMode": "words",
+      "mediaRefs": [
+        {
+          "mediaId": "fsl105_bread_video_01",
+          "signId": "fsl105_bread",
+          "mediaType": "video",
+          "assetPath": "assets/media/fsl105/fsl105_bread.MOV",
+          "sourceArchivePath": "clips/85/6.MOV",
+          "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+          "creator": "Isaiah Jassen Tupal / De La Salle University",
+          "license": "CC BY 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+          "validationStatus": "source_label_review_pending"
+        }
+      ]
+    },
+    {
+      "id": "fsl105_egg",
+      "word": "EGG",
+      "videoUrl": "asset:assets/media/fsl105/fsl105_egg.MOV",
+      "imageUrl": "",
+      "gifUrl": "",
+      "category": "food",
+      "difficulty": "beginner",
+      "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+      "license": "CC BY 4.0",
+      "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+      "validationStatus": "source_label_review_pending",
+      "supportedRecognitionMode": "words",
+      "mediaRefs": [
+        {
+          "mediaId": "fsl105_egg_video_01",
+          "signId": "fsl105_egg",
+          "mediaType": "video",
+          "assetPath": "assets/media/fsl105/fsl105_egg.MOV",
+          "sourceArchivePath": "clips/86/5.MOV",
+          "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+          "creator": "Isaiah Jassen Tupal / De La Salle University",
+          "license": "CC BY 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+          "validationStatus": "source_label_review_pending"
+        }
+      ]
+    },
+    {
+      "id": "fsl105_fish",
+      "word": "FISH",
+      "videoUrl": "asset:assets/media/fsl105/fsl105_fish.MOV",
+      "imageUrl": "",
+      "gifUrl": "",
+      "category": "food",
+      "difficulty": "beginner",
+      "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+      "license": "CC BY 4.0",
+      "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+      "validationStatus": "source_label_review_pending",
+      "supportedRecognitionMode": "words",
+      "mediaRefs": [
+        {
+          "mediaId": "fsl105_fish_video_01",
+          "signId": "fsl105_fish",
+          "mediaType": "video",
+          "assetPath": "assets/media/fsl105/fsl105_fish.MOV",
+          "sourceArchivePath": "clips/87/3.MOV",
+          "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+          "creator": "Isaiah Jassen Tupal / De La Salle University",
+          "license": "CC BY 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+          "validationStatus": "source_label_review_pending"
+        }
+      ]
+    },
+    {
+      "id": "fsl105_meat",
+      "word": "MEAT",
+      "videoUrl": "asset:assets/media/fsl105/fsl105_meat.MOV",
+      "imageUrl": "",
+      "gifUrl": "",
+      "category": "food",
+      "difficulty": "beginner",
+      "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+      "license": "CC BY 4.0",
+      "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+      "validationStatus": "source_label_review_pending",
+      "supportedRecognitionMode": "words",
+      "mediaRefs": [
+        {
+          "mediaId": "fsl105_meat_video_01",
+          "signId": "fsl105_meat",
+          "mediaType": "video",
+          "assetPath": "assets/media/fsl105/fsl105_meat.MOV",
+          "sourceArchivePath": "clips/88/8.MOV",
+          "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+          "creator": "Isaiah Jassen Tupal / De La Salle University",
+          "license": "CC BY 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+          "validationStatus": "source_label_review_pending"
+        }
+      ]
+    },
+    {
+      "id": "fsl105_chicken",
+      "word": "CHICKEN",
+      "videoUrl": "asset:assets/media/fsl105/fsl105_chicken.MOV",
+      "imageUrl": "",
+      "gifUrl": "",
+      "category": "food",
+      "difficulty": "beginner",
+      "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+      "license": "CC BY 4.0",
+      "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+      "validationStatus": "source_label_review_pending",
+      "supportedRecognitionMode": "words",
+      "mediaRefs": [
+        {
+          "mediaId": "fsl105_chicken_video_01",
+          "signId": "fsl105_chicken",
+          "mediaType": "video",
+          "assetPath": "assets/media/fsl105/fsl105_chicken.MOV",
+          "sourceArchivePath": "clips/89/10.MOV",
+          "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+          "creator": "Isaiah Jassen Tupal / De La Salle University",
+          "license": "CC BY 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+          "validationStatus": "source_label_review_pending"
+        }
+      ]
+    },
+    {
+      "id": "fsl105_spaghetti",
+      "word": "SPAGHETTI",
+      "videoUrl": "asset:assets/media/fsl105/fsl105_spaghetti.MOV",
+      "imageUrl": "",
+      "gifUrl": "",
+      "category": "food",
+      "difficulty": "beginner",
+      "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+      "license": "CC BY 4.0",
+      "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+      "validationStatus": "source_label_review_pending",
+      "supportedRecognitionMode": "words",
+      "mediaRefs": [
+        {
+          "mediaId": "fsl105_spaghetti_video_01",
+          "signId": "fsl105_spaghetti",
+          "mediaType": "video",
+          "assetPath": "assets/media/fsl105/fsl105_spaghetti.MOV",
+          "sourceArchivePath": "clips/90/14.MOV",
+          "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+          "creator": "Isaiah Jassen Tupal / De La Salle University",
+          "license": "CC BY 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+          "validationStatus": "source_label_review_pending"
+        }
+      ]
+    },
+    {
+      "id": "fsl105_rice",
+      "word": "RICE",
+      "videoUrl": "asset:assets/media/fsl105/fsl105_rice.MOV",
+      "imageUrl": "",
+      "gifUrl": "",
+      "category": "food",
+      "difficulty": "beginner",
+      "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+      "license": "CC BY 4.0",
+      "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+      "validationStatus": "source_label_review_pending",
+      "supportedRecognitionMode": "words",
+      "mediaRefs": [
+        {
+          "mediaId": "fsl105_rice_video_01",
+          "signId": "fsl105_rice",
+          "mediaType": "video",
+          "assetPath": "assets/media/fsl105/fsl105_rice.MOV",
+          "sourceArchivePath": "clips/91/14.MOV",
+          "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+          "creator": "Isaiah Jassen Tupal / De La Salle University",
+          "license": "CC BY 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+          "validationStatus": "source_label_review_pending"
+        }
+      ]
+    },
+    {
+      "id": "fsl105_longanisa",
+      "word": "LONGANISA",
+      "videoUrl": "asset:assets/media/fsl105/fsl105_longanisa.MOV",
+      "imageUrl": "",
+      "gifUrl": "",
+      "category": "food",
+      "difficulty": "beginner",
+      "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+      "license": "CC BY 4.0",
+      "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+      "validationStatus": "source_label_review_pending",
+      "supportedRecognitionMode": "words",
+      "mediaRefs": [
+        {
+          "mediaId": "fsl105_longanisa_video_01",
+          "signId": "fsl105_longanisa",
+          "mediaType": "video",
+          "assetPath": "assets/media/fsl105/fsl105_longanisa.MOV",
+          "sourceArchivePath": "clips/92/10.MOV",
+          "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+          "creator": "Isaiah Jassen Tupal / De La Salle University",
+          "license": "CC BY 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+          "validationStatus": "source_label_review_pending"
+        }
+      ]
+    },
+    {
+      "id": "fsl105_shrimp",
+      "word": "SHRIMP",
+      "videoUrl": "asset:assets/media/fsl105/fsl105_shrimp.MOV",
+      "imageUrl": "",
+      "gifUrl": "",
+      "category": "food",
+      "difficulty": "beginner",
+      "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+      "license": "CC BY 4.0",
+      "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+      "validationStatus": "source_label_review_pending",
+      "supportedRecognitionMode": "words",
+      "mediaRefs": [
+        {
+          "mediaId": "fsl105_shrimp_video_01",
+          "signId": "fsl105_shrimp",
+          "mediaType": "video",
+          "assetPath": "assets/media/fsl105/fsl105_shrimp.MOV",
+          "sourceArchivePath": "clips/93/6.MOV",
+          "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+          "creator": "Isaiah Jassen Tupal / De La Salle University",
+          "license": "CC BY 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+          "validationStatus": "source_label_review_pending"
+        }
+      ]
+    },
+    {
+      "id": "fsl105_crab",
+      "word": "CRAB",
+      "videoUrl": "asset:assets/media/fsl105/fsl105_crab.MOV",
+      "imageUrl": "",
+      "gifUrl": "",
+      "category": "food",
+      "difficulty": "beginner",
+      "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+      "license": "CC BY 4.0",
+      "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+      "validationStatus": "source_label_review_pending",
+      "supportedRecognitionMode": "words",
+      "mediaRefs": [
+        {
+          "mediaId": "fsl105_crab_video_01",
+          "signId": "fsl105_crab",
+          "mediaType": "video",
+          "assetPath": "assets/media/fsl105/fsl105_crab.MOV",
+          "sourceArchivePath": "clips/94/3.MOV",
+          "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+          "creator": "Isaiah Jassen Tupal / De La Salle University",
+          "license": "CC BY 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+          "validationStatus": "source_label_review_pending"
+        }
+      ]
+    },
+    {
+      "id": "fsl105_hot",
+      "word": "HOT",
+      "videoUrl": "asset:assets/media/fsl105/fsl105_hot.MOV",
+      "imageUrl": "",
+      "gifUrl": "",
+      "category": "drink",
+      "difficulty": "beginner",
+      "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+      "license": "CC BY 4.0",
+      "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+      "validationStatus": "source_label_review_pending",
+      "supportedRecognitionMode": "words",
+      "mediaRefs": [
+        {
+          "mediaId": "fsl105_hot_video_01",
+          "signId": "fsl105_hot",
+          "mediaType": "video",
+          "assetPath": "assets/media/fsl105/fsl105_hot.MOV",
+          "sourceArchivePath": "clips/95/15.MOV",
+          "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+          "creator": "Isaiah Jassen Tupal / De La Salle University",
+          "license": "CC BY 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+          "validationStatus": "source_label_review_pending"
+        }
+      ]
+    },
+    {
+      "id": "fsl105_cold",
+      "word": "COLD",
+      "videoUrl": "asset:assets/media/fsl105/fsl105_cold.MOV",
+      "imageUrl": "",
+      "gifUrl": "",
+      "category": "drink",
+      "difficulty": "beginner",
+      "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+      "license": "CC BY 4.0",
+      "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+      "validationStatus": "source_label_review_pending",
+      "supportedRecognitionMode": "words",
+      "mediaRefs": [
+        {
+          "mediaId": "fsl105_cold_video_01",
+          "signId": "fsl105_cold",
+          "mediaType": "video",
+          "assetPath": "assets/media/fsl105/fsl105_cold.MOV",
+          "sourceArchivePath": "clips/96/14.MOV",
+          "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+          "creator": "Isaiah Jassen Tupal / De La Salle University",
+          "license": "CC BY 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+          "validationStatus": "source_label_review_pending"
+        }
+      ]
+    },
+    {
+      "id": "fsl105_juice",
+      "word": "JUICE",
+      "videoUrl": "asset:assets/media/fsl105/fsl105_juice.MOV",
+      "imageUrl": "",
+      "gifUrl": "",
+      "category": "drink",
+      "difficulty": "beginner",
+      "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+      "license": "CC BY 4.0",
+      "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+      "validationStatus": "source_label_review_pending",
+      "supportedRecognitionMode": "words",
+      "mediaRefs": [
+        {
+          "mediaId": "fsl105_juice_video_01",
+          "signId": "fsl105_juice",
+          "mediaType": "video",
+          "assetPath": "assets/media/fsl105/fsl105_juice.MOV",
+          "sourceArchivePath": "clips/97/18.MOV",
+          "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+          "creator": "Isaiah Jassen Tupal / De La Salle University",
+          "license": "CC BY 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+          "validationStatus": "source_label_review_pending"
+        }
+      ]
+    },
+    {
+      "id": "fsl105_milk",
+      "word": "MILK",
+      "videoUrl": "asset:assets/media/fsl105/fsl105_milk.MOV",
+      "imageUrl": "",
+      "gifUrl": "",
+      "category": "drink",
+      "difficulty": "beginner",
+      "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+      "license": "CC BY 4.0",
+      "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+      "validationStatus": "source_label_review_pending",
+      "supportedRecognitionMode": "words",
+      "mediaRefs": [
+        {
+          "mediaId": "fsl105_milk_video_01",
+          "signId": "fsl105_milk",
+          "mediaType": "video",
+          "assetPath": "assets/media/fsl105/fsl105_milk.MOV",
+          "sourceArchivePath": "clips/98/1.MOV",
+          "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+          "creator": "Isaiah Jassen Tupal / De La Salle University",
+          "license": "CC BY 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+          "validationStatus": "source_label_review_pending"
+        }
+      ]
+    },
+    {
+      "id": "fsl105_coffee",
+      "word": "COFFEE",
+      "videoUrl": "asset:assets/media/fsl105/fsl105_coffee.MOV",
+      "imageUrl": "",
+      "gifUrl": "",
+      "category": "drink",
+      "difficulty": "beginner",
+      "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+      "license": "CC BY 4.0",
+      "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+      "validationStatus": "source_label_review_pending",
+      "supportedRecognitionMode": "words",
+      "mediaRefs": [
+        {
+          "mediaId": "fsl105_coffee_video_01",
+          "signId": "fsl105_coffee",
+          "mediaType": "video",
+          "assetPath": "assets/media/fsl105/fsl105_coffee.MOV",
+          "sourceArchivePath": "clips/99/2.MOV",
+          "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+          "creator": "Isaiah Jassen Tupal / De La Salle University",
+          "license": "CC BY 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+          "validationStatus": "source_label_review_pending"
+        }
+      ]
+    },
+    {
+      "id": "fsl105_tea",
+      "word": "TEA",
+      "videoUrl": "asset:assets/media/fsl105/fsl105_tea.MOV",
+      "imageUrl": "",
+      "gifUrl": "",
+      "category": "drink",
+      "difficulty": "beginner",
+      "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+      "license": "CC BY 4.0",
+      "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+      "validationStatus": "source_label_review_pending",
+      "supportedRecognitionMode": "words",
+      "mediaRefs": [
+        {
+          "mediaId": "fsl105_tea_video_01",
+          "signId": "fsl105_tea",
+          "mediaType": "video",
+          "assetPath": "assets/media/fsl105/fsl105_tea.MOV",
+          "sourceArchivePath": "clips/100/19.MOV",
+          "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+          "creator": "Isaiah Jassen Tupal / De La Salle University",
+          "license": "CC BY 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+          "validationStatus": "source_label_review_pending"
+        }
+      ]
+    },
+    {
+      "id": "fsl105_beer",
+      "word": "BEER",
+      "videoUrl": "asset:assets/media/fsl105/fsl105_beer.MOV",
+      "imageUrl": "",
+      "gifUrl": "",
+      "category": "drink",
+      "difficulty": "beginner",
+      "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+      "license": "CC BY 4.0",
+      "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+      "validationStatus": "source_label_review_pending",
+      "supportedRecognitionMode": "words",
+      "mediaRefs": [
+        {
+          "mediaId": "fsl105_beer_video_01",
+          "signId": "fsl105_beer",
+          "mediaType": "video",
+          "assetPath": "assets/media/fsl105/fsl105_beer.MOV",
+          "sourceArchivePath": "clips/101/4.MOV",
+          "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+          "creator": "Isaiah Jassen Tupal / De La Salle University",
+          "license": "CC BY 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+          "validationStatus": "source_label_review_pending"
+        }
+      ]
+    },
+    {
+      "id": "fsl105_wine",
+      "word": "WINE",
+      "videoUrl": "asset:assets/media/fsl105/fsl105_wine.MOV",
+      "imageUrl": "",
+      "gifUrl": "",
+      "category": "drink",
+      "difficulty": "beginner",
+      "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+      "license": "CC BY 4.0",
+      "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+      "validationStatus": "source_label_review_pending",
+      "supportedRecognitionMode": "words",
+      "mediaRefs": [
+        {
+          "mediaId": "fsl105_wine_video_01",
+          "signId": "fsl105_wine",
+          "mediaType": "video",
+          "assetPath": "assets/media/fsl105/fsl105_wine.MOV",
+          "sourceArchivePath": "clips/102/3.MOV",
+          "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+          "creator": "Isaiah Jassen Tupal / De La Salle University",
+          "license": "CC BY 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+          "validationStatus": "source_label_review_pending"
+        }
+      ]
+    },
+    {
+      "id": "fsl105_sugar",
+      "word": "SUGAR",
+      "videoUrl": "asset:assets/media/fsl105/fsl105_sugar.MOV",
+      "imageUrl": "",
+      "gifUrl": "",
+      "category": "drink",
+      "difficulty": "beginner",
+      "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+      "license": "CC BY 4.0",
+      "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+      "validationStatus": "source_label_review_pending",
+      "supportedRecognitionMode": "words",
+      "mediaRefs": [
+        {
+          "mediaId": "fsl105_sugar_video_01",
+          "signId": "fsl105_sugar",
+          "mediaType": "video",
+          "assetPath": "assets/media/fsl105/fsl105_sugar.MOV",
+          "sourceArchivePath": "clips/103/13.MOV",
+          "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+          "creator": "Isaiah Jassen Tupal / De La Salle University",
+          "license": "CC BY 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+          "validationStatus": "source_label_review_pending"
+        }
+      ]
+    },
+    {
+      "id": "fsl105_no_sugar",
+      "word": "NO SUGAR",
+      "videoUrl": "asset:assets/media/fsl105/fsl105_no_sugar.MOV",
+      "imageUrl": "",
+      "gifUrl": "",
+      "category": "drink",
+      "difficulty": "beginner",
+      "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+      "license": "CC BY 4.0",
+      "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+      "validationStatus": "source_label_review_pending",
+      "supportedRecognitionMode": "words",
+      "mediaRefs": [
+        {
+          "mediaId": "fsl105_no_sugar_video_01",
+          "signId": "fsl105_no_sugar",
+          "mediaType": "video",
+          "assetPath": "assets/media/fsl105/fsl105_no_sugar.MOV",
+          "sourceArchivePath": "clips/104/12.MOV",
+          "sourceUrl": "https://data.mendeley.com/datasets/48y2y99mb9/2",
+          "creator": "Isaiah Jassen Tupal / De La Salle University",
+          "license": "CC BY 4.0",
+          "licenseUrl": "https://creativecommons.org/licenses/by/4.0/",
+          "attribution": "Isaiah Jassen Tupal / De La Salle University; FSL-105 dataset, Mendeley Data v2",
+          "validationStatus": "source_label_review_pending"
+        }
+      ]
+    }
+  ],
+  "lessons": [],
+  "grammarExercises": []
+}

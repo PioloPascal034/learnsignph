@@ -49,14 +49,20 @@ class _RegisterScreenState extends State<RegisterScreen> {
       // registration route so it cannot remain above the signed-in shell.
       Navigator.of(context).popUntil((route) => route.isFirst);
     } on FirebaseAuthException catch (e) {
+      if (!mounted) return;
       setState(() => _errorMessage = e.message ?? 'Registration failed.');
-    } on Object catch (_) {
-      if (FirebaseAuth.instance.currentUser != null) {
-        await FirebaseAuth.instance.signOut();
-      }
+    } on Object catch (error) {
+      debugPrint('[Auth] registration/profile error: $error');
       if (mounted) {
-        setState(() => _errorMessage =
-            'Account was created, but the profile could not be saved. Please try again.');
+        if (FirebaseAuth.instance.currentUser != null) {
+          ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
+            content: Text('Signed in. Your profile could not be saved yet.'),
+          ));
+          Navigator.of(context).popUntil((route) => route.isFirst);
+        } else {
+          setState(
+              () => _errorMessage = 'Registration failed. Please try again.');
+        }
       }
     } finally {
       if (mounted) setState(() => _isLoading = false);

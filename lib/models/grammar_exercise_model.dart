@@ -42,6 +42,10 @@ class GrammarExerciseModel {
             .every((entry) => entry.value == entry.key + 1);
   }
 
+  String get learnerPrompt => promptText
+      .replaceFirst(RegExp(r'^draft review:\s*', caseSensitive: false), '')
+      .trim();
+
   List<String> get correctSignOrder {
     final orderedTiles = [...tiles]
       ..sort((a, b) => a.correctPosition.compareTo(b.correctPosition));

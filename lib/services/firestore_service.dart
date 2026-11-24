@@ -1,4 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import '../models/lesson_model.dart';
 import '../models/lesson_activity_progress_model.dart';
 import '../models/sign_model.dart';
@@ -123,19 +125,61 @@ class FirestoreService {
     });
   }
 
+  /// Awards the one-time sign-view reward after the learner keeps a sign open.
+  /// The viewedSignIds array makes the reward idempotent across retries.
+  Future<bool> awardSignViewPoints(String userId, String signId) async {
+    final userRef = _db.collection('users').doc(userId);
+    return _db.runTransaction((transaction) async {
+      final snapshot = await transaction.get(userRef);
+      final data = snapshot.data() ?? <String, dynamic>{};
+      final viewed = ((data['viewedSignIds'] as List<dynamic>?) ?? const [])
+          .map((item) => item.toString())
+          .toSet();
+      if (viewed.contains(signId)) return false;
+
+      final points = ((data['points'] ?? 0) as num).toInt() + 30;
+      viewed.add(signId);
+      transaction.set(
+        userRef,
+        {
+          'uid': userId,
+          'points': points,
+          'level': calculateLevelFromPoints(points),
+          'viewedSignIds': viewed.toList(),
+          'updatedAt': DateTime.now().toIso8601String(),
+        },
+        SetOptions(merge: true),
+      );
+      return true;
+    });
+  }
+
   // ---------- Lessons ----------
 
   /// Streams all lessons, optionally filtered by category.
   /// Using a Stream (not a one-time get) so the lesson list updates live
   /// if an Admin edits content while the app is open.
-  Stream<List<LessonModel>> streamLessons({String? category}) {
+  Stream<List<LessonModel>> streamLessons({String? category}) async* {
     Query<Map<String, dynamic>> query = _db.collection('lessons');
     if (category != null && category.isNotEmpty) {
       query = query.where('category', isEqualTo: category);
     }
-    return query.snapshots().map((snapshot) => snapshot.docs
-        .map((doc) => LessonModel.fromMap(doc.id, doc.data()))
-        .toList());
+    debugPrint('[Lessons] project=${_db.app.options.projectId} '
+        'path=lessons category=${category ?? 'all'} '
+        'authenticated=${FirebaseAuth.instance.currentUser != null}');
+    try {
+      await for (final snapshot
+          in query.snapshots(includeMetadataChanges: true)) {
+        debugPrint('[Lessons] count=${snapshot.docs.length} '
+            'fromCache=${snapshot.metadata.isFromCache}');
+        yield snapshot.docs
+            .map((doc) => LessonModel.fromMap(doc.id, doc.data()))
+            .toList();
+      }
+    } catch (error) {
+      debugPrint('[Lessons] query failed: $error');
+      rethrow;
+    }
   }
 
   String newLessonId() => _db.collection('lessons').doc().id;
@@ -172,16 +216,28 @@ class FirestoreService {
 
   /// Fetches full SignModel objects for a list of sign IDs.
   /// Firestore has no "WHERE id IN [...]" join, so this uses whereIn,
-  /// which supports up to 30 IDs per query (fine for a single lesson's
-  /// sign list; batch this in chunks of 30 if a lesson ever needs more).
+  /// which supports a maximum of 30 IDs per query. Larger lessons are split
+  /// into batches and returned in the same order as the lesson references.
   Future<List<SignModel>> getSignsByIds(List<String> signIds) async {
     if (signIds.isEmpty) return [];
-    final snapshot = await _db
-        .collection('signs')
-        .where(FieldPath.documentId, whereIn: signIds)
-        .get();
-    return snapshot.docs
-        .map((doc) => SignModel.fromMap(doc.id, doc.data()))
+    final uniqueIds = signIds.toSet().toList();
+    final signsById = <String, SignModel>{};
+
+    for (var start = 0; start < uniqueIds.length; start += 30) {
+      final end = (start + 30).clamp(0, uniqueIds.length);
+      final batch = uniqueIds.sublist(start, end);
+      final snapshot = await _db
+          .collection('signs')
+          .where(FieldPath.documentId, whereIn: batch)
+          .get();
+      for (final doc in snapshot.docs) {
+        signsById[doc.id] = SignModel.fromMap(doc.id, doc.data());
+      }
+    }
+
+    return signIds
+        .map((signId) => signsById[signId])
+        .whereType<SignModel>()
         .toList();
   }
 
@@ -223,6 +279,16 @@ class FirestoreService {
     required double score,
     required bool passed,
   }) async {
+    final authUser = FirebaseAuth.instance.currentUser;
+    if (authUser == null || authUser.uid != userId) {
+      throw StateError('Sign in to save activity progress.');
+    }
+    await createUserProfile(
+      userId,
+      email: authUser.email ?? 'learner@learnsign.local',
+      displayName: authUser.displayName,
+    );
+
     final lessonProgressRef = _db
         .collection('users')
         .doc(userId)
@@ -234,6 +300,8 @@ class FirestoreService {
     await _db.runTransaction((transaction) async {
       final activitySnapshot = await transaction.get(activityRef);
       final lessonSnapshot = await transaction.get(lessonProgressRef);
+      final userSnapshot =
+          await transaction.get(_db.collection('users').doc(userId));
       final previous = activitySnapshot.data();
       final previousScore = (previous?['bestScore'] as num?)?.toDouble() ?? 0;
       final previousStatus = previous?['status']?.toString() ?? 'inProgress';
@@ -266,6 +334,21 @@ class FirestoreService {
         },
         SetOptions(merge: true),
       );
+
+      if (passed && previousStatus != 'completed') {
+        final userData = userSnapshot.data() ?? <String, dynamic>{};
+        final points = ((userData['points'] ?? 0) as num).toInt() + 100;
+        transaction.set(
+          _db.collection('users').doc(userId),
+          {
+            'uid': userId,
+            'points': points,
+            'level': calculateLevelFromPoints(points),
+            'updatedAt': DateTime.now().toIso8601String(),
+          },
+          SetOptions(merge: true),
+        );
+      }
     });
   }
 

@@ -36,8 +36,11 @@ class _SignVideoPlayerState extends State<SignVideoPlayer> {
   Future<void> _initializePlayer() async {
     final initializationId = ++_initializationId;
     final previousController = _videoController;
-    final controller =
-        VideoPlayerController.networkUrl(Uri.parse(widget.videoUrl));
+    final controller = widget.videoUrl.startsWith('asset:')
+        ? VideoPlayerController.asset(
+            widget.videoUrl.substring('asset:'.length),
+          )
+        : VideoPlayerController.networkUrl(Uri.parse(widget.videoUrl));
     _videoController = controller;
 
     try {
@@ -150,7 +153,7 @@ class _SignVideoPlayerState extends State<SignVideoPlayer> {
       child: ClipRRect(
         borderRadius: BorderRadius.circular(12),
         child: FittedBox(
-          fit: BoxFit.cover,
+          fit: BoxFit.contain,
           child: SizedBox(
             width: videoWidth,
             height: videoHeight,

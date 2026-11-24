@@ -27,6 +27,7 @@ import java.nio.ByteBuffer
 import java.nio.ByteOrder
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
+import java.util.concurrent.TimeUnit
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.util.ArrayDeque
@@ -38,14 +39,16 @@ class MainActivity : FlutterActivity() {
     private val inferenceExecutor: ExecutorService = Executors.newSingleThreadExecutor()
     private val mainHandler = Handler(Looper.getMainLooper())
     private val recognitionLock = Any()
+    private val modelLock = Any()
     private var handLandmarker: HandLandmarker? = null
     private var interpreter: Interpreter? = null
     private var labels: List<String> = emptyList()
-    private var recognitionMode = "vocabulary"
+    private var recognitionMode = "alphabet"
     private var loadedRecognitionMode = ""
     private val recognitionFrames = ArrayDeque<RecognitionFrame>()
     private val probabilityHistory = ArrayDeque<FloatArray>()
     private var recognitionEnabled = false
+    private var inferenceInFlight = false
     private var inferenceSequence = 0
     private var lastNoHandsMessageAt = 0L
     private var lastCollectingMessageAt = 0L
@@ -54,6 +57,7 @@ class MainActivity : FlutterActivity() {
     private var channel: MethodChannel? = null
     private var timestamp = 0L
     private var processedFrames = 0
+    private var lastPredictionLog = ""
 
     override fun configureFlutterEngine(@NonNull flutterEngine: FlutterEngine) {
         super.configureFlutterEngine(flutterEngine)
@@ -66,13 +70,15 @@ class MainActivity : FlutterActivity() {
             "startTracking" -> {
                 try {
                     ensureHandLandmarker()
-                    ensureRecognitionModel(recognitionMode)
+                    val mode = synchronized(modelLock) { recognitionMode }
+                    ensureRecognitionModel(mode)
                     synchronized(recognitionLock) {
                         recognitionEnabled = true
                         recognitionFrames.clear()
                         probabilityHistory.clear()
                         inferenceSequence = 0
                         lastCollectingMessageAt = 0
+                        inferenceInFlight = false
                     }
                     publishPrediction("collecting", "Collecting frames", 0.0, 0)
                     result.success(null)
@@ -82,16 +88,19 @@ class MainActivity : FlutterActivity() {
             }
             "setRecognitionMode" -> {
                 try {
-                    val mode = call.argument<String>("mode") ?: "vocabulary"
-                    if (mode != "vocabulary" && mode != "alphabet") {
+                    val mode = call.argument<String>("mode") ?: "words"
+                    if (mode != "words" && mode != "alphabet") {
                         result.error("INVALID_MODE", "Unsupported recognition mode.", null)
                     } else {
-                        recognitionMode = mode
-                        ensureRecognitionModel(mode)
+                        synchronized(modelLock) {
+                            recognitionMode = mode
+                            ensureRecognitionModel(mode)
+                        }
                         synchronized(recognitionLock) {
                             recognitionFrames.clear()
                             probabilityHistory.clear()
                             inferenceSequence = 0
+                            inferenceInFlight = false
                         }
                         publishPrediction("collecting", "Collecting frames", 0.0, 0)
                         result.success(null)
@@ -105,6 +114,7 @@ class MainActivity : FlutterActivity() {
                     recognitionEnabled = false
                     recognitionFrames.clear()
                     probabilityHistory.clear()
+                    inferenceInFlight = false
                 }
                 closeHandLandmarker()
                 result.success(null)
@@ -114,6 +124,7 @@ class MainActivity : FlutterActivity() {
                     recognitionFrames.clear()
                     probabilityHistory.clear()
                     inferenceSequence = 0
+                    inferenceInFlight = false
                     lastCollectingMessageAt = 0
                 }
                 publishPrediction("collecting", "Collecting frames", 0.0, 0)
@@ -158,8 +169,7 @@ class MainActivity : FlutterActivity() {
                 if (planes == null || planes.size < 3 || width <= 0 || height <= 0) {
                     result.error("INVALID_FRAME", "Frame bytes were missing.", null)
                 } else {
-                    processFrame(planes, width, height, rotation)
-                    result.success(null)
+                    processFrame(planes, width, height, rotation, result)
                 }
             }
             else -> result.notImplemented()
@@ -167,52 +177,50 @@ class MainActivity : FlutterActivity() {
     }
 
     private fun ensureHandLandmarker() {
-        if (handLandmarker != null) return
-        val baseOptions = BaseOptions.builder()
-            .setModelAssetPath("hand_landmarker.task")
-            .build()
-        val options = HandLandmarker.HandLandmarkerOptions.builder()
-            .setBaseOptions(baseOptions)
-            .setRunningMode(RunningMode.LIVE_STREAM)
-            .setNumHands(2)
-            .setMinHandDetectionConfidence(0.5f)
-            .setMinHandPresenceConfidence(0.5f)
-            .setMinTrackingConfidence(0.5f)
-            .setResultListener { result, _ ->
-                publishResult(result)
-                appendRecognitionFrame(result)
-            }
-            .setErrorListener { error ->
-                publishError(error.message ?: "MediaPipe processing failed.")
-            }
-            .build()
-        handLandmarker = HandLandmarker.createFromOptions(this, options)
+        synchronized(recognitionLock) {
+            if (handLandmarker != null) return
+            val baseOptions = BaseOptions.builder()
+                .setModelAssetPath("hand_landmarker.task")
+                .build()
+            val options = HandLandmarker.HandLandmarkerOptions.builder()
+                .setBaseOptions(baseOptions)
+                .setRunningMode(RunningMode.IMAGE)
+                .setNumHands(2)
+                .setMinHandDetectionConfidence(0.5f)
+                .setMinHandPresenceConfidence(0.5f)
+                .setMinTrackingConfidence(0.5f)
+                .build()
+            handLandmarker = HandLandmarker.createFromOptions(this, options)
+        }
     }
 
     private fun ensureRecognitionModel(mode: String) {
-        if (interpreter != null && labels.isNotEmpty() && loadedRecognitionMode == mode) return
-        interpreter?.close()
-        val modelName = if (mode == "alphabet") "alphabet_mlp.tflite" else "transactional_fsl_gru.tflite"
-        val labelName = if (mode == "alphabet") "alphabet_label_map.json" else "label_map.json"
-        val modelBytes = assets.open(modelName).use { it.readBytes() }
-        val modelBuffer = ByteBuffer.allocateDirect(modelBytes.size)
-            .order(ByteOrder.nativeOrder())
-        modelBuffer.put(modelBytes)
-        modelBuffer.rewind()
-        interpreter = Interpreter(modelBuffer)
+        synchronized(modelLock) {
+            if (interpreter != null && labels.isNotEmpty() && loadedRecognitionMode == mode) return
+            interpreter?.close()
+            val modelName = if (mode == "alphabet") "alphabet_mlp.tflite" else "transactional_fsl_gru.tflite"
+            val labelName = if (mode == "alphabet") "alphabet_label_map.json" else "label_map.json"
+            val modelBytes = assets.open(modelName).use { it.readBytes() }
+            val modelBuffer = ByteBuffer.allocateDirect(modelBytes.size)
+                .order(ByteOrder.nativeOrder())
+            modelBuffer.put(modelBytes)
+            modelBuffer.rewind()
+            interpreter = Interpreter(modelBuffer)
 
-        val labelJson = assets.open(labelName).bufferedReader().use { it.readText() }
-        val json = JSONObject(labelJson)
-        val parsed = MutableList(json.length()) { "Unknown" }
-        json.keys().forEach { label -> parsed[json.getInt(label)] = label }
-        labels = parsed
-        loadedRecognitionMode = mode
-        val inputShape = if (mode == "alphabet") "[1,63]" else "[1,75,126]"
-        Log.i("LearnSignPH", "Recognition model loaded: mode=$mode input=$inputShape labels=${labels.size}")
+            val labelJson = assets.open(labelName).bufferedReader().use { it.readText() }
+            val json = JSONObject(labelJson)
+            val parsed = MutableList(json.length()) { "Unknown" }
+            json.keys().forEach { label -> parsed[json.getInt(label)] = label }
+            labels = parsed
+            loadedRecognitionMode = mode
+            val inputShape = if (mode == "alphabet") "[1,63]" else "[1,75,126]"
+            Log.i("LearnSignPH", "Recognition model loaded: mode=$mode input=$inputShape labels=${labels.size}")
+        }
     }
 
     private fun appendRecognitionFrame(result: HandLandmarkerResult) {
-        val features = normalizedRecognitionFeatures(result)
+        val mode = synchronized(modelLock) { recognitionMode }
+        val features = normalizedRecognitionFeatures(result, mode)
         if (features == null) {
             synchronized(recognitionLock) {
                 recognitionFrames.clear()
@@ -235,35 +243,56 @@ class MainActivity : FlutterActivity() {
             while (recognitionFrames.size > 75) recognitionFrames.removeFirst()
             frameCount = recognitionFrames.size
             inferenceSequence += 1
-            val requiredFrames = if (recognitionMode == "alphabet") 1 else 75
-            val cadence = if (recognitionMode == "alphabet") 3 else 5
+            val requiredFrames = if (mode == "alphabet") 1 else 75
+            val cadence = if (mode == "alphabet") 3 else 5
             if (frameCount >= requiredFrames && inferenceSequence % cadence == 0) {
                 snapshot = recognitionFrames.toList()
             }
         }
 
-        if (snapshot == null) {
+        var shouldSubmitInference = false
+        synchronized(recognitionLock) {
+            if (snapshot != null && !inferenceInFlight) {
+                inferenceInFlight = true
+                shouldSubmitInference = true
+            }
+        }
+        if (snapshot == null && mode != "alphabet") {
             val now = System.currentTimeMillis()
             if (now - lastCollectingMessageAt > 250) {
                 lastCollectingMessageAt = now
                 publishPrediction("collecting", "Collecting frames", 0.0, frameCount)
             }
-        } else {
-            inferenceExecutor.execute { runRecognition(snapshot!!) }
+        } else if (shouldSubmitInference) {
+            try {
+                inferenceExecutor.execute {
+                    try {
+                        runRecognition(snapshot!!, mode)
+                    } finally {
+                        synchronized(recognitionLock) { inferenceInFlight = false }
+                    }
+                }
+            } catch (error: RuntimeException) {
+                synchronized(recognitionLock) { inferenceInFlight = false }
+                Log.w("LearnSignPH", "Could not schedule recognition inference", error)
+            }
         }
     }
 
-    private fun normalizedRecognitionFeatures(result: HandLandmarkerResult): FloatArray? {
-        val output = FloatArray(if (recognitionMode == "alphabet") 63 else 126)
+    private fun normalizedRecognitionFeatures(
+        result: HandLandmarkerResult,
+        mode: String,
+    ): FloatArray? {
+        val output = FloatArray(if (mode == "alphabet") 63 else 126)
         val assigned = BooleanArray(2)
         var detected = false
-        val selectedAlphabetHand = if (recognitionMode == "alphabet") {
+        val selectedAlphabetHand = if (mode == "alphabet") {
             result.landmarks().indices.maxByOrNull { index ->
                 result.handedness().getOrNull(index)?.firstOrNull()?.score() ?: 0f
             } ?: 0
         } else -1
         result.landmarks().forEachIndexed { index, landmarks ->
-            if (recognitionMode == "alphabet" && index != selectedAlphabetHand) {
+            if (mode == "alphabet" && index != selectedAlphabetHand) {
                 return@forEachIndexed
             }
             if (landmarks.size < 21) return@forEachIndexed
@@ -274,7 +303,7 @@ class MainActivity : FlutterActivity() {
                 category == "right" -> 1
                 else -> -1
             }
-            if (recognitionMode == "alphabet") {
+            if (mode == "alphabet") {
                 slot = 0
             } else if (slot !in 0..1 || assigned[slot]) {
                 slot = assigned.indexOfFirst { !it }
@@ -298,7 +327,9 @@ class MainActivity : FlutterActivity() {
             if (scale <= 1e-6f) return@forEachIndexed
             val offset = slot * 63
             centered.forEachIndexed { landmarkIndex, point ->
-                output[offset + landmarkIndex * 3] = point[0] / scale
+                // Match prepare_alphabet_dataset.py and inference_config.json.
+                val canonicalX = if (mode == "alphabet" && category == "left") -point[0] else point[0]
+                output[offset + landmarkIndex * 3] = canonicalX / scale
                 output[offset + landmarkIndex * 3 + 1] = point[1] / scale
                 output[offset + landmarkIndex * 3 + 2] = point[2] / scale
             }
@@ -309,22 +340,29 @@ class MainActivity : FlutterActivity() {
     private fun norm(point: FloatArray): Float =
         sqrt(point[0] * point[0] + point[1] * point[1] + point[2] * point[2])
 
-    private fun runRecognition(frames: List<RecognitionFrame>) {
+    private fun runRecognition(frames: List<RecognitionFrame>, mode: String) {
         try {
-            val activeInterpreter = interpreter ?: return
-            val input: Any = if (recognitionMode == "alphabet") {
-                Array(1) { frames.last().features }
-            } else {
-                Array(1) { Array(75) { index -> frames[index].features } }
+            val outputAndLabels = synchronized(modelLock) {
+                if (loadedRecognitionMode != mode) return
+                val activeInterpreter = interpreter ?: return
+                val currentLabels = labels
+                val input: Any = if (mode == "alphabet") {
+                    Array(1) { frames.last().features }
+                } else {
+                    Array(1) { Array(75) { index -> frames[index].features } }
+                }
+                val output = Array(1) { FloatArray(currentLabels.size) }
+                activeInterpreter.run(input, output)
+                output[0] to currentLabels
             }
-            val output = Array(1) { FloatArray(labels.size) }
-            activeInterpreter.run(input, output)
+            val output = outputAndLabels.first
+            val currentLabels = outputAndLabels.second
 
             synchronized(recognitionLock) {
-                probabilityHistory.addLast(output[0].copyOf())
+                probabilityHistory.addLast(output.copyOf())
                 while (probabilityHistory.size > 3) probabilityHistory.removeFirst()
             }
-            val averaged = FloatArray(labels.size)
+            val averaged = FloatArray(currentLabels.size)
             synchronized(recognitionLock) {
                 probabilityHistory.forEach { probabilities ->
                     probabilities.forEachIndexed { index, value -> averaged[index] += value }
@@ -334,8 +372,8 @@ class MainActivity : FlutterActivity() {
             averaged.indices.forEach { averaged[it] /= historySize }
             val bestIndex = averaged.indices.maxByOrNull { averaged[it] } ?: return
             val confidence = averaged[bestIndex]
-            val label = if (confidence >= 0.65f) labels[bestIndex] else "Unknown"
-            publishPrediction("recognizing", label, confidence.toDouble(), 75)
+            val label = if (confidence >= 0.65f) currentLabels[bestIndex] else "Unknown"
+            publishPrediction("recognizing", label, confidence.toDouble(), if (mode == "alphabet") 1 else 75)
         } catch (error: Exception) {
             Log.e("LearnSignPH", "Recognition inference failed", error)
             publishError(error.message ?: "Recognition inference failed.")
@@ -343,6 +381,11 @@ class MainActivity : FlutterActivity() {
     }
 
     private fun publishPrediction(state: String, label: String, confidence: Double, frames: Int) {
+        val diagnostic = "$state:$label"
+        if (diagnostic != lastPredictionLog) {
+            lastPredictionLog = diagnostic
+            Log.i("LearnSignPH", "Prediction state=$state label=$label confidence=$confidence frames=$frames")
+        }
         mainHandler.post {
             channel?.invokeMethod("onPrediction", mapOf(
                 "state" to state,
@@ -353,21 +396,29 @@ class MainActivity : FlutterActivity() {
         }
     }
 
-    private fun processFrame(planes: List<Any>, width: Int, height: Int, rotation: Int) {
-        executor.execute {
+    private fun processFrame(
+        planes: List<Any>,
+        width: Int,
+        height: Int,
+        rotation: Int,
+        result: MethodChannel.Result,
+    ) {
+        try {
+            executor.execute {
+                var failure: Exception? = null
             try {
                 ensureHandLandmarker()
                 val bytes = yuv420ToJpeg(planes, width, height)
                 val decoded = BitmapFactory.decodeByteArray(bytes, 0, bytes.size)
-                    ?: run {
-                        publishError("Camera frame could not be decoded.")
-                        Log.w("LearnSignPH", "Unable to decode camera frame (${bytes.size} bytes)")
-                        return@execute
-                    }
+                    ?: throw IllegalStateException("Camera frame could not be decoded.")
                 val bitmap = rotateBitmap(decoded, rotation)
                 val image = BitmapImageBuilder(bitmap).build()
                 timestamp = maxOf(timestamp + 1, System.currentTimeMillis())
-                handLandmarker?.detectAsync(image, timestamp)
+                val result = handLandmarker?.detect(image)
+                if (result != null) {
+                    publishResult(result)
+                    appendRecognitionFrame(result)
+                }
                 processedFrames += 1
                 if (processedFrames % 30 == 0) {
                     Log.d("LearnSignPH", "Submitted $processedFrames camera frames (${decoded.width}x${decoded.height}, rotation=$rotation)")
@@ -376,8 +427,18 @@ class MainActivity : FlutterActivity() {
                 bitmap.recycle()
             } catch (error: Exception) {
                 Log.e("LearnSignPH", "Frame processing failed", error)
-                publishError(error.message ?: "Frame processing failed.")
+                failure = error
             }
+            mainHandler.post {
+                if (failure == null) {
+                    result.success(null)
+                } else {
+                    result.error("FRAME_PROCESSING", failure?.message, null)
+                }
+            }
+            }
+        } catch (error: Exception) {
+            result.error("FRAME_QUEUE", error.message, null)
         }
     }
 
@@ -448,6 +509,9 @@ class MainActivity : FlutterActivity() {
     }
 
     private fun publishResult(result: HandLandmarkerResult) {
+        if (processedFrames % 60 == 0) {
+            Log.i("LearnSignPH", "Landmarks hands=${result.landmarks().size}")
+        }
         val hands = result.landmarks().mapIndexed { index, landmarks ->
             val handedness = result.handedness().getOrNull(index)?.firstOrNull()
             mapOf(
@@ -474,16 +538,32 @@ class MainActivity : FlutterActivity() {
     }
 
     private fun closeHandLandmarker() {
-        executor.execute {
-            handLandmarker?.close()
-            handLandmarker = null
+        if (executor.isShutdown) return
+        try {
+            executor.submit {
+                val closing = synchronized(recognitionLock) {
+                    recognitionEnabled = false
+                    val active = handLandmarker
+                    handLandmarker = null
+                    active
+                }
+                // close() may wait for callbacks that acquire recognitionLock.
+                closing?.close()
+            }.get(5, TimeUnit.SECONDS)
+        } catch (error: Exception) {
+            Log.w("LearnSignPH", "Could not synchronously close hand landmarker", error)
         }
     }
 
     override fun onDestroy() {
         closeHandLandmarker()
         executor.shutdown()
-        interpreter?.close()
+        synchronized(modelLock) {
+            interpreter?.close()
+            interpreter = null
+            labels = emptyList()
+            loadedRecognitionMode = ""
+        }
         inferenceExecutor.shutdown()
         channel?.setMethodCallHandler(null)
         super.onDestroy()

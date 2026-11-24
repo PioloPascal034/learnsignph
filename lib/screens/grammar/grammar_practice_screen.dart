@@ -109,6 +109,7 @@ class _GrammarPracticeScreenState extends State<GrammarPracticeScreen> {
   }
 
   void _placeTile(String signId, int slotIndex) {
+    if (_lastResultCorrect != null || _isSubmitting) return;
     setState(() {
       // If the target slot already holds a tile, return it to the pool first.
       final existing = _slots[slotIndex];
@@ -121,6 +122,7 @@ class _GrammarPracticeScreenState extends State<GrammarPracticeScreen> {
   }
 
   void _returnTileToPool(String signId) {
+    if (_lastResultCorrect != null || _isSubmitting) return;
     setState(() {
       final slotIndex = _slots.indexOf(signId);
       if (slotIndex != -1) _slots[slotIndex] = null;
@@ -132,7 +134,12 @@ class _GrammarPracticeScreenState extends State<GrammarPracticeScreen> {
   bool get _allSlotsFilled => _slots.every((s) => s != null);
 
   Future<void> _checkAnswer() async {
-    if (_exercise == null || !_allSlotsFilled || _isSubmitting) return;
+    if (_exercise == null ||
+        !_allSlotsFilled ||
+        _isSubmitting ||
+        _lastResultCorrect != null) {
+      return;
+    }
 
     // tiles are stored with 1-based correctPosition per the schema example.
     final correctOrder = _exercise!.correctSignOrder;
@@ -340,7 +347,7 @@ class _GrammarPracticeScreenState extends State<GrammarPracticeScreen> {
                             ),
                             const SizedBox(height: 8),
                             Text(
-                              'Arrange the signs to say: "${_exercise!.promptText}"',
+                              'Arrange the signs to complete: "${_exercise!.learnerPrompt}"',
                               style: const TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.w700,
@@ -356,7 +363,7 @@ class _GrammarPracticeScreenState extends State<GrammarPracticeScreen> {
                                   source: _exercise!.imageUrl,
                                   width: double.infinity,
                                   height: 150,
-                                  fit: BoxFit.cover,
+                                  fit: BoxFit.contain,
                                   fallback: Container(
                                     height: 150,
                                     color: AppColors.surface,
@@ -374,18 +381,6 @@ class _GrammarPracticeScreenState extends State<GrammarPracticeScreen> {
                                 style: const TextStyle(
                                   color: AppColors.textMuted,
                                   height: 1.35,
-                                ),
-                              ),
-                            ],
-                            if (_exercise!
-                                .contentValidationStatus.isNotEmpty) ...[
-                              const SizedBox(height: 8),
-                              Text(
-                                _exercise!.contentValidationStatus,
-                                style: const TextStyle(
-                                  color: AppColors.textMuted,
-                                  fontSize: 12,
-                                  fontStyle: FontStyle.italic,
                                 ),
                               ),
                             ],
@@ -462,60 +457,56 @@ class _GrammarPracticeScreenState extends State<GrammarPracticeScreen> {
                               .toList(),
                         ),
                       ),
-                      const SizedBox(height: 22),
-                      Row(
-                        children: [
-                          Expanded(
-                            child: ElevatedButton(
-                              onPressed: _isSubmitting ? null : _resetAttempt,
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: Colors.white,
-                                foregroundColor: AppColors.textDark,
-                                elevation: 0,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(12),
-                                  side:
-                                      const BorderSide(color: AppColors.border),
-                                ),
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 15),
+                      if (_lastResultCorrect == null) ...[
+                        const SizedBox(height: 22),
+                        SizedBox(
+                          width: double.infinity,
+                          child: ElevatedButton(
+                            onPressed: (_allSlotsFilled && !_isSubmitting)
+                                ? _checkAnswer
+                                : null,
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: AppColors.primary,
+                              foregroundColor: AppColors.card,
+                              elevation: 0,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
                               ),
-                              child: const Text('Reset'),
+                              padding: const EdgeInsets.symmetric(vertical: 15),
                             ),
+                            child: _isSubmitting
+                                ? const SizedBox(
+                                    width: 18,
+                                    height: 18,
+                                    child: CircularProgressIndicator(
+                                      strokeWidth: 2,
+                                      valueColor: AlwaysStoppedAnimation<Color>(
+                                          AppColors.card),
+                                    ),
+                                  )
+                                : const Text('Check Answer'),
                           ),
-                          const SizedBox(width: 12),
-                          Expanded(
-                            flex: 2,
-                            child: ElevatedButton(
-                              onPressed: (_allSlotsFilled && !_isSubmitting)
-                                  ? _checkAnswer
-                                  : null,
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: AppColors.primary,
-                                foregroundColor: Colors.white,
-                                elevation: 0,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(12),
-                                ),
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 15),
+                        ),
+                      ] else if (_lastResultCorrect == false) ...[
+                        const SizedBox(height: 22),
+                        SizedBox(
+                          width: double.infinity,
+                          child: ElevatedButton(
+                            onPressed: _isSubmitting ? null : _resetAttempt,
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Colors.white,
+                              foregroundColor: AppColors.textDark,
+                              elevation: 0,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(12),
+                                side: const BorderSide(color: AppColors.border),
                               ),
-                              child: _isSubmitting
-                                  ? const SizedBox(
-                                      width: 18,
-                                      height: 18,
-                                      child: CircularProgressIndicator(
-                                        strokeWidth: 2,
-                                        valueColor:
-                                            AlwaysStoppedAnimation<Color>(
-                                                Colors.white),
-                                      ),
-                                    )
-                                  : const Text('Check Answer'),
+                              padding: const EdgeInsets.symmetric(vertical: 15),
                             ),
+                            child: const Text('Restart'),
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                       const SizedBox(height: 28),
                     ],
                   ),
@@ -533,9 +524,12 @@ class _GrammarPracticeScreenState extends State<GrammarPracticeScreen> {
     final sign = placedSignId != null ? _signsById[placedSignId] : null;
 
     return DragTarget<String>(
-      onWillAcceptWithDetails: (_) => !_isSubmitting,
+      onWillAcceptWithDetails: (_) =>
+          !_isSubmitting && _lastResultCorrect == null,
       onAcceptWithDetails: (details) {
-        if (!_isSubmitting) _placeTile(details.data, index);
+        if (!_isSubmitting && _lastResultCorrect == null) {
+          _placeTile(details.data, index);
+        }
       },
       builder: (context, candidateData, rejectedData) {
         final isHovering = candidateData.isNotEmpty;
@@ -569,7 +563,8 @@ class _GrammarPracticeScreenState extends State<GrammarPracticeScreen> {
 
     return Draggable<String>(
       data: signId,
-      maxSimultaneousDrags: _isSubmitting ? 0 : null,
+      maxSimultaneousDrags:
+          _isSubmitting || _lastResultCorrect != null ? 0 : null,
       feedback: Material(
           color: Colors.transparent,
           child: Opacity(opacity: 0.85, child: tile)),

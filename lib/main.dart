@@ -10,15 +10,46 @@ import 'utils/theme.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  if (const bool.fromEnvironment('USE_FIREBASE_EMULATORS',
-      defaultValue: false)) {
+
+  // Configure Firebase endpoints before touching Auth or Firestore. This is
+  // important for emulator builds because Auth may restore a persisted
+  // production session during initialization. If that happens first, the
+  // emulator receives an invalid refresh token and Firestore remains offline.
+  const useFirebaseEmulators = bool.fromEnvironment(
+    'USE_FIREBASE_EMULATORS',
+    defaultValue: false,
+  );
+  if (useFirebaseEmulators) {
     const emulatorHost = String.fromEnvironment(
       'FIREBASE_EMULATOR_HOST',
       defaultValue: '10.0.2.2',
     );
     FirebaseAuth.instance.useAuthEmulator(emulatorHost, 9099);
     FirebaseFirestore.instance.useFirestoreEmulator(emulatorHost, 8080);
+    debugPrint('[Startup] Firebase emulator host=$emulatorHost');
+
+    // Emulator data is intentionally reset between runs. If this app was
+    // previously signed in against a different emulator session, Firebase
+    // can restore a refresh token that no longer exists and leave Firestore
+    // operating from cache. Recover only that invalid emulator session; never
+    // sign users out automatically in a production build.
+    final restoredUser = FirebaseAuth.instance.currentUser;
+    if (restoredUser != null) {
+      try {
+        await restoredUser.getIdToken(true);
+      } catch (error) {
+        final message = error.toString().toUpperCase();
+        if (message.contains('INVALID_REFRESH_TOKEN') ||
+            message.contains('USER_NOT_FOUND')) {
+          debugPrint('[Startup] clearing stale emulator auth session');
+          await FirebaseAuth.instance.signOut();
+        }
+      }
+    }
   }
+  debugPrint('[Startup] project=${Firebase.app().options.projectId} '
+      'emulators=$useFirebaseEmulators '
+      'authenticated=${FirebaseAuth.instance.currentUser != null}');
   runApp(const LearnSignPHApp());
 }
 
@@ -39,7 +70,7 @@ class LearnSignPHApp extends StatelessWidget {
 /// Routes to LessonListScreen if already logged in, otherwise LoginScreen.
 /// Increment 1 keeps this simple; a dedicated splash/onboarding flow can
 /// be layered on top later without touching this logic.
-class AuthGate extends StatelessWidget {
+class AuthGate extends StatefulWidget {
   final Stream<User?>? authStateStream;
   final WidgetBuilder authenticatedBuilder;
   final WidgetBuilder unauthenticatedBuilder;
@@ -58,9 +89,51 @@ class AuthGate extends StatelessWidget {
       const LoginScreen();
 
   @override
+  State<AuthGate> createState() => _AuthGateState();
+}
+
+class _AuthGateState extends State<AuthGate> with WidgetsBindingObserver {
+  late Stream<User?> _authState;
+
+  @override
+  void initState() {
+    super.initState();
+    _bindAuthState();
+    WidgetsBinding.instance.addObserver(this);
+  }
+
+  void _bindAuthState() {
+    _authState =
+        (widget.authStateStream ?? FirebaseAuth.instance.authStateChanges())
+            .map((user) {
+      debugPrint('[AuthGate] auth event authenticated=${user != null}');
+      return user;
+    });
+  }
+
+  @override
+  void didUpdateWidget(covariant AuthGate oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.authStateStream != widget.authStateStream) _bindAuthState();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    if (widget.authStateStream != null) return;
+    debugPrint('[AuthGate] lifecycle=${state.name} '
+        'authenticated=${FirebaseAuth.instance.currentUser != null}');
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return StreamBuilder<User?>(
-      stream: authStateStream ?? FirebaseAuth.instance.authStateChanges(),
+      stream: _authState,
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Scaffold(
@@ -82,10 +155,18 @@ class AuthGate extends StatelessWidget {
             ),
           );
         }
-        if (snapshot.hasData) {
-          return authenticatedBuilder(context);
+        if (snapshot.hasError) {
+          debugPrint('[AuthGate] stream error=${snapshot.error}');
+          final currentUser = FirebaseAuth.instance.currentUser;
+          if (currentUser != null) {
+            return widget.authenticatedBuilder(context);
+          }
+          return widget.unauthenticatedBuilder(context);
         }
-        return unauthenticatedBuilder(context);
+        if (snapshot.hasData) {
+          return widget.authenticatedBuilder(context);
+        }
+        return widget.unauthenticatedBuilder(context);
       },
     );
   }

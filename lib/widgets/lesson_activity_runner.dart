@@ -27,19 +27,24 @@ class LessonActivityRunner extends StatefulWidget {
 
 class _LessonActivityRunnerState extends State<LessonActivityRunner> {
   int _index = 0;
-  int _correctAnswers = 0;
+  int _firstPassCorrect = 0;
   bool _submitted = false;
   bool _finished = false;
   bool _isSaving = false;
   String? _answer;
   List<String> _orderedItems = [];
   final Map<String, String> _matching = {};
+  late final List<LessonActivityModel> _sessionActivities;
+  final Map<String, List<String>> _optionOrders = {};
+  final Map<String, List<String>> _matchingOrders = {};
+  final Map<String, int> _attemptCounts = {};
 
-  LessonActivityModel get _activity => widget.activities[_index];
+  LessonActivityModel get _activity => _sessionActivities[_index];
 
   @override
   void initState() {
     super.initState();
+    _sessionActivities = [...widget.activities]..shuffle();
     _resetActivity();
   }
 
@@ -47,7 +52,11 @@ class _LessonActivityRunnerState extends State<LessonActivityRunner> {
     _submitted = false;
     _answer = null;
     _orderedItems = [..._activity.items];
+    _orderedItems.shuffle();
     _matching.clear();
+    _optionOrders[_activity.id] = [..._activity.options]..shuffle();
+    _matchingOrders[_activity.id] =
+        _activity.pairs.map((pair) => pair.value).toList()..shuffle();
   }
 
   Future<void> _checkAnswer() async {
@@ -58,16 +67,19 @@ class _LessonActivityRunnerState extends State<LessonActivityRunner> {
       orderedItems: _orderedItems,
       matching: _matching,
     );
+    final attempts = _attemptCounts[_activity.id] ?? 0;
+    final firstPass = attempts == 0;
+    _attemptCounts[_activity.id] = attempts + 1;
     setState(() {
       _submitted = true;
-      if (correct) _correctAnswers++;
+      if (correct && firstPass) _firstPassCorrect++;
     });
     if (widget.onAttempt != null) {
       setState(() => _isSaving = true);
       try {
         await widget.onAttempt!(
           _activity,
-          correct ? 100 : 0,
+          correct ? (firstPass ? 100 : 50) : 0,
           correct,
         );
       } finally {
@@ -78,10 +90,10 @@ class _LessonActivityRunnerState extends State<LessonActivityRunner> {
 
   void _nextActivity() {
     if (!_submitted) return;
-    if (_index == widget.activities.length - 1) {
+    if (_index == _sessionActivities.length - 1) {
       final score = LessonActivityEngine.score(
-        correct: _correctAnswers,
-        total: widget.activities.length,
+        correct: _firstPassCorrect,
+        total: _sessionActivities.length,
       );
       setState(() => _finished = true);
       widget.onCompleted?.call(score);
@@ -103,7 +115,7 @@ class _LessonActivityRunnerState extends State<LessonActivityRunner> {
     if (_finished) return _buildSummary();
 
     final activity = _activity;
-    final progress = (_index + 1) / widget.activities.length;
+    final progress = (_index + 1) / _sessionActivities.length;
     final correct = _submitted &&
         LessonActivityEngine.isCorrect(
           activity,
@@ -128,7 +140,7 @@ class _LessonActivityRunnerState extends State<LessonActivityRunner> {
               children: [
                 const Expanded(
                   child: Text(
-                    'GUIDED PRACTICE',
+                    'ACTIVITY',
                     style: TextStyle(
                       color: AppColors.textMuted,
                       fontSize: 12,
@@ -137,7 +149,7 @@ class _LessonActivityRunnerState extends State<LessonActivityRunner> {
                     ),
                   ),
                 ),
-                Text('${_index + 1}/${widget.activities.length}'),
+                Text('${_index + 1}/${_sessionActivities.length}'),
               ],
             ),
             const SizedBox(height: 8),
@@ -207,9 +219,9 @@ class _LessonActivityRunnerState extends State<LessonActivityRunner> {
                             child: CircularProgressIndicator(strokeWidth: 2),
                           )
                         : Text(_submitted
-                            ? (_index == widget.activities.length - 1
+                            ? (_index == _sessionActivities.length - 1
                                 ? 'Finish'
-                                : 'Next activity')
+                                : (correct ? 'Next Question' : 'Next Question'))
                             : 'Check answer'),
                   ),
                 ),
@@ -229,11 +241,11 @@ class _LessonActivityRunnerState extends State<LessonActivityRunner> {
           children: [
             _ActivityMedia(activity: activity),
             const SizedBox(height: 12),
-            _buildOptions(activity.options),
+            _buildOptions(activity.id, activity.options),
           ],
         );
       case LessonActivityType.conversation:
-        return _buildOptions(activity.options);
+        return _buildOptions(activity.id, activity.options);
       case LessonActivityType.ordering:
         return _buildOrdering(activity);
       case LessonActivityType.matching:
@@ -243,11 +255,12 @@ class _LessonActivityRunnerState extends State<LessonActivityRunner> {
     }
   }
 
-  Widget _buildOptions(List<String> options) {
+  Widget _buildOptions(String activityId, List<String> options) {
+    final orderedOptions = _optionOrders[activityId] ?? options;
     return Wrap(
       spacing: 8,
       runSpacing: 8,
-      children: options
+      children: orderedOptions
           .map(
             (option) => ChoiceChip(
               label: Text(option),
@@ -285,7 +298,8 @@ class _LessonActivityRunnerState extends State<LessonActivityRunner> {
   }
 
   Widget _buildMatching(LessonActivityModel activity) {
-    final rightOptions = activity.pairs.map((pair) => pair.value).toList();
+    final rightOptions = _matchingOrders[activity.id] ??
+        (activity.pairs.map((pair) => pair.value).toList()..shuffle());
     return Column(
       children: activity.pairs
           .map(
@@ -319,8 +333,8 @@ class _LessonActivityRunnerState extends State<LessonActivityRunner> {
 
   Widget _buildSummary() {
     final score = LessonActivityEngine.score(
-      correct: _correctAnswers,
-      total: widget.activities.length,
+      correct: _firstPassCorrect,
+      total: _sessionActivities.length,
     );
     return Card(
       elevation: 0,

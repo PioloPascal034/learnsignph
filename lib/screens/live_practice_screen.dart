@@ -1,10 +1,9 @@
-import 'dart:async';
-import 'dart:convert';
-
 import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import '../utils/theme.dart';
+
+const _livePrimaryText = Color(0xFFE7F0F7);
+const _liveMutedText = Color(0xFFB8CAD8);
 
 class LivePracticeScreen extends StatefulWidget {
   final bool isActive;
@@ -25,111 +24,24 @@ class _LivePracticeScreenState extends State<LivePracticeScreen>
   int _initializationToken = 0;
   bool _isInitializing = false;
   bool _isProcessingFrame = false;
-  bool _isTracking = true;
   String? _errorMessage;
-  List<DetectedHand> _hands = const [];
-  List<String> _availableSigns = const [];
-  String? _targetSign;
-  String _recognitionMode = 'vocabulary';
-  String _guidedFeedback = 'Select a target sign to begin practice.';
-  int _consistentTargetPredictions = 0;
+  final ValueNotifier<List<DetectedHand>> _handsNotifier =
+      ValueNotifier(const []);
+
+  String _recognitionMode = 'alphabet';
   String _recognitionState = 'collecting';
-  String _predictionLabel = 'Collecting frames';
+  String _predictionLabel = 'Waiting for a sign';
   double _predictionConfidence = 0;
-  int _recognitionFrames = 0;
-  bool _evaluationMode = false;
-  Timer? _evaluationTimer;
-  DateTime? _evaluationStartedAt;
-  final List<_EvaluationSample> _evaluationSamples = [];
-  final List<AlphabetEvaluationRecord> _evaluationRecords = [];
-  AlphabetEvaluationRecord? _lastEvaluationRecord;
-  String? _evaluationMessage;
+  String _guidedFeedback =
+      'Recognition is continuous while the camera is running.';
+  DateTime _lastPredictionUiUpdate = DateTime.fromMillisecondsSinceEpoch(0);
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
     _channel.setMethodCallHandler(_handleNativeMessage);
-    _loadSignLabels(_recognitionMode);
-    _loadEvaluationResults();
     if (widget.isActive) _initializeCamera();
-  }
-
-  Future<void> _loadSignLabels(String mode) async {
-    try {
-      final asset = mode == 'alphabet'
-          ? 'assets/ml_models/alphabet_label_map.json'
-          : 'assets/ml_models/label_map.json';
-      final raw = await rootBundle.loadString(asset);
-      final decoded = Map<String, dynamic>.from(jsonDecode(raw) as Map);
-      final labels = decoded.entries.toList()
-        ..sort((a, b) => (a.value as num).compareTo(b.value as num));
-      if (!mounted) return;
-      setState(() {
-        _availableSigns = labels.map((entry) => entry.key).toList();
-        _targetSign ??= _availableSigns.isEmpty ? null : _availableSigns.first;
-      });
-    } catch (_) {
-      if (!mounted) return;
-      setState(() {
-        _availableSigns = mode == 'alphabet'
-            ? const [
-                'A',
-                'B',
-                'C',
-                'D',
-                'E',
-                'F',
-                'G',
-                'H',
-                'I',
-                'K',
-                'L',
-                'M',
-                'N',
-                'O',
-                'P',
-                'Q',
-                'R',
-                'S',
-                'T',
-                'U',
-                'V',
-                'W',
-                'X',
-                'Y',
-              ]
-            : const [
-                'AGAIN',
-                'CARD',
-                'CASH',
-                'COIN',
-                'DISCOUNT',
-                'EIGHT',
-                'FIVE',
-                'FOUR',
-                'HELLO',
-                'HOW_MANY',
-                'HOW_MUCH',
-                'NINE',
-                'NO',
-                'ONE',
-                'PLEASE',
-                'PROBLEM',
-                'RECEIPT',
-                'SEVEN',
-                'SIX',
-                'TEN',
-                'THANK_YOU',
-                'THREE',
-                'TWO',
-                'WAIT',
-                'WELCOME',
-                'YES',
-              ];
-        _targetSign ??= _availableSigns.first;
-      });
-    }
   }
 
   @override
@@ -155,18 +67,30 @@ class _LivePracticeScreenState extends State<LivePracticeScreen>
 
   Future<void> _initializeCamera() async {
     final token = ++_initializationToken;
-    setState(() {
-      _isInitializing = true;
-      _errorMessage = null;
-    });
+    if (mounted) {
+      setState(() {
+        _isInitializing = true;
+        _errorMessage = null;
+      });
+    }
+
     try {
       final cameras = await availableCameras();
-      if (!mounted || token != _initializationToken || cameras.isEmpty) return;
+      if (!mounted || token != _initializationToken) return;
+      if (cameras.isEmpty) {
+        setState(() {
+          _isInitializing = false;
+          _errorMessage = 'No camera is available on this device.';
+        });
+        return;
+      }
+
       final shouldSelectPreferredCamera = _cameras.isEmpty;
       _cameras = cameras;
       if (shouldSelectPreferredCamera || _cameraIndex >= cameras.length) {
         _cameraIndex = _preferredCameraIndex(cameras);
       }
+
       final controller = CameraController(
         cameras[_cameraIndex],
         ResolutionPreset.medium,
@@ -178,10 +102,13 @@ class _LivePracticeScreenState extends State<LivePracticeScreen>
         await controller.dispose();
         return;
       }
+
       _controller = controller;
       await _channel.invokeMethod<void>('startTracking');
       await controller.startImageStream(_onCameraFrame);
-      setState(() => _isInitializing = false);
+      if (mounted && token == _initializationToken) {
+        setState(() => _isInitializing = false);
+      }
     } on CameraException catch (error) {
       if (!mounted || token != _initializationToken) return;
       setState(() {
@@ -205,12 +132,13 @@ class _LivePracticeScreenState extends State<LivePracticeScreen>
 
   int _preferredCameraIndex(List<CameraDescription> cameras) {
     final front = cameras.indexWhere(
-        (camera) => camera.lensDirection == CameraLensDirection.front);
+      (camera) => camera.lensDirection == CameraLensDirection.front,
+    );
     return front >= 0 ? front : 0;
   }
 
   Future<void> _onCameraFrame(CameraImage image) async {
-    if (!_isTracking || _isProcessingFrame || _controller == null) return;
+    if (_isProcessingFrame || _controller == null) return;
     if (image.planes.length < 3) return;
     _isProcessingFrame = true;
     try {
@@ -224,257 +152,134 @@ class _LivePracticeScreenState extends State<LivePracticeScreen>
             .toList(),
         'width': image.width,
         'height': image.height,
-        'rotation': _controller!.description.sensorOrientation,
+        'rotation': _frameRotation(_controller!),
       });
     } catch (error) {
-      if (mounted) setState(() => _errorMessage = 'Tracking error: $error');
+      if (mounted) {
+        setState(() => _errorMessage = 'Tracking error: $error');
+      }
     } finally {
       _isProcessingFrame = false;
     }
   }
 
+  int _frameRotation(CameraController controller) {
+    final deviceRotation = switch (controller.value.deviceOrientation) {
+      DeviceOrientation.portraitUp => 0,
+      DeviceOrientation.landscapeLeft => 90,
+      DeviceOrientation.portraitDown => 180,
+      DeviceOrientation.landscapeRight => 270,
+    };
+    final sensorOrientation = controller.description.sensorOrientation;
+    if (controller.description.lensDirection == CameraLensDirection.front) {
+      return (sensorOrientation + deviceRotation) % 360;
+    }
+    return (sensorOrientation - deviceRotation + 360) % 360;
+  }
+
   Future<void> _handleNativeMessage(MethodCall call) async {
-    if (!mounted) return;
+    if (!mounted || !widget.isActive) return;
     if (call.method == 'onLandmarks') {
       final data = Map<String, dynamic>.from(call.arguments as Map);
       final rawHands = data['hands'] as List<dynamic>? ?? const [];
-      setState(() {
-        _hands = rawHands
-            .map((hand) =>
-                DetectedHand.fromMap(Map<String, dynamic>.from(hand as Map)))
-            .toList();
-        _errorMessage = null;
-      });
+      _handsNotifier.value = rawHands
+          .map((hand) =>
+              DetectedHand.fromMap(Map<String, dynamic>.from(hand as Map)))
+          .toList();
+      if (mounted && _errorMessage != null) {
+        setState(() => _errorMessage = null);
+      }
     } else if (call.method == 'onPrediction') {
       final data = Map<String, dynamic>.from(call.arguments as Map);
       final state = data['state']?.toString() ?? 'collecting';
       final label = data['label']?.toString() ?? 'Unknown';
       final confidence = (data['confidence'] as num?)?.toDouble() ?? 0;
-      _updateGuidedFeedback(state, label, confidence);
-      _handleEvaluationPrediction(state, label, confidence);
-      setState(() {
-        _recognitionState = state;
-        _predictionLabel = label;
-        _predictionConfidence = confidence;
-        _recognitionFrames = (data['frames'] as num?)?.toInt() ?? 0;
-      });
+      if (state != _recognitionState || label != _predictionLabel) {
+        debugPrint(
+            '[Recognition] received state=$state label=$label confidence=$confidence');
+      }
+      _processContinuousPrediction(state, label, confidence);
     } else if (call.method == 'onError') {
       setState(() => _errorMessage = call.arguments?.toString());
     }
   }
 
-  Future<void> _loadEvaluationResults() async {
-    try {
-      final raw = await _channel.invokeMethod<String>('loadEvaluationResults');
-      if (!mounted || raw == null || raw.isEmpty) return;
-      final decoded = jsonDecode(raw) as List<dynamic>;
+  void _processContinuousPrediction(
+    String state,
+    String label,
+    double confidence,
+  ) {
+    final now = DateTime.now();
+    final isConfident = state == 'recognizing' && label != 'Unknown';
+
+    if (state == 'no_hands') {
+      if (_recognitionState == state &&
+          now.difference(_lastPredictionUiUpdate).inMilliseconds < 250) {
+        return;
+      }
+      _lastPredictionUiUpdate = now;
       setState(() {
-        _evaluationRecords
-          ..clear()
-          ..addAll(decoded.map((item) => AlphabetEvaluationRecord.fromMap(
-              Map<String, dynamic>.from(item as Map))));
+        _recognitionState = state;
+        _predictionLabel = 'No hands detected';
+        _predictionConfidence = 0;
+        _guidedFeedback = 'Show one hand in the camera to begin.';
       });
-    } catch (_) {
-      // A first run has no local evaluation file yet.
-    }
-  }
-
-  void _handleEvaluationPrediction(
-      String state, String label, double confidence) {
-    if (!_evaluationMode || _recognitionMode != 'alphabet') return;
-    if (state == 'no_hands') return;
-    if (state != 'recognizing') return;
-    if (_evaluationStartedAt == null) {
-      _evaluationStartedAt = DateTime.now();
-      _evaluationSamples.clear();
-      _lastEvaluationRecord = null;
-      _evaluationTimer?.cancel();
-      _evaluationTimer =
-          Timer(const Duration(seconds: 2), _finishEvaluationAttempt);
-      _evaluationMessage = 'Collecting evaluation predictions...';
-    }
-    _evaluationSamples.add(_EvaluationSample(label, confidence));
-    if (DateTime.now().difference(_evaluationStartedAt!).inMilliseconds >=
-        2000) {
-      _finishEvaluationAttempt();
-    }
-  }
-
-  void _finishEvaluationAttempt() {
-    _evaluationTimer?.cancel();
-    _evaluationTimer = null;
-    final target = _targetSign;
-    if (target == null) return;
-    final samples = List<_EvaluationSample>.from(_evaluationSamples);
-    final validSamples = samples.where((sample) => sample.label != 'Unknown');
-    final counts = <String, int>{};
-    for (final sample in validSamples) {
-      counts[sample.label] = (counts[sample.label] ?? 0) + 1;
-    }
-    String? predicted;
-    if (counts.isNotEmpty) {
-      predicted =
-          counts.entries.reduce((a, b) => a.value >= b.value ? a : b).key;
-    }
-    final averageConfidence = samples.isEmpty
-        ? 0.0
-        : samples.map((sample) => sample.confidence).reduce((a, b) => a + b) /
-            samples.length;
-    final result = predicted == null
-        ? 'untested'
-        : predicted == target
-            ? 'match'
-            : 'mismatch';
-    final record = AlphabetEvaluationRecord(
-      targetLetter: target,
-      predictedLetter: predicted,
-      averageConfidence: averageConfidence,
-      predictionCount: samples.length,
-      result: result,
-      timestamp: DateTime.now().toUtc(),
-    );
-    if (!mounted) return;
-    setState(() {
-      _lastEvaluationRecord = record;
-      _evaluationStartedAt = null;
-      _evaluationMessage = result == 'untested'
-          ? 'Untested: no valid letter prediction was received.'
-          : result == 'match'
-              ? 'Model agreement with target. This is not proof of correct FSL execution.'
-              : 'Model predicted a different letter.';
-    });
-  }
-
-  Future<void> _toggleEvaluation(bool enabled) async {
-    if (_recognitionMode != 'alphabet') return;
-    _evaluationTimer?.cancel();
-    _evaluationStartedAt = null;
-    _evaluationSamples.clear();
-    setState(() {
-      _evaluationMode = enabled;
-      _lastEvaluationRecord = null;
-      _evaluationMessage =
-          enabled ? 'Show the target handshape to begin.' : null;
-    });
-    if (!enabled) await _resetPractice();
-  }
-
-  Future<void> _saveEvaluationResult() async {
-    final record = _lastEvaluationRecord;
-    if (record == null) return;
-    if (!_evaluationRecords.any((item) => item.timestamp == record.timestamp)) {
-      _evaluationRecords.add(record);
-    }
-    final json =
-        jsonEncode(_evaluationRecords.map((item) => item.toMap()).toList());
-    try {
-      await _channel
-          .invokeMethod<String>('saveEvaluationResults', {'json': json});
-      if (mounted) setState(() => _evaluationMessage = 'Result saved locally.');
-    } catch (error) {
-      if (mounted) {
-        setState(() => _evaluationMessage = 'Could not save result: $error');
-      }
-    }
-  }
-
-  Future<void> _exportEvaluationResults() async {
-    if (_evaluationRecords.isEmpty) return;
-    final json =
-        jsonEncode(_evaluationRecords.map((item) => item.toMap()).toList());
-    try {
-      final uri = await _channel
-          .invokeMethod<String>('exportEvaluationResults', {'json': json});
-      if (mounted) {
-        setState(() => _evaluationMessage = 'Exported evaluation JSON: $uri');
-      }
-    } catch (error) {
-      if (mounted) {
-        setState(() => _evaluationMessage = 'Export cancelled or failed.');
-      }
-    }
-  }
-
-  void _updateGuidedFeedback(String state, String label, double confidence) {
-    if (state != 'recognizing' || label == 'Unknown') {
-      _consistentTargetPredictions = 0;
-      if (state == 'no_hands') {
-        _guidedFeedback = 'No hands detected.';
-      } else if (state == 'collecting') {
-        _guidedFeedback = 'Collecting frames...';
-      } else if (state == 'recognizing') {
-        _guidedFeedback = 'Unknown or not confident.';
-      }
       return;
     }
-    if (label == _targetSign && confidence >= 0.65) {
-      _consistentTargetPredictions++;
-      _guidedFeedback = _consistentTargetPredictions >= 3
-          ? 'Target recognized provisionally.'
-          : 'Hold steady... $_consistentTargetPredictions/3 consistent predictions.';
-    } else {
-      _consistentTargetPredictions = 0;
-      _guidedFeedback =
-          'Different sign detected. Target: ${_targetSign ?? 'not selected'}.';
+
+    // Native inference already averages three predictions. Only throttle
+    // unchanged output; a new letter must be displayed immediately.
+    if (state == _recognitionState &&
+        label == _predictionLabel &&
+        now.difference(_lastPredictionUiUpdate).inMilliseconds < 150) {
+      return;
     }
+    _lastPredictionUiUpdate = now;
+    setState(() {
+      _recognitionState = state;
+      _predictionLabel = label;
+      _predictionConfidence = confidence;
+      _guidedFeedback = isConfident
+          ? 'Live prediction updated from the latest stable frames.'
+          : 'The model is not confident yet.';
+    });
   }
 
-  Future<void> _resetPractice() async {
-    _evaluationTimer?.cancel();
-    _evaluationTimer = null;
-    _evaluationStartedAt = null;
-    _evaluationSamples.clear();
-    _consistentTargetPredictions = 0;
-    setState(() {
-      _guidedFeedback = 'Collecting frames...';
-      _recognitionState = 'collecting';
-      _predictionLabel = 'Collecting frames';
-      _predictionConfidence = 0;
-      _recognitionFrames = 0;
-      _lastEvaluationRecord = null;
-      _evaluationMessage =
-          _evaluationMode ? 'Show the target handshape to begin.' : null;
-    });
+  Future<void> _resetScan() async {
+    _recognitionState = 'collecting';
+    _predictionLabel = 'Waiting for a sign';
+    _predictionConfidence = 0;
+    _guidedFeedback = _recognitionMode == 'numbers'
+        ? 'Number recognition is coming soon.'
+        : 'Recognition is continuous while the camera is running.';
+    if (mounted) setState(() {});
     try {
       await _channel.invokeMethod<void>('resetRecognition');
     } catch (_) {
-      // The camera can continue even if a reset arrives during disposal.
+      // The camera can remain active when the native recognizer is resetting.
     }
-  }
-
-  Future<void> _selectTarget(String? target) async {
-    if (target == null || target == _targetSign) return;
-    setState(() => _targetSign = target);
-    await _resetPractice();
   }
 
   Future<void> _selectMode(String? mode) async {
     if (mode == null || mode == _recognitionMode) return;
     setState(() {
       _recognitionMode = mode;
-      _targetSign = null;
-      _availableSigns = const [];
-      _evaluationMode = false;
-      _evaluationMessage = null;
     });
-    await _loadSignLabels(mode);
+    if (mode == 'numbers') {
+      await _resetScan();
+      if (mounted) setState(() {});
+      return;
+    }
     try {
-      await _channel.invokeMethod<void>('setRecognitionMode', {'mode': mode});
+      await _channel.invokeMethod<void>(
+        'setRecognitionMode',
+        {'mode': mode == 'alphabet' ? 'alphabet' : 'words'},
+      );
     } catch (_) {
       if (mounted) {
         setState(() => _errorMessage = 'Could not load the selected model.');
       }
     }
-    await _resetPractice();
-  }
-
-  Future<void> _nextSign() async {
-    if (_availableSigns.isEmpty) return;
-    final current =
-        _targetSign == null ? -1 : _availableSigns.indexOf(_targetSign!);
-    final next = _availableSigns[(current + 1) % _availableSigns.length];
-    setState(() => _targetSign = next);
-    await _resetPractice();
   }
 
   Future<void> _showAlphabetReference() async {
@@ -485,57 +290,32 @@ class _LivePracticeScreenState extends State<LivePracticeScreen>
         insetPadding: const EdgeInsets.all(12),
         child: SafeArea(
           child: SizedBox(
-            width: double.infinity,
             height: MediaQuery.sizeOf(context).height * 0.86,
             child: Column(
               children: [
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(16, 12, 8, 6),
-                  child: Row(
-                    children: [
-                      const Expanded(
-                        child: Text(
-                          'FSL Alphabet Reference',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 20,
-                            fontWeight: FontWeight.w700,
-                          ),
-                        ),
-                      ),
-                      IconButton(
-                        onPressed: () => Navigator.of(context).pop(),
-                        color: Colors.white,
-                        icon: const Icon(Icons.close),
-                        tooltip: 'Close reference',
-                      ),
-                    ],
+                ListTile(
+                  title: const Text('FSL Alphabet Reference',
+                      style: TextStyle(color: _livePrimaryText)),
+                  trailing: IconButton(
+                    onPressed: () => Navigator.of(context).pop(),
+                    color: Colors.white,
+                    icon: const Icon(Icons.close),
                   ),
                 ),
                 Expanded(
                   child: InteractiveViewer(
-                    minScale: 0.8,
-                    maxScale: 5,
-                    boundaryMargin: const EdgeInsets.all(32),
                     child: Image.asset(
                       'assets/images/fsl_alphabet_dictionary.png',
                       fit: BoxFit.contain,
-                      errorBuilder: (context, error, stackTrace) =>
-                          const Center(
-                        child: Text(
-                          'Reference image is unavailable.',
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      ),
                     ),
                   ),
                 ),
                 const Padding(
-                  padding: EdgeInsets.fromLTRB(16, 8, 16, 14),
+                  padding: EdgeInsets.all(12),
                   child: Text(
-                    '© Lassal, fingeralphabet.org · Version 3.0 Set02 · CC BY-NC-ND 4.0 · Not for sale',
+                    '© Lassal, fingeralphabet.org · CC BY-NC-ND 4.0',
                     textAlign: TextAlign.center,
-                    style: TextStyle(color: Colors.white70, fontSize: 11),
+                    style: TextStyle(color: _liveMutedText, fontSize: 11),
                   ),
                 ),
               ],
@@ -549,7 +329,7 @@ class _LivePracticeScreenState extends State<LivePracticeScreen>
   String _cameraErrorMessage(CameraException error) {
     switch (error.code) {
       case 'CameraAccessDenied':
-        return 'Camera permission was denied. Allow camera access in Android settings to use Live Practice.';
+        return 'Camera permission was denied. Allow camera access in Android settings.';
       case 'CameraAccessDeniedWithoutPrompt':
         return 'Camera permission is disabled. Enable it in Android settings.';
       default:
@@ -561,25 +341,19 @@ class _LivePracticeScreenState extends State<LivePracticeScreen>
     ++_initializationToken;
     final controller = _controller;
     _controller = null;
-    _hands = const [];
-    _recognitionState = 'collecting';
-    _predictionLabel = 'Collecting frames';
-    _predictionConfidence = 0;
-    _recognitionFrames = 0;
-    _consistentTargetPredictions = 0;
-    _guidedFeedback = 'Select a target sign to begin practice.';
-    _evaluationTimer?.cancel();
-    _evaluationTimer = null;
-    _evaluationStartedAt = null;
-    _evaluationSamples.clear();
+    _handsNotifier.value = const [];
     try {
       if (controller?.value.isStreamingImages == true) {
         await controller!.stopImageStream();
       }
       await controller?.dispose();
     } finally {
-      await _channel.invokeMethod<void>('stopTracking');
-      if (mounted) setState(() {});
+      try {
+        await _channel.invokeMethod<void>('stopTracking');
+      } on PlatformException {
+        // Native tracking may already be torn down.
+      }
+      if (mounted) setState(() => _isInitializing = false);
     }
   }
 
@@ -595,6 +369,7 @@ class _LivePracticeScreenState extends State<LivePracticeScreen>
     WidgetsBinding.instance.removeObserver(this);
     _channel.setMethodCallHandler(null);
     _disposeCamera();
+    _handsNotifier.dispose();
     super.dispose();
   }
 
@@ -604,9 +379,7 @@ class _LivePracticeScreenState extends State<LivePracticeScreen>
     if (_isInitializing) {
       return const Scaffold(
         backgroundColor: Color(0xFF1D3555),
-        body: Center(
-          child: CircularProgressIndicator(color: Colors.white),
-        ),
+        body: Center(child: CircularProgressIndicator(color: Colors.white)),
       );
     }
     if (_errorMessage != null) return _errorView(_errorMessage!);
@@ -623,25 +396,23 @@ class _LivePracticeScreenState extends State<LivePracticeScreen>
         child: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.fromLTRB(18, 18, 18, 12),
+              padding: const EdgeInsets.fromLTRB(18, 14, 12, 8),
               child: Row(
                 children: [
                   const Expanded(
-                    child: Text(
-                      'Live Hand Tracking',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 28,
-                        fontWeight: FontWeight.w800,
-                      ),
+                    child: Text('Live Practice',
+                        style: TextStyle(
+                            color: _livePrimaryText,
+                            fontSize: 27,
+                            fontWeight: FontWeight.w800)),
+                  ),
+                  if (_recognitionMode == 'alphabet')
+                    IconButton(
+                      onPressed: _showAlphabetReference,
+                      color: Colors.white,
+                      tooltip: 'Open alphabet reference',
+                      icon: const Icon(Icons.menu_book_outlined),
                     ),
-                  ),
-                  IconButton(
-                    onPressed: _showAlphabetReference,
-                    color: Colors.white,
-                    tooltip: 'Open FSL alphabet reference',
-                    icon: const Icon(Icons.menu_book_outlined),
-                  ),
                   IconButton(
                     onPressed: _switchCamera,
                     color: Colors.white,
@@ -653,167 +424,85 @@ class _LivePracticeScreenState extends State<LivePracticeScreen>
             ),
             Padding(
               padding: const EdgeInsets.fromLTRB(18, 0, 18, 10),
-              child: _TargetSignSelector(
-                signs: _availableSigns,
-                selected: _targetSign,
-                mode: _recognitionMode,
-                onModeChanged: _selectMode,
-                onChanged: _selectTarget,
-              ),
+              child: _buildModeSelector(),
             ),
-            if (_recognitionMode == 'alphabet')
-              Padding(
-                padding: const EdgeInsets.fromLTRB(18, 0, 18, 8),
-                child: Row(
-                  children: [
-                    const Expanded(
-                      child: Text('Alphabet evaluation mode',
-                          style: TextStyle(color: Colors.white70)),
-                    ),
-                    Switch(
-                      value: _evaluationMode,
-                      onChanged: _toggleEvaluation,
-                      activeThumbColor: Colors.lightGreenAccent,
-                    ),
-                  ],
-                ),
-              ),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 18),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(24),
-                  child: Stack(
-                    fit: StackFit.expand,
-                    children: [
-                      Stack(
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 18),
+              child: LayoutBuilder(
+                builder: (context, constraints) {
+                  final cameraAspect = controller.value.aspectRatio > 0
+                      ? controller.value.aspectRatio
+                      : 4 / 3;
+                  final naturalHeight = constraints.maxWidth / cameraAspect;
+                  final height = naturalHeight
+                      .clamp(180.0, MediaQuery.sizeOf(context).height * 0.42)
+                      .toDouble();
+                  return SizedBox(
+                    width: constraints.maxWidth,
+                    height: height,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(22),
+                      child: Stack(
                         fit: StackFit.expand,
                         children: [
-                          CameraPreview(controller),
-                          CustomPaint(
-                            painter: HandLandmarkPainter(
-                              hands: _hands,
-                              mirrorX: mirrorLandmarks,
+                          ColoredBox(
+                            color: Colors.black,
+                            child: Center(
+                              child: AspectRatio(
+                                aspectRatio: cameraAspect,
+                                child: Stack(
+                                  fit: StackFit.expand,
+                                  children: [
+                                    CameraPreview(controller),
+                                    ValueListenableBuilder<List<DetectedHand>>(
+                                      valueListenable: _handsNotifier,
+                                      builder: (context, hands, _) {
+                                        return CustomPaint(
+                                          painter: HandLandmarkPainter(
+                                            hands: hands,
+                                            mirrorX: mirrorLandmarks,
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                          Positioned(
+                            top: 12,
+                            left: 12,
+                            child: ValueListenableBuilder<List<DetectedHand>>(
+                              valueListenable: _handsNotifier,
+                              builder: (context, hands, _) => _StatusPill(
+                                text: hands.isEmpty
+                                    ? 'No hands detected'
+                                    : '${hands.length} hand${hands.length == 1 ? '' : 's'} detected',
+                              ),
                             ),
                           ),
                         ],
                       ),
-                      Positioned(
-                        top: 14,
-                        left: 14,
-                        child: _StatusPill(
-                          text: _isTracking
-                              ? '${_hands.length} hand${_hands.length == 1 ? '' : 's'} detected'
-                              : 'Tracking paused',
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(18, 12, 18, 0),
-              child: _RecognitionPanel(
-                state: _recognitionState,
-                label: _predictionLabel,
-                confidence: _predictionConfidence,
-                frames: _recognitionFrames,
-                requiredFrames: _recognitionMode == 'alphabet' ? 1 : 75,
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(18, 8, 18, 0),
-              child: _GuidedFeedback(
-                text: _guidedFeedback,
-                isSuccess: _consistentTargetPredictions >= 3,
-              ),
-            ),
-            if (_evaluationMode && _lastEvaluationRecord != null)
-              Padding(
-                padding: const EdgeInsets.fromLTRB(18, 6, 18, 0),
-                child: _EvaluationResultPanel(record: _lastEvaluationRecord!),
-              ),
-            if (_evaluationMode && _evaluationMessage != null)
-              Padding(
-                padding: const EdgeInsets.fromLTRB(18, 6, 18, 0),
-                child: Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(_evaluationMessage!,
-                      style: const TextStyle(color: Colors.white70)),
-                ),
-              ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(18, 10, 18, 0),
-              child: _evaluationMode
-                  ? Wrap(
-                      spacing: 8,
-                      runSpacing: 8,
-                      children: [
-                        _PracticeButton(
-                            icon: Icons.refresh,
-                            label: 'Retry',
-                            onPressed: _resetPractice),
-                        _PracticeButton(
-                            icon: Icons.save,
-                            label: 'Save result',
-                            onPressed: _lastEvaluationRecord == null
-                                ? null
-                                : _saveEvaluationResult),
-                        _PracticeButton(
-                            icon: Icons.file_download,
-                            label: 'Export JSON',
-                            onPressed: _evaluationRecords.isEmpty
-                                ? null
-                                : _exportEvaluationResults),
-                        _PracticeButton(
-                            icon: Icons.arrow_forward,
-                            label: 'Next letter',
-                            onPressed: _nextSign),
-                      ],
-                    )
-                  : Row(
-                      children: [
-                        Expanded(
-                          child: _PracticeButton(
-                              icon: Icons.refresh,
-                              label: 'Retry',
-                              onPressed: _resetPractice),
-                        ),
-                        const SizedBox(width: 10),
-                        Expanded(
-                          child: _PracticeButton(
-                              icon: Icons.arrow_forward,
-                              label: _recognitionMode == 'alphabet'
-                                  ? 'Next letter'
-                                  : 'Next sign',
-                              onPressed: _nextSign),
-                        ),
-                      ],
                     ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(18),
-              child: FilledButton.icon(
-                onPressed: () async {
-                  setState(() => _isTracking = !_isTracking);
-                  await _channel.invokeMethod<void>(
-                      _isTracking ? 'startTracking' : 'stopTracking');
-                  if (!_isTracking && mounted) {
-                    setState(() {
-                      _recognitionState = 'collecting';
-                      _predictionLabel = 'Tracking paused';
-                      _predictionConfidence = 0;
-                      _recognitionFrames = 0;
-                    });
-                  }
+                  );
                 },
-                icon: Icon(_isTracking ? Icons.pause : Icons.play_arrow),
-                label: Text(_isTracking ? 'Stop tracking' : 'Start tracking'),
-                style: FilledButton.styleFrom(
-                  minimumSize: const Size.fromHeight(52),
-                  backgroundColor: Colors.white,
-                  foregroundColor: AppColors.primary,
+              ),
+            ),
+            Flexible(
+              child: SingleChildScrollView(
+                padding: const EdgeInsets.fromLTRB(18, 10, 18, 16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    _buildReferenceCard(),
+                    const SizedBox(height: 8),
+                    _buildRecognitionCard(),
+                    const SizedBox(height: 8),
+                    Text(_guidedFeedback,
+                        style: const TextStyle(color: _liveMutedText)),
+                    const SizedBox(height: 10),
+                  ],
                 ),
               ),
             ),
@@ -823,14 +512,155 @@ class _LivePracticeScreenState extends State<LivePracticeScreen>
     );
   }
 
+  Widget _buildModeSelector() {
+    final numbersComingSoon = _recognitionMode == 'numbers';
+    return DecoratedBox(
+      decoration: BoxDecoration(
+        color: Colors.white.withValues(alpha: 0.12),
+        borderRadius: BorderRadius.circular(14),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+        child: Row(
+          children: [
+            const Text('Mode', style: TextStyle(color: _liveMutedText)),
+            const SizedBox(width: 8),
+            DropdownButtonHideUnderline(
+              child: DropdownButton<String>(
+                value: _recognitionMode,
+                dropdownColor: const Color(0xFF1D3555),
+                iconEnabledColor: Colors.white,
+                style: const TextStyle(
+                    color: _livePrimaryText, fontWeight: FontWeight.w700),
+                items: const [
+                  DropdownMenuItem(value: 'alphabet', child: Text('Alphabet')),
+                  DropdownMenuItem(value: 'numbers', child: Text('Numbers')),
+                  DropdownMenuItem(value: 'words', child: Text('Words')),
+                ],
+                onChanged: _selectMode,
+              ),
+            ),
+            const Spacer(),
+            Text(
+              numbersComingSoon ? 'Coming Soon' : 'Live interpretation',
+              style: TextStyle(
+                color: numbersComingSoon ? Colors.amberAccent : _liveMutedText,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildReferenceCard() {
+    final isAlphabet = _recognitionMode == 'alphabet';
+    return Container(
+      padding: const EdgeInsets.all(10),
+      decoration: BoxDecoration(
+        color: Colors.white.withValues(alpha: 0.1),
+        borderRadius: BorderRadius.circular(14),
+        border: Border.all(color: Colors.white24),
+      ),
+      child: Row(
+        children: [
+          if (isAlphabet)
+            ClipRRect(
+              borderRadius: BorderRadius.circular(8),
+              child: Image.asset(
+                'assets/images/fsl_alphabet_dictionary.png',
+                width: 58,
+                height: 58,
+                fit: BoxFit.contain,
+              ),
+            )
+          else
+            const Icon(Icons.image_not_supported_outlined,
+                color: Colors.white54, size: 42),
+          const SizedBox(width: 10),
+          Expanded(
+            child: Text(
+              isAlphabet
+                  ? 'Alphabet reference available. Use it as a learning reference, not as proof of correct FSL execution.'
+                  : 'No authorized validated demonstration is available for this mode yet.',
+              style: const TextStyle(color: _liveMutedText, fontSize: 12),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildRecognitionCard() {
+    final hasPrediction =
+        _recognitionState == 'recognizing' && _predictionLabel != 'Unknown';
+    final noHands = _recognitionState == 'no_hands';
+    final title = noHands
+        ? 'No hands detected'
+        : hasPrediction
+            ? 'Live prediction'
+            : 'Not Confident';
+    final subtitle = noHands
+        ? 'Show one hand in the camera.'
+        : hasPrediction
+            ? 'Predicted $_predictionLabel · ${(_predictionConfidence * 100).toStringAsFixed(1)}% confidence'
+            : 'Recognition updates continuously while the camera is running.';
+    final color = noHands
+        ? _liveMutedText
+        : !hasPrediction
+            ? _livePrimaryText
+            : Colors.lightGreenAccent;
+    return Container(
+      padding: const EdgeInsets.all(14),
+      decoration: BoxDecoration(
+        color: Colors.white.withValues(alpha: 0.12),
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: Colors.white24),
+      ),
+      child: Row(
+        children: [
+          Icon(
+            noHands ? Icons.pan_tool_outlined : Icons.radar,
+            color: color,
+            size: 30,
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(title,
+                    style: TextStyle(
+                        color: color,
+                        fontSize: 18,
+                        fontWeight: FontWeight.w800)),
+                const SizedBox(height: 3),
+                Text(
+                    hasPrediction
+                        ? _predictionLabel
+                        : 'Waiting for a prediction',
+                    style: const TextStyle(
+                        color: _livePrimaryText,
+                        fontSize: 16,
+                        fontWeight: FontWeight.w700)),
+                Text(subtitle,
+                    style:
+                        const TextStyle(color: _liveMutedText, fontSize: 12)),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget _inactiveView() {
     return const Scaffold(
       backgroundColor: Color(0xFF1D3555),
       body: Center(
-        child: Text(
-          'Open Live Practice to start the camera.',
-          style: TextStyle(color: Colors.white, fontSize: 18),
-        ),
+        child: Text('Open Live Practice to start the camera.',
+            style: TextStyle(color: _livePrimaryText, fontSize: 18)),
       ),
     );
   }
@@ -848,62 +678,15 @@ class _LivePracticeScreenState extends State<LivePracticeScreen>
               const SizedBox(height: 16),
               Text(message,
                   textAlign: TextAlign.center,
-                  style: const TextStyle(color: Colors.white, fontSize: 16)),
+                  style:
+                      const TextStyle(color: _livePrimaryText, fontSize: 16)),
               const SizedBox(height: 16),
               FilledButton(
-                onPressed: _initializeCamera,
-                child: const Text('Try again'),
-              ),
+                  onPressed: _initializeCamera, child: const Text('Try again')),
             ],
           ),
         ),
       ),
-    );
-  }
-}
-
-class _EvaluationSample {
-  final String label;
-  final double confidence;
-
-  const _EvaluationSample(this.label, this.confidence);
-}
-
-class AlphabetEvaluationRecord {
-  final String targetLetter;
-  final String? predictedLetter;
-  final double averageConfidence;
-  final int predictionCount;
-  final String result;
-  final DateTime timestamp;
-
-  const AlphabetEvaluationRecord({
-    required this.targetLetter,
-    required this.predictedLetter,
-    required this.averageConfidence,
-    required this.predictionCount,
-    required this.result,
-    required this.timestamp,
-  });
-
-  Map<String, dynamic> toMap() => {
-        'targetLetter': targetLetter,
-        'predictedLetter': predictedLetter,
-        'averageConfidence': averageConfidence,
-        'predictionCount': predictionCount,
-        'result': result,
-        'timestamp': timestamp.toUtc().toIso8601String(),
-      };
-
-  factory AlphabetEvaluationRecord.fromMap(Map<String, dynamic> map) {
-    return AlphabetEvaluationRecord(
-      targetLetter: map['targetLetter']?.toString() ?? '',
-      predictedLetter: map['predictedLetter']?.toString(),
-      averageConfidence: (map['averageConfidence'] as num?)?.toDouble() ?? 0,
-      predictionCount: (map['predictionCount'] as num?)?.toInt() ?? 0,
-      result: map['result']?.toString() ?? 'untested',
-      timestamp: DateTime.tryParse(map['timestamp']?.toString() ?? '') ??
-          DateTime.fromMillisecondsSinceEpoch(0, isUtc: true),
     );
   }
 }
@@ -931,9 +714,6 @@ class DetectedHand {
 
 class HandLandmarkPainter extends CustomPainter {
   final List<DetectedHand> hands;
-
-  /// Mirrors only the displayed coordinates when the platform preview is
-  /// mirrored. MediaPipe's normalized coordinates remain unchanged.
   final bool mirrorX;
 
   const HandLandmarkPainter({required this.hands, this.mirrorX = false});
@@ -1008,227 +788,7 @@ class _StatusPill extends StatelessWidget {
       ),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-        child: Text(text, style: const TextStyle(color: Colors.white)),
-      ),
-    );
-  }
-}
-
-class _TargetSignSelector extends StatelessWidget {
-  final List<String> signs;
-  final String? selected;
-  final String mode;
-  final ValueChanged<String?> onModeChanged;
-  final ValueChanged<String?> onChanged;
-
-  const _TargetSignSelector({
-    required this.signs,
-    required this.selected,
-    required this.mode,
-    required this.onModeChanged,
-    required this.onChanged,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        color: Colors.white.withValues(alpha: 0.12),
-        borderRadius: BorderRadius.circular(14),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 14),
-        child: Column(
-          children: [
-            Row(
-              children: [
-                const Text('Mode', style: TextStyle(color: Colors.white70)),
-                const SizedBox(width: 8),
-                DropdownButtonHideUnderline(
-                  child: DropdownButton<String>(
-                    value: mode,
-                    dropdownColor: const Color(0xFF1D3555),
-                    iconEnabledColor: Colors.white,
-                    style: const TextStyle(
-                        color: Colors.white, fontWeight: FontWeight.w700),
-                    items: const [
-                      DropdownMenuItem(
-                          value: 'vocabulary', child: Text('Vocabulary')),
-                      DropdownMenuItem(
-                          value: 'alphabet', child: Text('Alphabet (static)')),
-                    ],
-                    onChanged: onModeChanged,
-                  ),
-                ),
-                const SizedBox(width: 12),
-                const Text('Target', style: TextStyle(color: Colors.white70)),
-                const SizedBox(width: 8),
-                Expanded(
-                  child: DropdownButtonHideUnderline(
-                    child: DropdownButton<String>(
-                      value: signs.contains(selected) ? selected : null,
-                      isExpanded: true,
-                      hint: const Text('Loading signs...',
-                          style: TextStyle(color: Colors.white)),
-                      dropdownColor: const Color(0xFF1D3555),
-                      iconEnabledColor: Colors.white,
-                      style: const TextStyle(
-                          color: Colors.white, fontWeight: FontWeight.w700),
-                      items: signs
-                          .map((sign) => DropdownMenuItem<String>(
-                                value: sign,
-                                child: Text(sign),
-                              ))
-                          .toList(),
-                      onChanged: onChanged,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            const Align(
-              alignment: Alignment.centerLeft,
-              child: Text(
-                'No validated reference media available; practice feedback only.',
-                style: TextStyle(color: Colors.white54, fontSize: 11),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class _GuidedFeedback extends StatelessWidget {
-  final String text;
-  final bool isSuccess;
-
-  const _GuidedFeedback({required this.text, required this.isSuccess});
-
-  @override
-  Widget build(BuildContext context) {
-    return Align(
-      alignment: Alignment.centerLeft,
-      child: Text(
-        text,
-        style: TextStyle(
-          color: isSuccess ? Colors.lightGreenAccent : Colors.white70,
-          fontWeight: isSuccess ? FontWeight.w800 : FontWeight.w500,
-        ),
-      ),
-    );
-  }
-}
-
-class _PracticeButton extends StatelessWidget {
-  final IconData icon;
-  final String label;
-  final VoidCallback? onPressed;
-
-  const _PracticeButton({
-    required this.icon,
-    required this.label,
-    required this.onPressed,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return OutlinedButton.icon(
-      onPressed: onPressed,
-      icon: Icon(icon),
-      label: Text(label),
-      style: OutlinedButton.styleFrom(
-        foregroundColor: Colors.white,
-        side: const BorderSide(color: Colors.white54),
-      ),
-    );
-  }
-}
-
-class _EvaluationResultPanel extends StatelessWidget {
-  final AlphabetEvaluationRecord record;
-
-  const _EvaluationResultPanel({required this.record});
-
-  @override
-  Widget build(BuildContext context) {
-    final predicted = record.predictedLetter ?? 'Untested';
-    final color = record.result == 'match'
-        ? Colors.lightGreenAccent
-        : record.result == 'mismatch'
-            ? Colors.orangeAccent
-            : Colors.white70;
-    return Text(
-      'Result: ${record.targetLetter} → $predicted · '
-      '${(record.averageConfidence * 100).toStringAsFixed(1)}% · '
-      '${record.predictionCount} predictions · ${record.result}',
-      style: TextStyle(color: color, fontWeight: FontWeight.w700),
-    );
-  }
-}
-
-class _RecognitionPanel extends StatelessWidget {
-  final String state;
-  final String label;
-  final double confidence;
-  final int frames;
-  final int requiredFrames;
-
-  const _RecognitionPanel({
-    required this.state,
-    required this.label,
-    required this.confidence,
-    required this.frames,
-    required this.requiredFrames,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final isRecognizing = state == 'recognizing' && label != 'Unknown';
-    final title = switch (state) {
-      'no_hands' => 'No hands detected',
-      'recognizing' when isRecognizing => label,
-      'recognizing' => 'Unknown sign',
-      _ => '$label ($frames/$requiredFrames)',
-    };
-    final hasPrediction = state == 'recognizing';
-    final subtitle = hasPrediction
-        ? '${(confidence * 100).toStringAsFixed(1)}% confidence'
-        : state == 'no_hands'
-            ? 'Show one or two hands to begin'
-            : 'Recognition starts after $requiredFrames valid frame${requiredFrames == 1 ? '' : 's'}';
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        color: Colors.white.withValues(alpha: 0.12),
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: Colors.white24),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-        child: Row(
-          children: [
-            Icon(
-              isRecognizing ? Icons.auto_awesome : Icons.hourglass_top,
-              color: Colors.white,
-            ),
-            const SizedBox(width: 12),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(title,
-                      style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 17,
-                          fontWeight: FontWeight.w700)),
-                  const SizedBox(height: 2),
-                  Text(subtitle, style: const TextStyle(color: Colors.white70)),
-                ],
-              ),
-            ),
-          ],
-        ),
+        child: Text(text, style: const TextStyle(color: _livePrimaryText)),
       ),
     );
   }

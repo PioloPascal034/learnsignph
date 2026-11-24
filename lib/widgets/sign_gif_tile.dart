@@ -81,7 +81,9 @@ class SignGifTile extends StatelessWidget {
                   gifUrl,
                   width: size,
                   height: size,
-                  fit: BoxFit.cover,
+                  // Preserve the complete sign media; cropping hands makes
+                  // the exercise misleading.
+                  fit: BoxFit.contain,
                   loadingBuilder: (context, child, progress) {
                     if (progress == null) return child;
                     return const Center(

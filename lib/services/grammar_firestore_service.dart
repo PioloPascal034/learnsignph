@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import '../models/grammar_exercise_model.dart';
 import '../models/grammar_progress_model.dart';
 import '../models/sign_model.dart';
@@ -48,14 +49,8 @@ class GrammarFirestoreService {
       GrammarExerciseModel exercise) async {
     final signIds = exercise.tiles.map((t) => t.signId).toSet().toList();
     if (signIds.isEmpty) return {};
-    final snapshot = await _db
-        .collection('signs')
-        .where(FieldPath.documentId, whereIn: signIds)
-        .get();
-    return {
-      for (final doc in snapshot.docs)
-        doc.id: SignModel.fromMap(doc.id, doc.data()),
-    };
+    final signs = await FirestoreService().getSignsByIds(signIds);
+    return {for (final sign in signs) sign.id: sign};
   }
 
   /// Records one attempt at a grammar exercise. Called every time the
@@ -67,6 +62,20 @@ class GrammarFirestoreService {
     required String mode,
     required bool wasCorrect,
   }) async {
+    final authUser = FirebaseAuth.instance.currentUser;
+    if (authUser == null || authUser.uid != userId) {
+      throw StateError('Sign in to save your exercise progress.');
+    }
+
+    // A newly created emulator account may not have a profile document yet.
+    // Create it before the transaction so production rules can safely allow
+    // the profile update that awards points.
+    await FirestoreService().createUserProfile(
+      userId,
+      email: authUser.email ?? 'learner@learnsign.local',
+      displayName: authUser.displayName,
+    );
+
     final ref = _db
         .collection('users')
         .doc(userId)
@@ -97,7 +106,7 @@ class GrammarFirestoreService {
       );
 
       if (wasCorrect && !wasAlreadyCompleted) {
-        final reward = mode == 'test' ? 60 : 40;
+        const reward = 100;
         final currentPoints = ((user.data()?['points'] ?? 0) as num).toInt();
         final newPoints = currentPoints + reward;
         transaction.set(

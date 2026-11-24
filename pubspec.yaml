@@ -44,4 +44,5 @@ flutter:
   assets:
     - assets/images/
     - assets/images/content/
+    - assets/media/fsl105/
     - assets/ml_models/

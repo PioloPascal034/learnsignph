@@ -22,6 +22,10 @@ service cloud.firestore {
 
       match /lessonProgress/{lessonId} {
         allow read, write: if isSignedIn() && request.auth.uid == userId;
+
+        match /activityProgress/{activityId} {
+          allow read, write: if isSignedIn() && request.auth.uid == userId;
+        }
       }
 
       match /grammarProgress/{exerciseId} {

@@ -56,6 +56,7 @@ class LessonModel {
   final List<String> sourceReferences;
   final String contentValidationStatus;
   final String mediaStatus;
+  final bool isActive;
 
   LessonModel({
     required this.id,
@@ -71,6 +72,7 @@ class LessonModel {
     this.sourceReferences = const [],
     this.contentValidationStatus = '',
     this.mediaStatus = '',
+    this.isActive = true,
   });
 
   factory LessonModel.fromMap(String id, Map<String, dynamic> map) {
@@ -88,6 +90,7 @@ class LessonModel {
       sourceReferences: _stringList(map['sourceReferences']),
       contentValidationStatus: (map['contentValidationStatus'] ?? '').toString(),
       mediaStatus: (map['mediaStatus'] ?? '').toString(),
+      isActive: map['isActive'] as bool? ?? true,
     );
   }
 
@@ -114,6 +117,7 @@ class LessonModel {
       data['contentValidationStatus'] = contentValidationStatus;
     }
     if (mediaStatus.isNotEmpty) data['mediaStatus'] = mediaStatus;
+    data['isActive'] = isActive;
     return data;
   }
 

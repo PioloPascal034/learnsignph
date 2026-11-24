@@ -18,8 +18,21 @@ class _ProgressDetailScreenState extends State<ProgressDetailScreen> {
   Widget build(BuildContext context) {
     final user = FirebaseAuth.instance.currentUser;
     if (user == null) {
-      return const Scaffold(
-        body: Center(child: CircularProgressIndicator(color: AppColors.primary)),
+      return Scaffold(
+        appBar: AppBar(
+          title: const Text('Level Progress'),
+          backgroundColor: Colors.white,
+          foregroundColor: Colors.black,
+        ),
+        body: const Center(
+          child: Padding(
+            padding: EdgeInsets.all(24),
+            child: Text(
+              'Sign in to view and save your learning progress.',
+              textAlign: TextAlign.center,
+            ),
+          ),
+        ),
       );
     }
 
@@ -39,7 +52,8 @@ class _ProgressDetailScreenState extends State<ProgressDetailScreen> {
         stream: _firestoreService.streamUserProfile(user.uid),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: CircularProgressIndicator(color: AppColors.primary));
+            return const Center(
+                child: CircularProgressIndicator(color: AppColors.primary));
           }
 
           final data = snapshot.data?.data() ?? <String, dynamic>{};
@@ -48,8 +62,10 @@ class _ProgressDetailScreenState extends State<ProgressDetailScreen> {
           final pointsForCurrentLevel = (level - 1) * 500;
           final pointsForNextLevel = level * 500;
           final pointsInCurrentLevel = points - pointsForCurrentLevel;
-          final pointsNeededForNextLevel = pointsForNextLevel - pointsForCurrentLevel;
-          final progressPercentage = pointsInCurrentLevel / pointsNeededForNextLevel;
+          final pointsNeededForNextLevel =
+              pointsForNextLevel - pointsForCurrentLevel;
+          final progressPercentage =
+              pointsInCurrentLevel / pointsNeededForNextLevel;
 
           return SingleChildScrollView(
             padding: const EdgeInsets.all(20),
@@ -222,7 +238,8 @@ class _ProgressDetailScreenState extends State<ProgressDetailScreen> {
                       const SizedBox(height: 12),
                       _buildTipRow('Complete lessons', '+100 points each'),
                       const SizedBox(height: 8),
-                      _buildTipRow('Perfect quiz scores', '+50 bonus points'),
+                      _buildTipRow(
+                          'Perfect activity scores', '+50 bonus points'),
                       const SizedBox(height: 8),
                       _buildTipRow('Daily streak', 'Keep consistency'),
                     ],
@@ -332,7 +349,8 @@ class _ProgressDetailScreenState extends State<ProgressDetailScreen> {
   Widget _buildTipRow(String tip, String benefit) {
     return Row(
       children: [
-        const Text('•', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+        const Text('•',
+            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
         const SizedBox(width: 8),
         Expanded(
           child: Column(
@@ -340,7 +358,8 @@ class _ProgressDetailScreenState extends State<ProgressDetailScreen> {
             children: [
               Text(
                 tip,
-                style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
+                style:
+                    const TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
               ),
               Text(
                 benefit,
