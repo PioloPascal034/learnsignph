@@ -732,7 +732,7 @@
                                  "sourceReferences":  [
                                                           "https://cead.benilde.edu.ph/fsl-grammar-and-dictionary-2/"
                                                       ],
-                                 "contentValidationStatus":  "ready_for_learning"
+                                 "contentValidationStatus":  "draft_pending_fsl_review"
                              },
                              {
                                  "id":  "phase6_grammar_nonmanual_signals",
@@ -772,7 +772,7 @@
                                  "sourceReferences":  [
                                                           "https://cead.benilde.edu.ph/fslsb/"
                                                       ],
-                                 "contentValidationStatus":  "ready_for_learning"
+                                 "contentValidationStatus":  "draft_pending_fsl_review"
                              },
                              {
                                  "id":  "phase6_grammar_questions",
@@ -812,7 +812,7 @@
                                  "sourceReferences":  [
                                                           "https://cead.benilde.edu.ph/fsl-grammar-and-dictionary-2/"
                                                       ],
-                                 "contentValidationStatus":  "ready_for_learning"
+                                 "contentValidationStatus":  "draft_pending_fsl_review"
                              },
                              {
                                  "id":  "phase6_grammar_time_references",
@@ -846,7 +846,7 @@
                                                           "https://cead.benilde.edu.ph/fslsb/",
                                                           "https://lrmds.deped.gov.ph/detail/18648"
                                                       ],
-                                 "contentValidationStatus":  "ready_for_learning"
+                                 "contentValidationStatus":  "draft_pending_fsl_review"
                              },
                              {
                                  "id":  "phase6_grammar_sentence_structure_matching",
@@ -896,7 +896,7 @@
                                  "sourceReferences":  [
                                                           "https://cead.benilde.edu.ph/fsl-grammar-and-dictionary-2/"
                                                       ],
-                                 "contentValidationStatus":  "ready_for_learning"
+                                 "contentValidationStatus":  "draft_pending_fsl_review"
                              },
                              {
                                  "id":  "phase6_grammar_sentence_structure_context",
@@ -944,7 +944,7 @@
                                  "sourceReferences":  [
                                                           "https://cead.benilde.edu.ph/fslsb/"
                                                       ],
-                                 "contentValidationStatus":  "ready_for_learning"
+                                 "contentValidationStatus":  "draft_pending_fsl_review"
                              },
                              {
                                  "id":  "phase6_grammar_nonmanual_identification",
@@ -994,7 +994,7 @@
                                  "sourceReferences":  [
                                                           "https://cead.benilde.edu.ph/fslsb/"
                                                       ],
-                                 "contentValidationStatus":  "ready_for_learning"
+                                 "contentValidationStatus":  "draft_pending_fsl_review"
                              },
                              {
                                  "id":  "phase6_grammar_nonmanual_context",
@@ -1036,7 +1036,7 @@
                                  "sourceReferences":  [
                                                           "https://cead.benilde.edu.ph/fsl-grammar-and-dictionary-2/"
                                                       ],
-                                 "contentValidationStatus":  "ready_for_learning"
+                                 "contentValidationStatus":  "draft_pending_fsl_review"
                              },
                              {
                                  "id":  "phase6_grammar_questions_matching",
@@ -1085,7 +1085,7 @@
                                  "sourceReferences":  [
                                                           "https://cead.benilde.edu.ph/fsl-grammar-and-dictionary-2/"
                                                       ],
-                                 "contentValidationStatus":  "ready_for_learning"
+                                 "contentValidationStatus":  "draft_pending_fsl_review"
                              },
                              {
                                  "id":  "phase6_grammar_questions_context",
@@ -1131,7 +1131,7 @@
                                  "sourceReferences":  [
                                                           "https://cead.benilde.edu.ph/fslsb/"
                                                       ],
-                                 "contentValidationStatus":  "ready_for_learning"
+                                 "contentValidationStatus":  "draft_pending_fsl_review"
                              },
                              {
                                  "id":  "phase6_grammar_time_matching",
@@ -1181,7 +1181,7 @@
                                                           "https://cead.benilde.edu.ph/fslsb/",
                                                           "https://lrmds.deped.gov.ph/detail/18648"
                                                       ],
-                                 "contentValidationStatus":  "ready_for_learning"
+                                 "contentValidationStatus":  "draft_pending_fsl_review"
                              },
                              {
                                  "id":  "phase6_grammar_time_context",
@@ -1227,7 +1227,7 @@
                                  "sourceReferences":  [
                                                           "https://cead.benilde.edu.ph/fsl-grammar-and-dictionary-2/"
                                                       ],
-                                 "contentValidationStatus":  "ready_for_learning"
+                                 "contentValidationStatus":  "draft_pending_fsl_review"
                              }
                          ]
 }

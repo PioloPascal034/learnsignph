@@ -20,6 +20,26 @@ GrammarExerciseModel _exercise({bool valid = true}) {
 }
 
 void main() {
+  test(
+      'grammar rewards first correct completion once and returns actual points',
+      () {
+    expect(
+        GrammarFirestoreService.pointsForAttempt(
+            wasCorrect: true, previousStatus: null),
+        100);
+    expect(
+        GrammarFirestoreService.pointsForAttempt(
+            wasCorrect: true, previousStatus: 'inProgress'),
+        100);
+    expect(
+        GrammarFirestoreService.pointsForAttempt(
+            wasCorrect: true, previousStatus: 'completed'),
+        0);
+    expect(
+        GrammarFirestoreService.pointsForAttempt(
+            wasCorrect: false, previousStatus: null),
+        0);
+  });
   test('grammar progress round-trips attempts and completion state', () {
     final progress = GrammarProgressModel(
       exerciseId: 'exercise',

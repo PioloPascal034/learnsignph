@@ -284,7 +284,8 @@ class GrammarHubScreen extends StatelessWidget {
           final exercises = snapshot.data!;
           if (exercises.isEmpty) {
             return const _GrammarHubMessage(
-              message: 'No grammar activities are available yet.',
+              message:
+                  'No complete grammar exercises are available yet. Clear instructions and examples are needed before these activities can be practised.',
             );
           }
           final grouped = <String, List<GrammarExerciseModel>>{};

@@ -15,6 +15,7 @@ class GrammarExerciseModel {
   final String explanation;
   final String contentValidationStatus;
   final List<String> sourceReferences;
+  final String activityType;
 
   GrammarExerciseModel({
     required this.id,
@@ -27,6 +28,7 @@ class GrammarExerciseModel {
     this.explanation = '',
     this.contentValidationStatus = '',
     this.sourceReferences = const [],
+    this.activityType = 'sentence_order',
   });
 
   bool get hasValidSentenceOrder {
@@ -42,9 +44,22 @@ class GrammarExerciseModel {
             .every((entry) => entry.value == entry.key + 1);
   }
 
-  String get learnerPrompt => promptText
-      .replaceFirst(RegExp(r'^draft review:\s*', caseSensitive: false), '')
-      .trim();
+  String get learnerPrompt => promptText.trim();
+
+  /// A tile order alone does not make a complete grammar question.
+  /// Keep review scaffolds and other activity formats out of this player.
+  bool get canPracticeSentenceOrder {
+    final status = contentValidationStatus.toLowerCase();
+    final placeholder = RegExp(
+      r'^(draft review:|arrange the (practice signs|signs in this beginner))',
+      caseSensitive: false,
+    );
+    return hasValidSentenceOrder &&
+        activityType == 'sentence_order' &&
+        !status.contains('draft') &&
+        !status.contains('pending') &&
+        !placeholder.hasMatch(learnerPrompt);
+  }
 
   List<String> get correctSignOrder {
     final orderedTiles = [...tiles]
@@ -70,6 +85,7 @@ class GrammarExerciseModel {
       sourceReferences: (map['sourceReferences'] as List<dynamic>? ?? const [])
           .map((item) => item.toString())
           .toList(),
+      activityType: (map['activityType'] ?? 'sentence_order').toString(),
     );
   }
 
@@ -84,6 +100,7 @@ class GrammarExerciseModel {
       'explanation': explanation,
       'contentValidationStatus': contentValidationStatus,
       'sourceReferences': sourceReferences,
+      'activityType': activityType,
     };
   }
 }

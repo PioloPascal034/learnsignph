@@ -10,7 +10,16 @@ import 'firestore_service.dart';
 /// merge the methods into FirestoreService directly if you'd rather keep
 /// one service class; both work fine with the existing project structure.
 class GrammarFirestoreService {
-  final FirebaseFirestore _db = FirebaseFirestore.instance;
+  FirebaseFirestore get _db => FirebaseFirestore.instance;
+  String? get currentUserId => FirebaseAuth.instance.currentUser?.uid;
+
+  static const completionReward = 100;
+
+  static int pointsForAttempt({
+    required bool wasCorrect,
+    required String? previousStatus,
+  }) =>
+      wasCorrect && previousStatus != 'completed' ? completionReward : 0;
 
   /// Fetches a single grammar exercise by ID (used for in-lesson practice,
   /// where the lesson detail screen already knows which exercise to load).
@@ -24,9 +33,14 @@ class GrammarFirestoreService {
     final snapshot = await _db
         .collection('grammarExercises')
         .where('lessonId', isEqualTo: lessonId)
-        .limit(1)
         .get();
-    return snapshot.docs.isEmpty ? null : snapshot.docs.first.id;
+    for (final doc in snapshot.docs) {
+      if (GrammarExerciseModel.fromMap(doc.id, doc.data())
+          .canPracticeSentenceOrder) {
+        return doc.id;
+      }
+    }
+    return null;
   }
 
   Stream<List<GrammarExerciseModel>> streamExercises() {
@@ -39,7 +53,7 @@ class GrammarFirestoreService {
   static List<GrammarExerciseModel> validExercises(
       Iterable<GrammarExerciseModel> exercises) {
     return exercises
-        .where((exercise) => exercise.hasValidSentenceOrder)
+        .where((exercise) => exercise.canPracticeSentenceOrder)
         .toList();
   }
 
@@ -56,7 +70,7 @@ class GrammarFirestoreService {
   /// Records one attempt at a grammar exercise. Called every time the
   /// learner taps "Check Answer," whether correct or not - `attempts`
   /// increments regardless, `status`/`score` only improve on success.
-  Future<void> recordAttempt({
+  Future<int> recordAttempt({
     required String userId,
     required String exerciseId,
     required String mode,
@@ -70,11 +84,14 @@ class GrammarFirestoreService {
     // A newly created emulator account may not have a profile document yet.
     // Create it before the transaction so production rules can safely allow
     // the profile update that awards points.
-    await FirestoreService().createUserProfile(
-      userId,
-      email: authUser.email ?? 'learner@learnsign.local',
-      displayName: authUser.displayName,
-    );
+    final userRef = _db.collection('users').doc(userId);
+    if (!(await userRef.get()).exists) {
+      await FirestoreService().createUserProfile(
+        userId,
+        email: authUser.email ?? 'learner@learnsign.local',
+        displayName: authUser.displayName,
+      );
+    }
 
     final ref = _db
         .collection('users')
@@ -82,8 +99,7 @@ class GrammarFirestoreService {
         .collection('grammarProgress')
         .doc(exerciseId);
 
-    final userRef = _db.collection('users').doc(userId);
-    await _db.runTransaction((transaction) async {
+    return _db.runTransaction<int>((transaction) async {
       final existing = await transaction.get(ref);
       final user = await transaction.get(userRef);
       final data = existing.data();
@@ -91,6 +107,10 @@ class GrammarFirestoreService {
       final prevStatus = data?['status'] as String? ?? 'inProgress';
       final prevScore = ((data?['score'] ?? 0) as num).toDouble();
       final wasAlreadyCompleted = prevStatus == 'completed';
+      final reward = pointsForAttempt(
+        wasCorrect: wasCorrect,
+        previousStatus: prevStatus,
+      );
 
       transaction.set(
         ref,
@@ -105,8 +125,7 @@ class GrammarFirestoreService {
         SetOptions(merge: true),
       );
 
-      if (wasCorrect && !wasAlreadyCompleted) {
-        const reward = 100;
+      if (reward > 0) {
         final currentPoints = ((user.data()?['points'] ?? 0) as num).toInt();
         final newPoints = currentPoints + reward;
         transaction.set(
@@ -119,6 +138,7 @@ class GrammarFirestoreService {
           SetOptions(merge: true),
         );
       }
+      return reward;
     });
   }
 }

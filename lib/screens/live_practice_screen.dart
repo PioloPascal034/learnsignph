@@ -393,7 +393,7 @@ class _LivePracticeScreenState extends State<LivePracticeScreen>
     return Scaffold(
       backgroundColor: const Color(0xFF1D3555),
       body: SafeArea(
-        child: Column(
+        child: ListView(
           children: [
             Padding(
               padding: const EdgeInsets.fromLTRB(18, 14, 12, 8),
@@ -428,82 +428,65 @@ class _LivePracticeScreenState extends State<LivePracticeScreen>
             ),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 18),
-              child: LayoutBuilder(
-                builder: (context, constraints) {
-                  final cameraAspect = controller.value.aspectRatio > 0
-                      ? controller.value.aspectRatio
-                      : 4 / 3;
-                  final naturalHeight = constraints.maxWidth / cameraAspect;
-                  final height = naturalHeight
-                      .clamp(180.0, MediaQuery.sizeOf(context).height * 0.42)
-                      .toDouble();
-                  return SizedBox(
-                    width: constraints.maxWidth,
-                    height: height,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(22),
-                      child: Stack(
-                        fit: StackFit.expand,
-                        children: [
-                          ColoredBox(
-                            color: Colors.black,
-                            child: Center(
-                              child: AspectRatio(
-                                aspectRatio: cameraAspect,
-                                child: Stack(
-                                  fit: StackFit.expand,
-                                  children: [
-                                    CameraPreview(controller),
-                                    ValueListenableBuilder<List<DetectedHand>>(
-                                      valueListenable: _handsNotifier,
-                                      builder: (context, hands, _) {
-                                        return CustomPaint(
-                                          painter: HandLandmarkPainter(
-                                            hands: hands,
-                                            mirrorX: mirrorLandmarks,
-                                          ),
-                                        );
-                                      },
-                                    ),
-                                  ],
-                                ),
+              child: ValueListenableBuilder<CameraValue>(
+                valueListenable: controller,
+                builder: (context, value, _) {
+                  return LiveCameraViewport(
+                    aspectRatio: LiveCameraViewport.aspectRatioFor(value),
+                    child: Stack(
+                      fit: StackFit.expand,
+                      children: [
+                        CameraPreview(
+                          controller,
+                          child: ValueListenableBuilder<List<DetectedHand>>(
+                            valueListenable: _handsNotifier,
+                            builder: (context, hands, _) => CustomPaint(
+                              painter: HandLandmarkPainter(
+                                hands: hands,
+                                mirrorX: mirrorLandmarks,
                               ),
                             ),
                           ),
-                          Positioned(
-                            top: 12,
-                            left: 12,
-                            child: ValueListenableBuilder<List<DetectedHand>>(
-                              valueListenable: _handsNotifier,
-                              builder: (context, hands, _) => _StatusPill(
-                                text: hands.isEmpty
-                                    ? 'No hands detected'
-                                    : '${hands.length} hand${hands.length == 1 ? '' : 's'} detected',
-                              ),
+                        ),
+                        Positioned(
+                          top: 12,
+                          left: 12,
+                          child: ValueListenableBuilder<List<DetectedHand>>(
+                            valueListenable: _handsNotifier,
+                            builder: (context, hands, _) => _StatusPill(
+                              text: hands.isEmpty
+                                  ? 'No hands detected'
+                                  : '${hands.length} hand${hands.length == 1 ? '' : 's'} detected',
                             ),
                           ),
-                        ],
-                      ),
+                        ),
+                        Positioned(
+                          bottom: 12,
+                          left: 12,
+                          right: 12,
+                          child: Align(
+                            alignment: Alignment.centerLeft,
+                            child: _StatusPill(text: _predictionLabel),
+                          ),
+                        ),
+                      ],
                     ),
                   );
                 },
               ),
             ),
-            Flexible(
-              child: SingleChildScrollView(
-                padding: const EdgeInsets.fromLTRB(18, 10, 18, 16),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
-                  children: [
-                    _buildReferenceCard(),
-                    const SizedBox(height: 8),
-                    _buildRecognitionCard(),
-                    const SizedBox(height: 8),
-                    Text(_guidedFeedback,
-                        style: const TextStyle(color: _liveMutedText)),
-                    const SizedBox(height: 10),
-                  ],
-                ),
+            Padding(
+              padding: const EdgeInsets.fromLTRB(18, 10, 18, 16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.stretch,
+                children: [
+                  _buildRecognitionCard(),
+                  const SizedBox(height: 8),
+                  Text(_guidedFeedback,
+                      style: const TextStyle(color: _liveMutedText)),
+                  const SizedBox(height: 10),
+                  _buildReferenceCard(),
+                ],
               ),
             ),
           ],
@@ -689,6 +672,34 @@ class _LivePracticeScreenState extends State<LivePracticeScreen>
       ),
     );
   }
+}
+
+/// Keeps the full camera image and its landmark overlay in the same bounds.
+class LiveCameraViewport extends StatelessWidget {
+  final double aspectRatio;
+  final Widget child;
+
+  const LiveCameraViewport({
+    super.key,
+    required this.aspectRatio,
+    required this.child,
+  });
+
+  static double aspectRatioFor(CameraValue value) {
+    final orientation = value.previewPauseOrientation ??
+        value.lockedCaptureOrientation ??
+        value.deviceOrientation;
+    final landscape = orientation == DeviceOrientation.landscapeLeft ||
+        orientation == DeviceOrientation.landscapeRight;
+    final sensorAspect = value.aspectRatio > 0 ? value.aspectRatio : 4 / 3;
+    return landscape ? sensorAspect : 1 / sensorAspect;
+  }
+
+  @override
+  Widget build(BuildContext context) => ClipRRect(
+        borderRadius: BorderRadius.circular(22),
+        child: AspectRatio(aspectRatio: aspectRatio, child: child),
+      );
 }
 
 class DetectedHand {

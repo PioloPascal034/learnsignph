@@ -1,13 +1,12 @@
 import 'dart:async';
 
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import '../../models/grammar_exercise_model.dart';
 import '../../models/sign_model.dart';
 import '../../services/grammar_firestore_service.dart';
 import '../../utils/theme.dart';
 import '../../widgets/sign_gif_tile.dart';
-import '../../widgets/content_image.dart';
+import '../../widgets/video_player_widget.dart';
 
 /// Drag-and-drop grammar exercise screen.
 ///
@@ -19,11 +18,13 @@ import '../../widgets/content_image.dart';
 class GrammarPracticeScreen extends StatefulWidget {
   final String exerciseId;
   final String mode;
+  final GrammarFirestoreService? service;
 
   const GrammarPracticeScreen({
     super.key,
     required this.exerciseId,
     this.mode = 'lesson',
+    this.service,
   });
 
   @override
@@ -31,7 +32,8 @@ class GrammarPracticeScreen extends StatefulWidget {
 }
 
 class _GrammarPracticeScreenState extends State<GrammarPracticeScreen> {
-  final GrammarFirestoreService _grammarService = GrammarFirestoreService();
+  late final GrammarFirestoreService _grammarService =
+      widget.service ?? GrammarFirestoreService();
 
   GrammarExerciseModel? _exercise;
   Map<String, SignModel> _signsById = {};
@@ -46,6 +48,7 @@ class _GrammarPracticeScreenState extends State<GrammarPracticeScreen> {
   bool _isSubmitting = false;
   String? _loadError;
   int _earnedPointsThisAttempt = 0;
+  bool _saveFailed = false;
 
   @override
   void initState() {
@@ -69,8 +72,9 @@ class _GrammarPracticeScreenState extends State<GrammarPracticeScreen> {
         throw StateError('This exercise does not contain any sign tiles.');
       }
       final signIds = exercise.tiles.map((tile) => tile.signId).toList();
-      if (!exercise.hasValidSentenceOrder) {
-        throw StateError('This exercise has incomplete or invalid tile data.');
+      if (!exercise.canPracticeSentenceOrder) {
+        throw StateError(
+            'This activity is not ready for grammar practice. Please choose another exercise.');
       }
 
       final signs = await _grammarService
@@ -137,7 +141,7 @@ class _GrammarPracticeScreenState extends State<GrammarPracticeScreen> {
     if (_exercise == null ||
         !_allSlotsFilled ||
         _isSubmitting ||
-        _lastResultCorrect != null) {
+        (_lastResultCorrect != null && !_saveFailed)) {
       return;
     }
 
@@ -151,15 +155,16 @@ class _GrammarPracticeScreenState extends State<GrammarPracticeScreen> {
     setState(() {
       _lastResultCorrect = isCorrect;
       _earnedPointsThisAttempt = 0;
+      _saveFailed = false;
       _isSubmitting = true;
     });
 
     try {
-      final userId = FirebaseAuth.instance.currentUser?.uid;
+      final userId = _grammarService.currentUserId;
       if (userId == null) {
         throw StateError('Sign in to save your exercise progress.');
       }
-      await _grammarService
+      final earnedPoints = await _grammarService
           .recordAttempt(
             userId: userId,
             exerciseId: widget.exerciseId,
@@ -169,11 +174,12 @@ class _GrammarPracticeScreenState extends State<GrammarPracticeScreen> {
           .timeout(const Duration(seconds: 20));
       if (mounted && isCorrect) {
         setState(
-          () => _earnedPointsThisAttempt = widget.mode == 'test' ? 60 : 40,
+          () => _earnedPointsThisAttempt = earnedPoints,
         );
       }
     } on TimeoutException {
       if (mounted) {
+        setState(() => _saveFailed = true);
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
             content: Text(
@@ -184,6 +190,8 @@ class _GrammarPracticeScreenState extends State<GrammarPracticeScreen> {
       }
     } catch (error) {
       if (mounted) {
+        setState(() => _saveFailed = true);
+        debugPrint('[Grammar] progress save failed: $error');
         final message = error is StateError
             ? error.message
             : 'Your answer was checked, but progress could not be saved. Please try again.';
@@ -206,6 +214,7 @@ class _GrammarPracticeScreenState extends State<GrammarPracticeScreen> {
       _slots = List<String?>.filled(_exercise!.tiles.length, null);
       _lastResultCorrect = null;
       _earnedPointsThisAttempt = 0;
+      _saveFailed = false;
     });
   }
 
@@ -318,7 +327,7 @@ class _GrammarPracticeScreenState extends State<GrammarPracticeScreen> {
                               children: [
                                 const Expanded(
                                   child: Text(
-                                    'SENTENCE ORDER',
+                                    'TARGET MEANING',
                                     style: TextStyle(
                                       fontSize: 13,
                                       letterSpacing: 0.8,
@@ -347,7 +356,7 @@ class _GrammarPracticeScreenState extends State<GrammarPracticeScreen> {
                             ),
                             const SizedBox(height: 8),
                             Text(
-                              'Arrange the signs to complete: "${_exercise!.learnerPrompt}"',
+                              _exercise!.learnerPrompt,
                               style: const TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.w700,
@@ -355,25 +364,11 @@ class _GrammarPracticeScreenState extends State<GrammarPracticeScreen> {
                                 height: 1.3,
                               ),
                             ),
-                            if (_exercise!.imageUrl.trim().isNotEmpty) ...[
-                              const SizedBox(height: 14),
-                              ClipRRect(
-                                borderRadius: BorderRadius.circular(12),
-                                child: ContentImage(
-                                  source: _exercise!.imageUrl,
-                                  width: double.infinity,
-                                  height: 150,
-                                  fit: BoxFit.contain,
-                                  fallback: Container(
-                                    height: 150,
-                                    color: AppColors.surface,
-                                    alignment: Alignment.center,
-                                    child:
-                                        const Text('Illustration unavailable'),
-                                  ),
-                                ),
-                              ),
-                            ],
+                            const SizedBox(height: 12),
+                            const Text(
+                              'Study the example first. Then arrange the word tiles to match its order. Tap a tile to fill the next space, or drag it into place.',
+                            ),
+                            _buildStudyGuide(),
                             if (_exercise!.explanation.isNotEmpty) ...[
                               const SizedBox(height: 10),
                               Text(
@@ -388,17 +383,19 @@ class _GrammarPracticeScreenState extends State<GrammarPracticeScreen> {
                         ),
                       ),
                       const SizedBox(height: 20),
-                      Row(
+                      Wrap(
+                        spacing: 12,
+                        runSpacing: 8,
+                        crossAxisAlignment: WrapCrossAlignment.center,
+                        alignment: WrapAlignment.spaceBetween,
                         children: [
-                          const Expanded(
-                            child: Text(
-                              'YOUR ANSWER',
-                              style: TextStyle(
-                                fontSize: 13,
-                                letterSpacing: 0.8,
-                                fontWeight: FontWeight.w700,
-                                color: AppColors.textMuted,
-                              ),
+                          const Text(
+                            'YOUR ANSWER',
+                            style: TextStyle(
+                              fontSize: 13,
+                              letterSpacing: 0.8,
+                              fontWeight: FontWeight.w700,
+                              color: AppColors.textMuted,
                             ),
                           ),
                           Container(
@@ -409,7 +406,7 @@ class _GrammarPracticeScreenState extends State<GrammarPracticeScreen> {
                               borderRadius: BorderRadius.circular(999),
                             ),
                             child: Text(
-                              '$_earnedPointsThisAttempt pts',
+                              _pointsLabel,
                               style: const TextStyle(
                                 fontSize: 12,
                                 fontWeight: FontWeight.w800,
@@ -430,7 +427,7 @@ class _GrammarPracticeScreenState extends State<GrammarPracticeScreen> {
                       if (_lastResultCorrect != null) _buildResultBanner(),
                       const SizedBox(height: 24),
                       const Text(
-                        'SIGN BANK — DRAG TO ARRANGE',
+                        'SIGN BANK — TAP OR DRAG TO ARRANGE',
                         style: TextStyle(
                           fontSize: 13,
                           letterSpacing: 0.7,
@@ -457,7 +454,14 @@ class _GrammarPracticeScreenState extends State<GrammarPracticeScreen> {
                               .toList(),
                         ),
                       ),
-                      if (_lastResultCorrect == null) ...[
+                      if (_saveFailed) ...[
+                        const SizedBox(height: 16),
+                        FilledButton.icon(
+                          onPressed: _isSubmitting ? null : _checkAnswer,
+                          icon: const Icon(Icons.sync),
+                          label: const Text('Retry saving progress'),
+                        ),
+                      ] else if (_lastResultCorrect == null) ...[
                         const SizedBox(height: 22),
                         SizedBox(
                           width: double.infinity,
@@ -546,7 +550,7 @@ class _GrammarPracticeScreenState extends State<GrammarPracticeScreen> {
                 ? () => _returnTileToPool(placedSignId)
                 : null,
             child: sign != null
-                ? SignGifTile(gifUrl: sign.gifUrl, word: sign.word)
+                ? _signTile(sign)
                 : const SignGifTile(gifUrl: '', word: '', isPlaceholder: true),
           ),
         );
@@ -558,8 +562,7 @@ class _GrammarPracticeScreenState extends State<GrammarPracticeScreen> {
     final sign = _signsById[signId];
     if (sign == null) return const SizedBox.shrink();
 
-    final tile =
-        SignGifTile(gifUrl: sign.gifUrl, word: sign.word, isCompact: true);
+    final tile = _signTile(sign, compact: true);
 
     return Draggable<String>(
       data: signId,
@@ -569,15 +572,27 @@ class _GrammarPracticeScreenState extends State<GrammarPracticeScreen> {
           color: Colors.transparent,
           child: Opacity(opacity: 0.85, child: tile)),
       childWhenDragging: Opacity(opacity: 0.3, child: tile),
-      child: tile,
+      child: GestureDetector(
+        onTap: () {
+          final nextSlot = _slots.indexOf(null);
+          if (nextSlot >= 0) _placeTile(signId, nextSlot);
+        },
+        child: tile,
+      ),
     );
   }
 
   Widget _buildResultBanner() {
     final correct = _lastResultCorrect!;
-    final pointsLabel = correct
-        ? '+$_earnedPointsThisAttempt pts earned'
-        : 'No points earned this round';
+    final pointsLabel = _isSubmitting
+        ? 'Saving progress…'
+        : _saveFailed
+            ? 'Progress is not saved yet. Retry saving below.'
+            : correct
+                ? _earnedPointsThisAttempt > 0
+                    ? '+$_earnedPointsThisAttempt pts earned'
+                    : 'Already completed; no additional points'
+                : 'Review the example before trying again';
 
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
@@ -597,14 +612,102 @@ class _GrammarPracticeScreenState extends State<GrammarPracticeScreen> {
           const SizedBox(width: 8),
           Expanded(
             child: Text(
-              correct
-                  ? 'Correct! Well done. $pointsLabel.'
-                  : 'Not quite \u2014 try rearranging the signs. $pointsLabel.',
+              correct ? 'Correct! $pointsLabel.' : 'Not quite. $pointsLabel.',
               style: TextStyle(
                 color: correct ? AppColors.success : Colors.red.shade400,
                 fontWeight: FontWeight.w600,
               ),
             ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  String get _pointsLabel {
+    if (_isSubmitting) return 'Saving…';
+    if (_saveFailed) return 'Not saved';
+    if (_lastResultCorrect == null) {
+      return 'First completion: ${GrammarFirestoreService.completionReward} pts';
+    }
+    if (_lastResultCorrect == false) return 'Try again';
+    return _earnedPointsThisAttempt > 0
+        ? '+$_earnedPointsThisAttempt pts'
+        : 'Completed';
+  }
+
+  Widget _signTile(SignModel sign, {bool compact = false}) {
+    if (sign.gifUrl.trim().isNotEmpty) {
+      return SignGifTile(
+          gifUrl: sign.gifUrl, word: sign.word, isCompact: compact);
+    }
+    return Container(
+      width: 106,
+      constraints: const BoxConstraints(minHeight: 72),
+      alignment: Alignment.center,
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        border: Border.all(color: AppColors.border),
+        borderRadius: BorderRadius.circular(14),
+      ),
+      child: Text(sign.word,
+          textAlign: TextAlign.center,
+          style: const TextStyle(fontWeight: FontWeight.w700)),
+    );
+  }
+
+  Widget _buildStudyGuide() {
+    final signs =
+        _exercise!.correctSignOrder.map((id) => _signsById[id]!).toList();
+    return Material(
+      color: Colors.transparent,
+      child: ExpansionTile(
+        tilePadding: EdgeInsets.zero,
+        title: const Text('Study the example'),
+        subtitle: const Text('See the order before answering'),
+        children: [
+          const Text('Example order for this exercise:'),
+          const SizedBox(height: 8),
+          for (final entry in signs.asMap().entries)
+            ListTile(
+              contentPadding: EdgeInsets.zero,
+              leading: CircleAvatar(child: Text('${entry.key + 1}')),
+              title: Text(entry.value.word),
+              subtitle: Text(entry.value.videoUrl.trim().isNotEmpty ||
+                      entry.value.gifUrl.trim().isNotEmpty
+                  ? 'Tap to watch this sign'
+                  : 'No sign demonstration is available yet'),
+              trailing: entry.value.videoUrl.trim().isNotEmpty ||
+                      entry.value.gifUrl.trim().isNotEmpty
+                  ? const Icon(Icons.play_circle_outline)
+                  : null,
+              onTap: entry.value.videoUrl.trim().isNotEmpty ||
+                      entry.value.gifUrl.trim().isNotEmpty
+                  ? () => _showSign(entry.value)
+                  : null,
+            ),
+        ],
+      ),
+    );
+  }
+
+  void _showSign(SignModel sign) {
+    showDialog<void>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: Text(sign.word),
+        content: SizedBox(
+          width: 320,
+          child: sign.videoUrl.trim().isNotEmpty
+              ? SignVideoPlayer(videoUrl: sign.videoUrl, autoPlay: true)
+              : SignGifTile(
+                  gifUrl: sign.gifUrl, word: sign.word, isLarge: true),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Close'),
           ),
         ],
       ),

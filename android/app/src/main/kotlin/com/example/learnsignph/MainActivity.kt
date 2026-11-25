@@ -83,7 +83,11 @@ class MainActivity : FlutterActivity() {
                     publishPrediction("collecting", "Collecting frames", 0.0, 0)
                     result.success(null)
                 } catch (error: Exception) {
+                    Log.e("LearnSignPH", "Recognition initialization failed", error)
                     result.error("RECOGNITION_INIT", error.message, null)
+                } catch (error: LinkageError) {
+                    Log.e("LearnSignPH", "Recognition native linkage failed", error)
+                    result.error("RECOGNITION_INIT", "The native hand tracker could not load. ${error.javaClass.simpleName}", null)
                 }
             }
             "setRecognitionMode" -> {

@@ -32,6 +32,11 @@ android {
 
     buildTypes {
         release {
+            // Stabilization: MediaPipe's JNI bridge accesses Java members by
+            // name. Keep release code intact until native execution is verified
+            // on-device; narrow keep rules missed multiple JNI entry points.
+            isMinifyEnabled = false
+            isShrinkResources = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro",
