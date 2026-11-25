@@ -1,7 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import '../../utils/theme.dart';
-import '../lessons/lesson_list_screen.dart';
+import 'register_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -26,12 +25,11 @@ class _LoginScreenState extends State<LoginScreen> {
         email: _emailController.text.trim(),
         password: _passwordController.text,
       );
-      if (!mounted) return;
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (_) => const LessonListScreen()),
-      );
     } on FirebaseAuthException catch (e) {
-      setState(() => _errorMessage = e.message ?? 'Login failed. Please try again.');
+      if (!mounted) return;
+      debugPrint('[Auth] sign-in failed code=${e.code}');
+      setState(
+          () => _errorMessage = e.message ?? 'Login failed. Please try again.');
     } finally {
       if (mounted) setState(() => _isLoading = false);
     }
@@ -56,34 +54,61 @@ class _LoginScreenState extends State<LoginScreen> {
                 mainAxisSize: MainAxisSize.min,
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  const Icon(Icons.sign_language, size: 72, color: AppColors.primary),
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(24),
+                    child: Image.asset(
+                      'assets/images/filipino_sign_language_learning_icon.png',
+                      width: 112,
+                      height: 112,
+                      fit: BoxFit.contain,
+                    ),
+                  ),
                   const SizedBox(height: 12),
-                  Text('LearnSignPH', textAlign: TextAlign.center,
-                      style: Theme.of(context).textTheme.titleLarge?.copyWith(fontSize: 26)),
+                  Text('LearnSign PH',
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context)
+                          .textTheme
+                          .titleLarge
+                          ?.copyWith(fontSize: 26)),
                   const SizedBox(height: 32),
                   TextField(
                     controller: _emailController,
                     keyboardType: TextInputType.emailAddress,
-                    decoration: const InputDecoration(labelText: 'Email', border: OutlineInputBorder()),
+                    decoration: const InputDecoration(
+                        labelText: 'Email', border: OutlineInputBorder()),
                   ),
                   const SizedBox(height: 12),
                   TextField(
                     controller: _passwordController,
                     obscureText: true,
-                    decoration: const InputDecoration(labelText: 'Password', border: OutlineInputBorder()),
+                    decoration: const InputDecoration(
+                        labelText: 'Password', border: OutlineInputBorder()),
                   ),
                   if (_errorMessage != null) ...[
                     const SizedBox(height: 12),
-                    Text(_errorMessage!, style: const TextStyle(color: Colors.red)),
+                    Text(_errorMessage!,
+                        style: const TextStyle(color: Colors.red)),
                   ],
                   const SizedBox(height: 20),
                   ElevatedButton(
                     onPressed: _isLoading ? null : _handleLogin,
                     child: _isLoading
                         ? const SizedBox(
-                            width: 20, height: 20,
-                            child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white))
+                            width: 20,
+                            height: 20,
+                            child: CircularProgressIndicator(
+                                strokeWidth: 2, color: Colors.white))
                         : const Text('Log In'),
+                  ),
+                  const SizedBox(height: 12),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(
+                            builder: (_) => const RegisterScreen()),
+                      );
+                    },
+                    child: const Text('Create an account'),
                   ),
                 ],
               ),

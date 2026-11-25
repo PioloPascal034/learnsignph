@@ -1,0 +1,12 @@
+{
+  "architecture": "Masking -> GRU(96) -> Dropout -> GRU(64) -> Dense(64 relu) -> Dense(26 softmax)",
+  "input_shape": [
+    75,
+    126
+  ],
+  "normalization": "wrist-relative and wrist-to-middle-MCP scale from preprocess_fsl.py",
+  "feature_order": "frame, left hand 21 xyz, right hand 21 xyz",
+  "seed": 42,
+  "epochs_requested": 80,
+  "batch_size": 32
+}

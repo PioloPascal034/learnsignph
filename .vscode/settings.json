@@ -2,6 +2,8 @@
     "cSpell.words": [
         "chewie",
         "cupertino",
-        "firestore"
-    ]
+        "firestore",
+        "flutterfire"
+    ],
+    "java.configuration.updateBuildConfiguration": "automatic"
 }

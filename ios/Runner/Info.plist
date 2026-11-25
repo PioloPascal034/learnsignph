@@ -7,7 +7,9 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>$(DEVELOPMENT_LANGUAGE)</string>
 	<key>CFBundleDisplayName</key>
-	<string>Learnsignph</string>
+	<string>LearnSign PH</string>
+	<key>NSCameraUsageDescription</key>
+	<string>LearnSign PH uses the camera for live hand-tracking practice.</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>

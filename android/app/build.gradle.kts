@@ -1,3 +1,5 @@
+import java.net.URL
+
 plugins {
     id("com.android.application")
     // START: FlutterFire Configuration
@@ -30,6 +32,15 @@ android {
 
     buildTypes {
         release {
+            // Stabilization: MediaPipe's JNI bridge accesses Java members by
+            // name. Keep release code intact until native execution is verified
+            // on-device; narrow keep rules missed multiple JNI entry points.
+            isMinifyEnabled = false
+            isShrinkResources = false
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro",
+            )
             // TODO: Add your own signing config for the release build.
             // Signing with the debug keys for now, so `flutter run --release` works.
             signingConfig = signingConfigs.getByName("debug")
@@ -46,3 +57,22 @@ kotlin {
 flutter {
     source = "../.."
 }
+
+dependencies {
+    implementation("com.google.mediapipe:tasks-vision:1.2.2")
+    implementation("org.tensorflow:tensorflow-lite:2.17.0")
+}
+
+val downloadHandLandmarkerModel by tasks.registering {
+    doLast {
+        val modelFile = file("src/main/assets/hand_landmarker.task")
+        if (!modelFile.exists()) {
+            modelFile.parentFile.mkdirs()
+            URL("https://storage.googleapis.com/mediapipe-models/hand_landmarker/hand_landmarker/float16/1/hand_landmarker.task")
+                .openStream()
+                .use { input -> modelFile.outputStream().use { output -> input.copyTo(output) } }
+        }
+    }
+}
+
+tasks.named("preBuild").configure { dependsOn(downloadHandLandmarkerModel) }

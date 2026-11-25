@@ -1,0 +1,53 @@
+{
+  "device": "192.168.8.35:39595",
+  "mode": "Alphabet (static)",
+  "model": "alphabet_mlp.tflite",
+  "model_input": [1, 63],
+  "tested_at": "2026-11-10",
+  "method": "Physical Android camera; results are recorded only when the intended handshape is visibly presented and the UI reports a prediction.",
+  "observations": [
+    {
+      "intended_letter": "A",
+      "predicted_letter": null,
+      "confidence": null,
+      "result": "not_evaluated",
+      "note": "Alphabet mode and target A were visible, but no hand was presented; UI correctly reported No hands detected."
+    }
+  ],
+  "letters": [
+    {"letter":"A","predicted_letter":null,"confidence":null,"result":"untested"},
+    {"letter":"B","predicted_letter":null,"confidence":null,"result":"untested"},
+    {"letter":"C","predicted_letter":null,"confidence":null,"result":"untested"},
+    {"letter":"D","predicted_letter":null,"confidence":null,"result":"untested"},
+    {"letter":"E","predicted_letter":null,"confidence":null,"result":"untested"},
+    {"letter":"F","predicted_letter":null,"confidence":null,"result":"untested"},
+    {"letter":"G","predicted_letter":null,"confidence":null,"result":"untested"},
+    {"letter":"H","predicted_letter":null,"confidence":null,"result":"untested"},
+    {"letter":"I","predicted_letter":null,"confidence":null,"result":"untested"},
+    {"letter":"K","predicted_letter":null,"confidence":null,"result":"untested"},
+    {"letter":"L","predicted_letter":null,"confidence":null,"result":"untested"},
+    {"letter":"M","predicted_letter":null,"confidence":null,"result":"untested"},
+    {"letter":"N","predicted_letter":null,"confidence":null,"result":"untested"},
+    {"letter":"O","predicted_letter":null,"confidence":null,"result":"untested"},
+    {"letter":"P","predicted_letter":null,"confidence":null,"result":"untested"},
+    {"letter":"Q","predicted_letter":null,"confidence":null,"result":"untested"},
+    {"letter":"R","predicted_letter":null,"confidence":null,"result":"untested"},
+    {"letter":"S","predicted_letter":null,"confidence":null,"result":"untested"},
+    {"letter":"T","predicted_letter":null,"confidence":null,"result":"untested"},
+    {"letter":"U","predicted_letter":null,"confidence":null,"result":"untested"},
+    {"letter":"V","predicted_letter":null,"confidence":null,"result":"untested"},
+    {"letter":"W","predicted_letter":null,"confidence":null,"result":"untested"},
+    {"letter":"X","predicted_letter":null,"confidence":null,"result":"untested"},
+    {"letter":"Y","predicted_letter":null,"confidence":null,"result":"untested"}
+  ],
+  "j_and_z": "excluded; motion-dependent and not supported by the static MLP",
+  "confusion_summary": "No live letter confusion can be claimed until intended handshapes are physically presented.",
+  "manual_protocol": [
+    "Select one target letter in Alphabet mode.",
+    "Use the supplied dictionary as the visual reference.",
+    "Hold the intended static handshape centered in the front-camera view for at least two seconds.",
+    "Record the displayed prediction and confidence after the model stabilizes.",
+    "Mark correct only when predicted letter equals the intended letter; record Unknown and No hands separately.",
+    "Repeat for all 24 static letters, then test left/right hand presentation separately if needed."
+  ]
+}

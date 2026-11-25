@@ -10,7 +10,12 @@ class GrammarExerciseModel {
   final String category;
   final String promptText;
   final String difficulty;
+  final String imageUrl;
   final List<GrammarTileModel> tiles;
+  final String explanation;
+  final String contentValidationStatus;
+  final List<String> sourceReferences;
+  final String activityType;
 
   GrammarExerciseModel({
     required this.id,
@@ -18,8 +23,49 @@ class GrammarExerciseModel {
     required this.category,
     required this.promptText,
     required this.difficulty,
+    this.imageUrl = '',
     required this.tiles,
+    this.explanation = '',
+    this.contentValidationStatus = '',
+    this.sourceReferences = const [],
+    this.activityType = 'sentence_order',
   });
+
+  bool get hasValidSentenceOrder {
+    if (promptText.trim().isEmpty || tiles.isEmpty) return false;
+
+    final signIds = tiles.map((tile) => tile.signId).toSet();
+    final positions = tiles.map((tile) => tile.correctPosition).toList()
+      ..sort();
+    return signIds.length == tiles.length &&
+        positions
+            .asMap()
+            .entries
+            .every((entry) => entry.value == entry.key + 1);
+  }
+
+  String get learnerPrompt => promptText.trim();
+
+  /// A tile order alone does not make a complete grammar question.
+  /// Keep review scaffolds and other activity formats out of this player.
+  bool get canPracticeSentenceOrder {
+    final status = contentValidationStatus.toLowerCase();
+    final placeholder = RegExp(
+      r'^(draft review:|arrange the (practice signs|signs in this beginner))',
+      caseSensitive: false,
+    );
+    return hasValidSentenceOrder &&
+        activityType == 'sentence_order' &&
+        !status.contains('draft') &&
+        !status.contains('pending') &&
+        !placeholder.hasMatch(learnerPrompt);
+  }
+
+  List<String> get correctSignOrder {
+    final orderedTiles = [...tiles]
+      ..sort((a, b) => a.correctPosition.compareTo(b.correctPosition));
+    return orderedTiles.map((tile) => tile.signId).toList();
+  }
 
   factory GrammarExerciseModel.fromMap(String id, Map<String, dynamic> map) {
     final rawTiles = (map['tiles'] as List<dynamic>? ?? []);
@@ -29,9 +75,17 @@ class GrammarExerciseModel {
       category: map['category'] ?? '',
       promptText: map['promptText'] ?? '',
       difficulty: map['difficulty'] ?? 'beginner',
+      imageUrl: (map['imageUrl'] ?? '').toString(),
       tiles: rawTiles
           .map((t) => GrammarTileModel.fromMap(Map<String, dynamic>.from(t)))
           .toList(),
+      explanation: (map['explanation'] ?? '').toString(),
+      contentValidationStatus:
+          (map['contentValidationStatus'] ?? '').toString(),
+      sourceReferences: (map['sourceReferences'] as List<dynamic>? ?? const [])
+          .map((item) => item.toString())
+          .toList(),
+      activityType: (map['activityType'] ?? 'sentence_order').toString(),
     );
   }
 
@@ -41,7 +95,12 @@ class GrammarExerciseModel {
       'category': category,
       'promptText': promptText,
       'difficulty': difficulty,
+      'imageUrl': imageUrl,
       'tiles': tiles.map((t) => t.toMap()).toList(),
+      'explanation': explanation,
+      'contentValidationStatus': contentValidationStatus,
+      'sourceReferences': sourceReferences,
+      'activityType': activityType,
     };
   }
 }
